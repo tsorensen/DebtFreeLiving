@@ -50,6 +50,7 @@ gulp.task('watch', [
 ]);
 
 
+//grabs js files for concatenation, watches for any changes
 gulp.task('scripts', function () {
   return gulp.src(lib.ext('js').files.concat('src/scripts/**/*.js'))
     .pipe(plumber())
@@ -65,6 +66,7 @@ gulp.task('scripts.watch', ['scripts'], function () {
 });
 
 
+//grabs css files for concatenation, watches for any changes
 gulp.task('styles', function () {
   return gulp.src(lib.ext('css').files.concat('src/styles/**/*.css'))
     .pipe(plumber())
@@ -80,6 +82,7 @@ gulp.task('styles.watch', ['styles'], function () {
 });
 
 
+//grabs static files (images, etc), watches for any changes
 gulp.task('static', function () {
   return gulp.src('src/static/**/*')
     .pipe(plumber())
@@ -90,6 +93,7 @@ gulp.task('static.watch', ['static'], function () {
   gulp.watch('src/static/**/*', ['static']);
 });
 
+//grabs any fonts that are used
 gulp.task('fonts', function () {
   return gulp.src(lib.ext(['eot', 'svg', 'ttf', 'woff', 'woff2']).files)
     .pipe(plumber())
@@ -97,6 +101,7 @@ gulp.task('fonts', function () {
 });
 
 
+//grabs html files and minifies them, watches for changes
 gulp.task('templates', function () {
   return gulp.src('src/templates/**/*.html')
     .pipe(plumber())
@@ -116,6 +121,7 @@ gulp.task('server', function () {
 });
 
 
+//livereload will reload the page when any changes are saved, browser ext must be on
 gulp.task('livereload', function () {
   livereload.listen();
   gulp.watch('build/**/*', function (event) {
