@@ -16,12 +16,12 @@ angular
       });
 
       $routeProvider
-        // .when('/', {
-        //   templateUrl: '/partials/home-controller.html',
-        //   controller: 'HomeController',
-        //   controllerAs: 'home',
-        // })
         .when('/', {
+          templateUrl: '/partials/home-controller.html',
+          controller: 'HomeController',
+          controllerAs: 'home',
+        })
+        .when('/blog', {
           templateUrl: '/partials/blog-controller.html',
           controller: 'BlogController',
           controllerAs: 'blog',

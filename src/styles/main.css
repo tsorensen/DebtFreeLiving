@@ -1,7 +1,29 @@
+/*
+ * Main Stylesheet for Debt Free Living
+ */
+
+/***********************************/
+/************* GLOBAL ************/
+/*******************************/
 body {
   padding-top:70px;
 }
 
+
+/***********************************/
+/*********** NAVIGATION **********/
+/*******************************/
+.navbar-brand {
+  padding: 0;
+}
+
+.navbar-brand img {
+  width: 33%;
+}
+
+/***********************************/
+/************** BLOG *************/
+/*******************************/
 .read-more {
   margin-top:20px;
   margin-bottom:50px;
@@ -23,9 +45,13 @@ body {
   margin-left:5px;
 }
 
+
+/***********************************/
+/************* FOOTER ************/
+/*******************************/
 footer {
-  background: #222;
-  border-color: #080808;
+  background-color: #f8f8f8;
+  border-color: #e7e7e7;
   padding:10px 0 0 0;
   margin-top: 30px;
 }
