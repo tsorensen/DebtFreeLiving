@@ -10,10 +10,31 @@
     "type": "git",
     "url": "git+https://github.com/tsorensen/DebtFreeLiving.git"
   },
-  "author": "",
+  "author": [
+    "Tyson Sorensen <tysonsorensen3@gmail.com>",
+    "Micah Schow <micah.schow@gmail.com>",
+    "Russann Johnson <reachrussann@gmail.com>"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/tsorensen/DebtFreeLiving/issues"
   },
-  "homepage": "https://github.com/tsorensen/DebtFreeLiving#readme"
+  "homepage": "https://github.com/tsorensen/DebtFreeLiving#readme",
+  "devDependencies": {
+    "bower-files": "^3.11.3",
+    "eslint": "^1.7.2",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-htmlmin": "^1.2.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-pleeease": "^2.0.1",
+    "gulp-plumber": "^1.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.4.1"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "mongoose": "^4.2.4",
+    "multer": "^1.1.0"
+  }
 }

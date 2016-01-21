@@ -1,0 +1,173 @@
+<div class="row">
+    <h1 class="page-header no-border text-center"></h1>
+
+    <!-- Blog Post Content Column -->
+    <div class="col-lg-8">
+
+        <!-- Blog Post -->
+        <div class="post">
+          <!-- Title -->
+          <h1 class="title">{{ article.content.title }}</h1>
+
+          <!-- Author -->
+          <p class="">
+              by <span class="author">{{ article.author }}</span>
+              <span class="glyphicon glyphicon-time space-left"></span> Posted on {{ article.content.date }}
+              <span ng-if="article.content.category" class="fa fa-folder-open space-left"></span>
+              <span class="cat-wrapper" ng-if="article.content.category" ng-repeat="cat in article.content.category.split(', ')">
+                <a href="#/search/category/{{ cat }}" class="categories" >{{ cat }}</a>{{ $last ? '' : ', '}}
+              </span>
+          </p>
+          <hr>
+
+          <!-- article image -->
+          <div ng-if="article.content.image" class="article-img">
+            <img class="img-responsive" ng-src="images/uploads/{{article.content.image}}" alt="Article image">
+            <hr>
+          </div>
+
+          <!-- Post Content -->
+          <div class="article-content" ng-bind-html="article.content.body"></div>
+
+        </div><!-- /post -->
+        <hr>
+
+        <!-- Blog Comments -->
+        <!-- Comments Form -->
+        <div class="well">
+            <h4>Leave a Comment:</h4>
+            <form id="comment-form" role="form" enctype="multipart/form-data" ng-submit="article.submit(article.inputs)">
+              <div class="form-group has-feedback">
+                <label class="labels" for="title">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Your name"
+                  name="name"
+                  ng-model="article.inputs.name">
+              </div>
+              <div class="form-group">
+                  <label class="labels" for="comment">Comment</label>
+                  <textarea
+                    class="form-control"
+                    rows="3"
+                    ng-model="article.inputs.comment"
+                    id="comment"
+                    name="comment">
+                  </textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+
+        <!-- Posted Comments -->
+        <div ng-if="article.content.comments" class="media" ng-repeat="comment in article.content.comments">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="http://placehold.it/64x64" alt="">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">{{ comment.name }}
+                    <small>{{ comment.date }}</small>
+                </h4>
+                {{ comment.comment }}
+            </div>
+        </div>
+
+        <!-- Comment w/ nested comment -->
+        <!-- <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="http://placehold.it/64x64" alt="">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">Start Bootstrap
+                    <small>August 25, 2014 at 9:30 PM</small>
+                </h4>
+                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+
+                <div class="media nested-comment">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" src="http://placehold.it/64x64" alt="">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">Nested Start Bootstrap
+                            <small>August 25, 2014 at 9:30 PM</small>
+                        </h4>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+    </div>
+
+    <!-- Blog Sidebar Widgets Column -->
+    <div class="col-md-4">
+
+        <!-- Blog Search Well -->
+        <div class="well">
+            <h4>Blog Search</h4>
+            <div class="input-group">
+                <input type="text" class="form-control">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                </button>
+                </span>
+            </div>
+            <!-- /.input-group -->
+        </div>
+
+        <!-- Recent Articles Well -->
+        <div class="well">
+            <h4>Recent Articles</h4>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="article in article.articles" ng-if="$index < 4">
+                          <a href="#/articles/{{ article._id }}">{{ article.title}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+
+        <!-- Blog Categories Well -->
+        <div class="well">
+            <h4>Blog Categories</h4>
+            <div class="row">
+                <div class="col-lg-6">
+                    <ul class="list-unstyled">
+                        <li ng-repeat='cat_odds in article.categories' ng-if="$index % 2 !== 0">
+                            <a href="#/search/category/{{ cat_odds }}">{{ cat_odds }}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <ul class="list-unstyled">
+                        <li ng-repeat='cat_evens in article.categories' ng-if="$index % 2 === 0">
+                            <a href="#/search/category/{{ cat_evens }}">{{ cat_evens }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+
+        <!-- Facebook Pages Widget Well -->
+        <div class="well text-center">
+          <div class="fb-page" data-href="https://www.facebook.com/facebook" data-tabs="timeline" data-height="600" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
+            <div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/facebook">
+              <a href="https://www.facebook.com/facebook">Facebook</a></blockquote>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /.row -->
+
+<hr>

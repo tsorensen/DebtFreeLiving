@@ -1,9 +1,11 @@
 {
   "name": "DebtFreeLiving",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/tsorensen/DebtFreeLiving",
   "authors": [
-    "Tyson Sorensen <tysonsorensen3@gmail.com>"
+    "Tyson Sorensen <tysonsorensen3@gmail.com>",
+    "Micah Schow <micah.schow@gmail.com>",
+    "Russann Johnson <reachrussann@gmail.com>"
   ],
   "description": "Senior Project for Debt Free Living, a free online resource for debt management and elimination.",
   "main": "",
@@ -16,5 +18,14 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "bootstrap": "~3.3.5",
+    "components-font-awesome": "~4.4.0",
+    "angular-route": "~1.4.7",
+    "textAngular": "~1.4.6",
+    "moment": "~2.10.6",
+    "angular-easyfb": "~1.4.1"
+  }
 }

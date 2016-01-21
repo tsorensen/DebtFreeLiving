@@ -1,0 +1,35 @@
+body {
+  padding-top:70px;
+}
+
+.read-more {
+  margin-top:20px;
+  margin-bottom:50px;
+}
+
+.title {
+  color: #337ab7;
+}
+
+.author {
+  color: #337ab7;
+}
+
+.no-border {
+  border:none;
+}
+
+.space-left {
+  margin-left:5px;
+}
+
+footer {
+  background: #222;
+  border-color: #080808;
+  padding:10px 0 0 0;
+  margin-top: 30px;
+}
+
+.copyright, .copyright a {
+  color: #9d9d9d;
+}
