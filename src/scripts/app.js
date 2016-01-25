@@ -3,8 +3,10 @@ angular
     'ngRoute',
     'BlogController',
     'ArticleController',
+    'HomeController',
     'AddController',
     'ezfb',
+    'ngAnimate',
   ])
   .config([
     '$routeProvider',

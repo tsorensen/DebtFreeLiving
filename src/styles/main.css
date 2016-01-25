@@ -1,13 +1,29 @@
 /*
  * Main Stylesheet for Debt Free Living
+ *
+ * Contents
+ *   1. Global
+ *   2. Navigation
+ *   3. Home Page
+ *   4. Blog
+ *   5.
+ *   6.
+ *   7.
+ *   8. Footer
+ *   9. Media Queries
  */
 
 /***********************************/
 /************* GLOBAL ************/
 /*******************************/
 body {
-  padding-top:70px;
+  padding-top:75px;
 }
+
+section:not(#hero) {
+  margin-top: 30px;
+}
+
 
 
 /***********************************/
@@ -15,10 +31,124 @@ body {
 /*******************************/
 .navbar-brand {
   padding: 0;
+  width: 250px;
+  margin-right: 50px;
+  height:74px;
 }
 
 .navbar-brand img {
-  width: 33%;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.nav.navbar-nav {
+  margin-top: 13px;
+  font-size: 18px;
+}
+
+.nav .border-right {
+    border-right: 1px solid #777;
+}
+
+
+/*****************************/
+/*********** HOME **********/
+/*************************/
+
+/* Carousel */
+#hero .carousel-inner {
+  height:600px;
+  margin-bottom: 30px;
+}
+
+#hero .carousel-control {
+  display:none;
+}
+
+.carousel-caption {
+  text-shadow:none;
+}
+.carousel-caption .faded {
+  background: rgba(0,0,0,.5);
+  padding: 15px;
+  border-radius: 8px;
+  display: inline-block;
+  min-width:420px;
+}
+
+.slide-title {
+  font-size:40px;
+}
+
+.slide-caption {
+  font-size:26px;
+}
+
+.slide-button {
+  font-size:18px;
+  padding: 10px;
+}
+
+/* Features */
+#featurette {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#featurette .col-lg-4 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#featurette h3 {
+  font-weight: normal;
+}
+
+#featurette .col-lg-4 p {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Testimonials */
+#testimonials {
+  background: #efefef;
+  border-radius: 8px;
+}
+
+.testimonials {
+  padding:20px;
+}
+.testimonial-image {
+  width:180px;
+  height:180px;
+}
+
+.testimonials .text-wrapper {
+  text-align:left;
+  padding:15px 30px 0 0;
+}
+
+.testimonial-text {
+  font-size:18px;
+  font-style:italic;
+}
+
+.testimonial-name {
+  font-size: 16px;
+}
+
+#testimonials .carousel-control.left, #testimonials .carousel-control.right {
+  background-image: none;
+}
+
+#testimonials .carousel-control {
+  text-shadow: none;
+  width:5%;
+  color: #000;
+}
+
+#testimonials .carousel-indicators {
+  display:none;
 }
 
 /***********************************/
@@ -58,4 +188,20 @@ footer {
 
 .copyright, .copyright a {
   color: #9d9d9d;
+}
+
+
+
+/***********************************/
+/********* MEDIA QUERIES *********/
+/*******************************/
+
+@media (min-width: 768px) {
+
+  /* Remve the edge padding needed for mobile */
+  .marketing {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
 }
