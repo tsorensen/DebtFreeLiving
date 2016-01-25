@@ -186,8 +186,21 @@ footer {
   margin-top: 30px;
 }
 
+.social-icons {
+  color: #444;
+}
+
+.footer-nav {
+  float:none;
+}
+
+.footer-nav > li {
+  display:inline-block;
+}
+
 .copyright, .copyright a {
   color: #9d9d9d;
+  font-size:12px;
 }
 
 
