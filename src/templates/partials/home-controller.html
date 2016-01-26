@@ -17,60 +17,61 @@
 
 </section>
 
-<!-- Marketing messaging and featurettes
-================================================== -->
-<!-- Wrap the rest of the page in another container to center all the content. -->
-<div class="container">
 
-  <section id="featurette">
+<section id="featurette">
+  <!-- Marketing messaging and featurettes
+  ================================================== -->
+  <div class="container">
+
     <!-- Three columns of text below the carousel -->
     <div class="row">
-      <div class="col-lg-4 text-center">
+      <div class="col-sm-4 text-center">
         <img class="img-circle" src="http://placehold.it/140x140">
         <h3>Feature 1</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         <p><a class="btn btn-success" href="#">View details »</a></p>
       </div>
-      <div class="col-lg-4 text-center">
+      <div class="col-sm-4 text-center">
         <img class="img-circle" src="http://placehold.it/140x140">
         <h3>Feature 2</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         <p><a class="btn btn-success" href="#">View details »</a></p>
       </div>
-      <div class="col-lg-4 text-center">
+      <div class="col-sm-4 text-center">
         <img class="img-circle" src="http://placehold.it/140x140">
         <h3>Feature 3</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         <p><a class="btn btn-success" href="#">View details »</a></p>
       </div>
     </div><!-- /.row -->
-  </section>
+  </div><!-- /.container -->
+</section>
 
-  <section id="testimonials">
-    <uib-carousel interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
-        <uib-slide ng-repeat="testimonial in testimonials" active="testimonial.active" index="testimonial.id">
-          <!-- ng-swipe-x for mobile -->
-          <img ng-src="">
-          <div class="testimonials" ng-swipe-right="showPrev()" ng-swipe-left="showNext()">
-            <div class="row">
-              <div class="col-md-4">
-                <img class="img-circle testimonial-image" ng-src="{{testimonial.image}}">
-              </div>
-              <div class="col-md-8">
-                <div class="text-wrapper">
-                  <p class="testimonial-text">"{{testimonial.text}}"</p>
-                  <p class="testimonial-name">~ {{testimonial.name}}</p>
+<section id="testimonials">
+  <div class="container">
+      <uib-carousel interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
+          <uib-slide ng-repeat="testimonial in testimonials" active="testimonial.active" index="testimonial.id">
+            <!-- ng-swipe-x for mobile -->
+            <img ng-src="">
+            <div class="testimonials" ng-swipe-right="showPrev()" ng-swipe-left="showNext()">
+              <div class="row">
+                <div class="col-md-4">
+                  <img class="img-circle testimonial-image" ng-src="{{testimonial.image}}">
+                </div>
+                <div class="col-md-8">
+                  <div class="text-wrapper">
+                    <p class="testimonial-text">"{{testimonial.text}}"</p>
+                    <p class="testimonial-name">~ {{testimonial.name}}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-        </uib-slide>
-    </uib-carousel>
-  </section>
+          </uib-slide>
+      </uib-carousel>
+    </div><!-- /container -->
+</section>
 
-  <section id="bio">
+<section id="bio">
 
-  </section>
-
-</div><!-- /container -->
+</section>

@@ -50,6 +50,10 @@ section:not(#hero) {
     border-right: 1px solid #777;
 }
 
+.navbar-toggle {
+    margin-top: 22px;
+}
+
 
 /*****************************/
 /*********** HOME **********/
@@ -57,7 +61,6 @@ section:not(#hero) {
 
 /* Carousel */
 #hero .carousel-inner {
-  height:600px;
   margin-bottom: 30px;
 }
 
@@ -95,7 +98,7 @@ section:not(#hero) {
   padding-right: 15px;
 }
 
-#featurette .col-lg-4 {
+#featurette .col-sm-4 {
   text-align: center;
   margin-bottom: 20px;
 }
@@ -104,7 +107,7 @@ section:not(#hero) {
   font-weight: normal;
 }
 
-#featurette .col-lg-4 p {
+#featurette .col-sm-4 p {
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -113,10 +116,12 @@ section:not(#hero) {
 #testimonials {
   background: #efefef;
   border-radius: 8px;
+  padding: 40px;
 }
 
 .testimonials {
   padding:20px;
+  min-height:250px;
 }
 .testimonial-image {
   width:180px;
@@ -208,8 +213,30 @@ footer {
 /***********************************/
 /********* MEDIA QUERIES *********/
 /*******************************/
+@media (max-width: 991px) {
+  #testimonials {
+    padding: 10px;
+  }
 
-@media (min-width: 768px) {
+  .testimonials {
+    min-height: 450px;
+  }
+
+  .testimonials .text-wrapper {
+    padding: 15px 30px 0 30px;
+  }
+
+  .testimonial-text {
+    font-size: 16px;
+  }
+
+  .testimonial-name {
+    font-size: 14px;
+  }
+}
+
+
+@media (max-width: 767px) {
 
   /* Remve the edge padding needed for mobile */
   .marketing {
