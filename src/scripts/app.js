@@ -38,6 +38,12 @@ angular
           controller: 'AddController',
           controllerAs: 'adder',
         })
+        .when('/terms_of_service', {
+          templateUrl: '/partials/tos-controller.html',
+        })
+        .when('/privacy_policy', {
+          templateUrl: '/partials/privacy-policy-controller.html',
+        })
         .otherwise('/');
     }
   ]);
