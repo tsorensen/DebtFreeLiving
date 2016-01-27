@@ -5,6 +5,7 @@ angular
     'ArticleController',
     'HomeController',
     'AddController',
+    'LoginController',
     'ezfb',
     'ngAnimate',
   ])
@@ -22,6 +23,11 @@ angular
           templateUrl: '/partials/home-controller.html',
           controller: 'HomeController',
           controllerAs: 'home',
+        })
+        .when('/login', {
+          templateUrl: '/partials/login-controller.html',
+          controller: 'LoginController',
+          controllerAs: 'login',
         })
         .when('/blog', {
           templateUrl: '/partials/blog-controller.html',

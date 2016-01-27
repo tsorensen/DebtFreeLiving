@@ -6,7 +6,7 @@
  *   2. Navigation
  *   3. Home Page
  *   4. Blog
- *   5.
+ *   5. Login
  *   6.
  *   7.
  *   8. Footer
@@ -181,6 +181,91 @@ section:not(#hero) {
 }
 
 
+/************************************/
+/************** LOGIN *************/
+/********************************/
+.panel {
+  background: #efefef;
+  background: -moz-linear-gradient(top, #FFFFFF 0%, #F4F4F4 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(100%,#F4F4F4));
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#F4F4F4',GradientType=0 );
+}
+
+.panel-body {
+  border: none;
+  box-shadow: none;
+}
+
+.login-side {
+  border-right:none;
+  position: relative;
+}
+
+.login-side .border-right {
+  border-right: 1px solid #ccc;
+  position: absolute;
+  top: 30px;
+  bottom: 30px;
+  right: 0;
+}
+
+.register-side {
+  border-left:none;
+}
+
+#login-form input, #register-form input {
+  padding-left:30px;
+}
+
+#login-form .icons, #register-form .icons {
+  left:0;
+}
+
+.or {
+  text-align:center;
+  position:relative;
+  z-index:2;
+  margin: 30px 0;
+}
+
+.or:after {
+  content:"";
+  position:absolute;
+  top:50%;
+  left:0;
+  right:0;
+  border-top:1px solid lightgrey;
+  z-index:-1;
+}
+
+.hr-ed {
+  margin:0;padding:0 10px;
+  background:#F5F4F4;
+  display:inline-block;
+}
+
+.oauth a {
+  margin-bottom:10px;
+  font-weight:bold;
+  color: #fff;
+  border:none;
+}
+
+.oauth a i {
+  float:left;
+  font-size:1.5em;
+}
+
+.oauth .oauth-facebook, .oauth .oauth-facebook:hover, .oauth .oauth-facebook:active, .oauth .oauth-facebook:focus {
+  background: #3b5998;
+  color:#fff;
+}
+
+.oauth .oauth-google, .oauth .oauth-google:hover, .oauth .oauth-google:active, .oauth .oauth-google:focus {
+  background:#DC4E41;
+  color:#fff;
+}
+
 /***********************************/
 /************* FOOTER ************/
 /*******************************/
@@ -238,10 +323,8 @@ footer {
 
 @media (max-width: 767px) {
 
-  /* Remve the edge padding needed for mobile */
-  .marketing {
-    padding-left: 0;
-    padding-right: 0;
+  .login-side .border-right {
+    display:none;
   }
 
 }
