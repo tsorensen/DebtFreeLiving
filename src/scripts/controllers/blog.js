@@ -19,9 +19,17 @@ angular
         articles.readAll()
           .then(function(items) {
             self.articles = items;
-            self.articles.map(function(article) {
+
+            //loop through article objects, put categories into self.categories array if exists
+            Object.keys(self.articles).map(function(id, index) {
+              var article = self.articles[id];
+
               if(article.category) {
-                for (var i=0; i < article.category.length; i++) {
+                //optimize for loop
+                var i;
+                var len = article.category.length;
+                for (i=0; i < len; i+=1) {
+                  //push into self.categories
                   self.categories.push(article.category[i]);
                 }
               }

@@ -26,6 +26,8 @@ angular
               headers: {'Content-Type': undefined}
             })
             .then(function(res) {
+              console.log('here is the return from the save:');
+              console.log(res.data);
               return res.data;
             });
         }, //end create
@@ -69,17 +71,26 @@ angular
           return $http
             .get(host + '/articles')
             .then(function(res) {
-              res.data.map(function(index) {
-                //render html
-                index.body = $filter('renderHtml')(index.body);
 
-                if(index.category) {
-                  index.category = index.category.split(', ');
+              //loop through object of article objects
+              Object.keys(res.data).map(function(id, index) {
+                var article = res.data[id];
+
+                //set article id as attribute
+                article._id = id;
+
+                //render html using filter
+                article.body = $filter('renderHtml')(article.body);
+
+                //split categories into array
+                if(article.category) {
+                  article.category = article.category.split(', ');
                 }
 
-                //format dates
-                index.date = moment(index.date).format('MMM DD, YYYY hh:mm a');
+                //format dates using moment
+                article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
               });
+
               return res.data;
             });
         }, //end readAll

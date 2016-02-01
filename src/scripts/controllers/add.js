@@ -39,7 +39,7 @@ angular
 
         articles.create(article, file)
           .then(function() {
-            $location.url('/#/');
+            $location.url('/#/blog');
             console.log('success');
           })
           .catch(function(res) {

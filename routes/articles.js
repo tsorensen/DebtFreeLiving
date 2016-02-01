@@ -1,14 +1,18 @@
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://admin:1234@ds053184.mongolab.com:53184/mean-blog');
-var Article = require('./../models/article');
+// var mongoose = require('mongoose');
+// mongoose.connect('mongodb://admin:1234@ds053184.mongolab.com:53184/mean-blog');
+// var Article = require('./../models/article');
+
+var Firebase = require('firebase');
+var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
 
 //finds all articles in the DB, sorts by date (newest to oldest)
 exports.findAll = function(req, res) {
-  Article.find({}, null, {sort: {date: -1}}, function(err, articles) {
-    if (err) {
-        res.send(err);
-    }
-    res.json(articles);
+  var articlesRef = ref.child('articles');
+
+  articlesRef.orderByPriority().on("value", function(snapshot) {
+    res.json(snapshot.val());
+  }, function (errorObject) {
+    res.send("Failed getting blog articles: " + errorObject.code);
   });
 };
 
@@ -26,23 +30,42 @@ exports.findById = function(req, res) {
 
 //inserts a new article to the DB
 exports.insertArticle = function(req, res, next) {
-  var article = new Article();
-  article.title = req.body.title;
-  article.author = req.body.author;
-  article.category = req.body.category;
-  article.body = req.body.content;
-
   //image is optional
+  var img;
   if(typeof req.file != 'undefined') {
-    article.image = req.file.filename;
+    img = req.file.filename;
+  } else {
+    img = "";
   }
 
-  article.save(function(err) {
-    if (err) {
-        res.send(err);
+  //get child node "articles" from firebase
+  var articlesRef = ref.child("articles");
+
+  //get timestamp to insert into article date field
+  var timestamp = new Date().getTime();
+
+  //makes articles sort from newest to oldest
+  var priority = 0 - Date.now();
+
+  var newArticleRef = articlesRef.push();
+  newArticleRef.setWithPriority({
+      title: req.body.title,
+      author: req.body.author,
+      date: timestamp,
+      category: req.body.category,
+      body: req.body.content,
+      image: img,
+      comments: "",
+  },
+  priority,
+  function(err) {
+    if(err) {
+       res.send(err);
+    } else {
+      res.json({ message: 'Article saved!' });
     }
-    res.json({ message: 'Article saved!' });
   });
+
 };
 
 //inserts a new comment to an article document
