@@ -26,11 +26,6 @@ var lib = require('bower-files')({
         'dist/textAngularSetup.js',
         'dist/textAngular.js',
       ]
-    },
-    'angular-animate': {
-      main: [
-        'bower-angular-animate-1.4.9/angular-animate.js'
-      ]
     }
   }
 });
