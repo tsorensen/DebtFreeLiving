@@ -8,6 +8,7 @@ angular
     'LoginController',
     'ezfb',
     'ngAnimate',
+    'DebtCalc'
   ])
   .config([
     '$routeProvider',
@@ -49,6 +50,11 @@ angular
         })
         .when('/privacy_policy', {
           templateUrl: '/partials/privacy-policy-controller.html',
+        })
+        .when('/my_plan', {
+          templateUrl: '/partials/calc-controller.html'
+          controller: 'DebtCalc',
+          controllerAs: 'loan'
         })
         .otherwise('/');
     }
