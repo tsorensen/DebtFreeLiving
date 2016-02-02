@@ -47,6 +47,9 @@ angular
         .when('/terms_of_service', {
           templateUrl: '/partials/tos-controller.html',
         })
+        .when('/about', {
+          templateUrl: '/partials/about-controller.html',
+        })
         .when('/privacy_policy', {
           templateUrl: '/partials/privacy-policy-controller.html',
         })
