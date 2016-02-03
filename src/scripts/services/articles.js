@@ -54,8 +54,6 @@ angular
           return $http
           .get(host + '/articles/' + articleId)
           .then(function(res) {
-            console.log(res.data);
-            
             //render html
             res.data.body = $filter('renderHtml')(res.data.body);
 
@@ -64,8 +62,12 @@ angular
 
             //if there are comments, format comment dates as well
             if(res.data.comments) {
-              res.data.comments.map(function(index) {
-                index.date = moment(index.date).format('MMM DD, YYYY hh:mm a');
+              //loop through object of comments objects
+              Object.keys(res.data.comments).map(function(id, index) {
+                var comment = res.data.comments[id];
+                //set comment id
+                comment._id = id;
+                comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
               });
             }
 
