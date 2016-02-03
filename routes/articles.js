@@ -7,25 +7,34 @@ var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
 
 //finds all articles in the DB, sorts by date (newest to oldest)
 exports.findAll = function(req, res) {
+  //create document ref
   var articlesRef = ref.child('articles');
 
-  articlesRef.orderByPriority().on("value", function(snapshot) {
+  //using once() fixes an issue with headers being already sent
+  //when new article/comment is saved 
+  articlesRef.orderByPriority().once("value", function(snapshot) {
     res.json(snapshot.val());
   }, function (errorObject) {
+    console.log("Failed getting blog articles: " + errorObject.code);
     res.send("Failed getting blog articles: " + errorObject.code);
   });
+
 };
 
 //finds one article by ID
 exports.findById = function(req, res) {
   var id = req.params.id;
 
-  Article.findById(id, function (err, article) {
-    if (err) {
-        res.send(err);
-    }
-    res.json(article);
+
+  //create reference to article by id, get json once
+  var articleRef = ref.child('articles/' + id);
+  articleRef.once('value', function(snapshot) {
+    res.json(snapshot.val());
+  }, function (errorObject) {
+    console.log("Failed getting article by ID: " + errorObject.code);
+    res.send("Failed getting article by ID: " + errorObject.code);
   });
+
 };
 
 //inserts a new article to the DB

@@ -55,14 +55,20 @@ angular
           .get(host + '/articles/' + articleId)
           .then(function(res) {
             console.log(res.data);
-              //render html
-              res.data.body = $filter('renderHtml')(res.data.body);
+            
+            //render html
+            res.data.body = $filter('renderHtml')(res.data.body);
 
-              //format dates
-              res.data.date = moment(res.data.date).format('MMM DD, YYYY hh:mm a');
+            //format dates
+            res.data.date = moment(res.data.date).format('MMM DD, YYYY hh:mm a');
+
+            //if there are comments, format comment dates as well
+            if(res.data.comments) {
               res.data.comments.map(function(index) {
                 index.date = moment(index.date).format('MMM DD, YYYY hh:mm a');
               });
+            }
+
             return res.data;
           });
         }, //end read
