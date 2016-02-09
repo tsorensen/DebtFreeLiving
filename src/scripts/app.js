@@ -8,6 +8,7 @@ angular
     'LoginController',
     'ezfb',
     'ngAnimate',
+    'AboutController'
   ])
   .config([
     '$routeProvider',
@@ -49,6 +50,8 @@ angular
         })
         .when('/about', {
           templateUrl: '/partials/about-controller.html',
+          controller: 'AboutController',
+          controllerAs: 'about',
         })
         .when('/privacy_policy', {
           templateUrl: '/partials/privacy-policy-controller.html',

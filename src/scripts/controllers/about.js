@@ -10,28 +10,6 @@ angular
       $scope.noWrapSlides = false;
       var currIndex = 0;
 
-      $scope.slides = [];
-      $scope.slides.push(
-        {
-          title: 'Live Debt Free',
-          text: 'A possibility for everyone',
-          image: '/images/macbook-tea-1.jpg',
-          button: 'Learn More'
-        },
-        {
-          title: 'Free Financial Resources',
-          text: 'Checkout our blog for resources and tips',
-          image: '/images/bussiness_man.jpg',
-          button: 'Learn More'
-        },
-        {
-          title: 'Your Custom Plan',
-          text: 'Start your debt elimination plan today',
-          image: '/images/planner.jpg',
-          button: 'Learn More'
-        }
-      );
-
 
       $scope.testimonials = [];
       //this data could be made dynamic
