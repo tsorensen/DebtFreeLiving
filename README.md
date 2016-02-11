@@ -2,7 +2,7 @@
 
 Repository for our DGM 2015-2016 Senior Project.
 
-### Handling Version Control on this Project
+# Handling Version Control on this Project
 Just a quick overview/cheatsheet from our meeting with Thor on how we should handle the version control on this project.
 
 ##### Setup
@@ -16,7 +16,9 @@ You should now be set.  You can make all the changes/additions you need to on yo
 ##### Committing Changes
 When you're ready to commit changes, make sure to fetch the upstream first.
 
-* Fetch the upstream `git fetch upstream`.  This makes sure your copy us up to date on the latest commit in the main repo
+* Fetch the upstream `git fetch upstream`.  
+* Make sure you are on your own master branch `git checkout master`.
+* Merge the upstream with your master branch `git merge upstream/master`.  This makes sure your copy is up to date on the latest commit in the main repo.  If you have conflicts, you need to resolve them before pushing your own commits (it will tell you if you have conflicts when you do the merge command).  If you need help resolving conflicts just let me know.
 * Your local changes should still be there (check by `git status`).
 * Add `git add <filename>` or to add all `git add .`, commit `git commit -m"your comment"`, and push `git push`
 
