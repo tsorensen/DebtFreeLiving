@@ -1,7 +1,77 @@
 <section id="calc">
   <div class='container'>
 
-    <!-- html for calc -->
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+          <h1 class="mainHeader">Debt Elimination Plan</h1>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <form ng-submit="addLoans()">
+              <div class="form-group">
+                <label for="description">Description: </label>
+                <input type="text" name="description" class="form-control" ng-model="desc" placeholder="Description" />
+              </div>
+              <div class="form-group">
+                <label for="balance">Balance: </label>
+                <input type="text" class="form-control" ng-model="balance" placeholder="Balance" />
+              </div>
+              <div class="form-group">
+                <label for="intRate">Interest Rate: </label>
+                <input type="text" name="intRate" class="form-control" ng-model="intRate" placeholder = "Interest Rate" />
+              </div>
+              <div class="form-group">
+                <label for="payment">Monthly Payment: </label>
+                <input type="text" name="payment" class="form-control" ng-model="payment" placeholder = "Payment" />
+              </div>
+              <input type="submit" class="btn btn-primary">
+              <br ng-show="errorMessage" />
+              <br ng-show="errorMessage" />
+              <div class="alert alert-danger" ng-show="errorMessage" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                  {{ errorMessage }}
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!--<h2 ng-repeat="loans in loanList">{{ loans.calcDesc + ": " + loans.thisIndex }}</h2>-->
+
+      <h2>Debt Elimination Plan</h2>
+      <h4 ng-repeat="loan in loanList">For {{ loan.calcDesc }}, pay ${{ loan.calcPayment }} for the first {{loan.prevTerm}} months, then pay ${{ loan.finishedPayment}} until the balance of ${{loan.calcBalance}} is paid in full.</h4>
+
+
+      <br />
+
+      <h2>Loan Info</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Loan</th>
+            <th>Int %</th>
+            <th>Initial Payment</th>
+            <th>Altered Payment</th>
+            <th>Term</th>
+            <th>Prev Term</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="loan in loanList">
+            <td>{{ loan.calcDesc }}</td>
+            <td>{{ loan.calcIntRate }}</td>
+            <td>{{ loan.calcPayment }}</td>
+            <td>{{ loan.finishedPayment }}</td>
+            <td>{{ loan.calcTerm }}</td>
+            <td>{{ loan.prevTerm }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
   </div>
 </section>
