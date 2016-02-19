@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var blog = require('./routes/articles');
+var users = require('./routes/users');
 
 //using multer for image/text uploads, supports multipart-data
 var multer = require('multer');
@@ -25,6 +26,11 @@ router.post('/articles', upload.single('file'), blog.insertArticle);
 router.get('/articles/:id', blog.findById);
 //way to use multer but for text-only form data
 router.post('/comments', upload.single(), blog.saveComment);
+
+//create new user
+router.post('/users', upload.single(), users.register);
+//user login
+router.post('/session', upload.single(), users.login);
 
 //Use
 app.use('/api', router);
