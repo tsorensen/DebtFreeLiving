@@ -2,7 +2,122 @@
   <div class="container">
 
     <!-- HTML for About page goes here -->
-    <h1>This is a test</h1>
+    <section id="bio"><!-- BIO OF EINAR -->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12">
+            <h4 class="text-center">A Word from Our Founder</h4>
+
+            <div class="pull-right">
+              <img src="http://placehold.it/300x300" class="img-circle" alt="Photo of Einar Schow"/>
+            </div><!-- div class="col-md-4 text-center" -->
+
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit.
+            </p>
+            <p>
+              Donec at lorem odio. Phasellus id justo ante. Mauris a massa in mi gravida dapibus. Maecenas metus neque, convallis id eros a, scelerisque efficitur massa.
+              Etiam eget fermentum sapien. Pellentesque at enim lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit.
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit.
+            </p>
+
+          <a href="/#/login" class="btn btn-primary">Create Your FREE Debt Elimination Plan TODAY! &gt;&gt;</a>
+          </div><!-- div class= "col-md-8" -->
+        </div><!-- div class= "row" -->
+      </div><!-- div class= "container" -->
+    </section>
+
+  <hr>
+
+
+
+  <section id="testimonials">
+    <div class="container">
+        <uib-carousel interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
+            <uib-slide ng-repeat="testimonial in testimonials" active="testimonial.active" index="testimonial.id">
+              <!-- ng-swipe-x for mobile -->
+              <img ng-src="">
+              <div class="testimonials" ng-swipe-right="showPrev()" ng-swipe-left="showNext()">
+                <div class="row">
+                  <div class="col-md-4">
+                    <img class="img-circle testimonial-image" ng-src="{{testimonial.image}}">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="text-wrapper">
+                      <p class="testimonial-text">"{{testimonial.text}}"</p>
+                      <p class="testimonial-name">~ {{testimonial.name}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </uib-slide>
+        </uib-carousel>
+      </div><!-- /container -->
+  </section>
+
+<hr>
+
+
+
+    <section id="dflteam"><!-- BIO OF DFL TEAM AT UVU A SENIOR PROJECT -->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12">
+            <h4>Debt Free Living Development Team</h4>
+
+            <div class="pull-right">
+              <img src="http://placehold.it/300x300" class="img-circle" alt="Photo of DFL Development Team"/>
+            </div><!-- div class="col-md-4 text-center" -->
+
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue. Aenean et posuere elit.
+            </p>
+            <p>
+              Donec at lorem odio. Phasellus id justo ante. Mauris a massa in mi gravida dapibus. Maecenas metus neque, convallis id eros a, scelerisque efficitur massa.
+              Etiam eget fermentum sapien. Pellentesque at enim lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nisi enim, fermentum id fringilla sit amet, semper nec orci. Ut tellus dui, porttitor ac lacus
+              a, eleifend sollicitudin ligula. Phasellus risus justo, tempus sit amet leo vitae, posuere rutrum dolor. Morbi ac ante hendrerit, dapibus lectus non,
+              tincidunt augue.
+            </p>
+
+
+          <a href="/#/login" class="btn btn-primary">Create Your FREE Debt Elimination Plan TODAY! &gt;&gt;</a>
+          </div><!-- div class= "col-md-8" -->
+        </div><!-- div class= "row" -->
+      </div><!-- div class= "container" -->
+    </section>
+
+
+
+
 
   </div><!-- /.container -->
-</div><!-- /#about -->
+</section><!-- /#about -->
