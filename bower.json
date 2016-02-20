@@ -20,7 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.7",
+    "angular": "~1.5",
     "bootstrap": "~3.3.5",
     "components-font-awesome": "~4.4.0",
     "angular-route": "~1.4.7",
