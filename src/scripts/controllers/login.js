@@ -36,9 +36,10 @@ angular
         }
 
         //create new user account
-        createUser(data.email, data.password)
+        self.createUser(data.email, data.password, data.firstName, data.lastName)
           .then(function(res) {
               self.registerSuccess = 'Your account has been created successfully, you are now being logged in...';
+              $location.url('/my_plan');
           })
           .catch(function(res) {
             //there was a problem creating a new user account
@@ -52,19 +53,21 @@ angular
           });
       };
 
-      function createUser(email, password) {
+      self.createUser = function(email, password, firstName, lastName) {
         var user = {
           email: email,
-          password: password
+          password: password,
+          firstName: firstName,
+          lastName: lastName
         };
         return users
           .create(user)
           .then(function(res) {
             console.log('Account has been created successfully');
             //account has been created successfully, log the new user in
-            //return auth.login(user);
+            return auth.login(user);
           });
-      }
+      };
 
     },
 

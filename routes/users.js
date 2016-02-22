@@ -2,6 +2,8 @@ var Firebase = require('firebase');
 var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
 
 exports.register = function(req, res) {
+  var usersRef = ref.child("users");
+
   ref.createUser({
     email    : req.body.email,
     password : req.body.password
@@ -12,7 +14,24 @@ exports.register = function(req, res) {
       res.send(error.code);
     } else {
       console.log("Successfully created user account with uid:", userData.uid);
-      res.send('Successfully created account');
+
+      //save user data to DB
+      var timestamp = new Date().getTime();
+      usersRef.child(userData.uid).set({
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          provider: 'password',
+          joined: timestamp
+      }, function(error) {
+        if (error) {
+          console.log("Error saving user to database:", error.code);
+          res.status(401);
+          res.send(error.code);
+        } else {
+          res.send('Successfully created account');
+        }
+      });
+
     }
   });
 };
@@ -31,4 +50,20 @@ exports.login = function(req, res) {
       res.send('User logged in successfully');
     }
   });
+};
+
+exports.logout = function(req, res) {
+
+};
+
+exports.changeEmail = function(req, res) {
+
+};
+
+exports.changePassword = function(req, res) {
+
+};
+
+exports.resetPassword = function(req, res) {
+
 };
