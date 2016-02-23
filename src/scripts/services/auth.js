@@ -40,6 +40,8 @@ angular
 
       isLoggedIn: function() {
         if (currentUser !== undefined) {
+          console.log('current user exists!');
+          console.log(currentUser);
           return $q.resolve(currentUser);
         }
         return $http

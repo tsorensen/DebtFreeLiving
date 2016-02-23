@@ -52,6 +52,19 @@ exports.login = function(req, res) {
   });
 };
 
+exports.getUser = function(req, res) {
+  var authData = ref.getAuth();
+
+  if(authData) {
+    console.log("User " + authData.uid + " is logged in with " + authData.provider);
+    res.send(authData);
+  } else {
+    console.log("User is logged out");
+    res.status(401);
+    res.send("User is logged out");
+  }
+};
+
 exports.logout = function(req, res) {
 
 };

@@ -31,6 +31,7 @@ router.post('/comments', upload.single(), blog.saveComment);
 router.post('/users', upload.single(), users.register);
 //user login
 router.post('/session', upload.single(), users.login);
+router.get('/session', users.getUser);
 
 //Use
 app.use('/api', router);

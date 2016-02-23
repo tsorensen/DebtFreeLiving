@@ -9,15 +9,45 @@ angular
     'auth',
     'users',
     '$location',
-    function(auth, users, $location) {
+    '$route',
+    function(auth, users, $location, $route) {
       var self = this;
       self.submitting = false;
+      self.loggingIn = false;
 
-      // auth.isLoggedIn().then(function(isLoggedIn) {
-      //   if (isLoggedIn) {
-      //     $location.url('/my_plan');
-      //   }
-      // });
+      auth.isLoggedIn().then(function(isLoggedIn) {
+        console.log('here is the auth stuff: ');
+        console.log(isLoggedIn);
+        if (isLoggedIn) {
+          $location.url('/my_plan');
+        }
+      });
+
+      self.signin = function(data) {
+        self.loggingIn = true;
+        self.loginError = null;
+        self.loginSuccess = null;
+
+        self.loginUser(data.email, data.password, data.remember)
+          .then(function(res) {
+            self.loginSuccess = 'Login successful...';
+            $location.url('/my_plan');
+          })
+          .catch(function(res) {
+            //there was an error logging the user in
+            console.log('there was an error with login');
+            console.log(res);
+            var error;
+            if(res.data === 'INVALID_PASSWORD') {
+              self.loginError = 'Invalid email and password combination. Please try again.';
+            } else if(res.data === 'INVALID_USER') {
+              self.loginError = "We couldn't find an account with that email address.  Please check your email address above or register an account.";
+            } else {
+              self.loginError = 'There was an error logging you in.';
+            }
+            self.loggingIn = false;
+          });
+      };
 
       self.register = function(data) {
         self.submitting = true;
@@ -52,6 +82,22 @@ angular
             self.registerError = 'There was an error creating your account: ' + error;
           });
       };
+
+      self.loginUser = function(email, password, remember) {
+        var user = {
+          email: email,
+          password: password,
+          remember: remember
+        };
+
+        return auth
+          .login(user)
+          .then(function(res) {
+            console.log('User has been successfully logged in');
+            console.log(res);
+            $route.reload();
+          })
+      }
 
       self.createUser = function(email, password, firstName, lastName) {
         var user = {
