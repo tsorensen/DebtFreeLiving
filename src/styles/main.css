@@ -115,7 +115,6 @@ section:not(#hero) {
 /* Testimonials */
 #testimonials {
   background: #efefef;
-  border-radius: 8px;
   padding: 40px;
 }
 

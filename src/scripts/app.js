@@ -9,6 +9,7 @@ angular
     'DashboardController',
     'DebtCalcController',
     'MenuController',
+    'AboutController',
     'ezfb',
     'ngAnimate',
     'logoutDirective',
@@ -53,6 +54,8 @@ angular
         })
         .when('/about', {
           templateUrl: '/partials/about-controller.html',
+          controller: 'AboutController',
+          controllerAs: 'about',
         })
         .when('/privacy_policy', {
           templateUrl: '/partials/privacy-policy-controller.html',
