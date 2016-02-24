@@ -10,7 +10,9 @@ angular
     'users',
     '$location',
     '$route',
-    function(auth, users, $location, $route) {
+    '$window',
+    '$timeout',
+    function(auth, users, $location, $route, $window, $timeout) {
       var self = this;
       self.submitting = false;
       self.loggingIn = false;
@@ -30,8 +32,9 @@ angular
 
         self.loginUser(data.email, data.password, data.remember)
           .then(function(res) {
-            self.loginSuccess = 'Login successful...';
-            $location.url('/my_plan');
+            //$location('/my_plan');
+            //$route.reload();
+            $timeout(function(){ $window.location.reload() }, 5000);
           })
           .catch(function(res) {
             //there was an error logging the user in
@@ -68,8 +71,8 @@ angular
         //create new user account
         self.createUser(data.email, data.password, data.firstName, data.lastName)
           .then(function(res) {
-              self.registerSuccess = 'Your account has been created successfully, you are now being logged in...';
-              $location.url('/my_plan');
+              //$location.url('/my_plan');
+              $timeout(function(){ $window.location.reload() }, 5000);
           })
           .catch(function(res) {
             //there was a problem creating a new user account
@@ -95,7 +98,8 @@ angular
           .then(function(res) {
             console.log('User has been successfully logged in');
             console.log(res);
-            $route.reload();
+            //successful login
+            self.loginSuccess = 'Login successful...';
           })
       }
 
@@ -110,8 +114,8 @@ angular
           .create(user)
           .then(function(res) {
             console.log('Account has been created successfully');
-            //account has been created successfully, log the new user in
-            return auth.login(user);
+            //account has been created successfully, user has also been logged in
+            self.registerSuccess = 'Your account has been created successfully, you are now being logged in...';
           });
       };
 

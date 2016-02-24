@@ -8,6 +8,7 @@ angular
   '$q',
   function($http, host, $q) {
     var currentUser;
+    var user;
 
     var auth = {
 
@@ -30,11 +31,26 @@ angular
       },
 
       logout: function() {
+        console.log('in logout');
         return $http
           .delete(host + '/session')
           .then(function(res) {
             currentUser = null;
+            console.log(res);
             return res;
+          });
+      },
+
+      getCurrentUser: function() {
+        return $http
+          .get(host + '/users')
+          .then(function(res) {
+            user = res.data;
+            return user;
+          })
+          .catch(function(res) {
+            user = null;
+            return user;
           });
       },
 

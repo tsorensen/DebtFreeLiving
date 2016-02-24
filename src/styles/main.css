@@ -266,6 +266,54 @@ section:not(#hero) {
   color:#fff;
 }
 
+/************************************/
+/*********** DASHBOARD ************/
+/********************************/
+#dashboard .panel {
+  margin-bottom: 20px;
+  border-color: #ddd;
+  color: #333;
+}
+
+.panel-flat>.panel-heading {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #fff;
+}
+
+#dashboard .panel-body,
+#dashboard .panel-footer,
+#dashboard .panel-heading,
+#dashboard .panel-title {
+    position: relative;
+}
+.h5.panel-title, h5.panel-title {
+    font-size: 17px;
+}
+
+#dashboard .panel-flat>.panel-heading+.panel-body {
+    padding-top: 0;
+}
+
+.chart, .chart-container {
+    position: relative;
+    width: 100%;
+}
+
+.chart {
+    display: block;
+}
+.chart, .chart-container {
+    position: relative;
+    width: 100%;
+}
+.chart-pie, .has-fixed-height {
+    height: 400px;
+}
+
+
+
+
 /***********************************/
 /************* FOOTER ************/
 /*******************************/
@@ -325,6 +373,25 @@ footer {
 
   .login-side .border-right {
     display:none;
+  }
+
+  .heading-elements .icons-list {
+      margin-top: 9px;
+  }
+
+  .heading-elements .breadcrumb, .heading-elements .daterange-custom,
+  .heading-elements .heading-btn, .heading-elements .heading-form,
+  .heading-elements .heading-text, .heading-elements .icons-list,
+  .heading-elements .nav-pills, .heading-elements .nav-tabs,
+  .heading-elements .noui-slider, .heading-elements .pager,
+  .heading-elements .pagination, .heading-elements .progress,
+  .heading-elements .ui-slider, .heading-elements>.btn-group {
+      float: left;
+      margin-left: 20px;
+  }
+
+  .heading-elements-toggle {
+    display: none;
   }
 
 }

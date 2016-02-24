@@ -6,9 +6,11 @@ angular
     'HomeController',
     'AddController',
     'LoginController',
+    'DashboardController',
+    'DebtCalcController',
+    'MenuController',
     'ezfb',
     'ngAnimate',
-    'DebtCalcController',
     'logoutDirective',
   ])
   .config([
@@ -56,9 +58,9 @@ angular
           templateUrl: '/partials/privacy-policy-controller.html',
         })
         .when('/my_plan', {
-          templateUrl: '/partials/calc-controller.html',
-          controller: 'DebtCalcController',
-          controllerAs: 'loan'
+          templateUrl: '/partials/dashboard-controller.html',
+          controller: 'DashboardController',
+          controllerAs: 'dashboard'
         })
         .otherwise('/');
     }
