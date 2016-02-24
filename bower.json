@@ -20,7 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.7",
+    "angular": "~1.5.0",
     "bootstrap": "~3.3.5",
     "components-font-awesome": "~4.4.0",
     "angular-route": "~1.4.7",
@@ -30,5 +30,8 @@
     "angular-bootstrap": "~1.1.1",
     "angular-animate": "^1.4.9",
     "firebase": "^2.4.0"
+  },
+  "resolutions": {
+    "angular": "~1.5.0"
   }
 }

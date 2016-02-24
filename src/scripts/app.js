@@ -9,6 +9,7 @@ angular
     'ezfb',
     'ngAnimate',
     'DebtCalcController',
+    'logoutDirective',
   ])
   .config([
     '$routeProvider',

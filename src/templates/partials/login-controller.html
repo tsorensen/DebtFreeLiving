@@ -8,11 +8,18 @@
           <h2 class="text-center">Login</h2>
 
           <div class="panel-body">
-            <form id="login-form" role="form" method="post" action="">
+            <form id="login-form" ng-submit="login.signin(login.loginInputs)">
     							<div class="form-group has-feedback has-feedback-left">
-    								<input type="text" class="form-control" placeholder="Username" name="username" value="" required autofocus>
+    								<input
+                      type="email"
+                      class="form-control"
+                      placeholder="Email"
+                      name="email"
+                      value=""
+                      ng-model="login.loginInputs.email"
+                      required autofocus>
     								<div class="form-control-feedback icons">
-    									<i class="fa fa-user text-muted"></i>
+    									<i class="fa fa-envelope text-muted"></i>
     								</div>
     							</div>
 
@@ -20,15 +27,25 @@
                     <div class="form-control-feedback icons">
     									<i class="fa fa-lock text-muted"></i>
     								</div>
-    								<input type="password" class="form-control" placeholder="Password" name="password" required>
+    								<input
+                      type="password"
+                      class="form-control"
+                      placeholder="Password"
+                      name="password"
+                      ng-model="login.loginInputs.password"
+                      required>
     							</div>
 
     							<div class="form-group login-options">
     								<div class="row">
     									<div class="col-sm-6">
     										<label class="checkbox-inline">
-    											<input type="checkbox" class="styled" name="remember">
-    											Remember
+    											<input
+                            type="checkbox"
+                            class="styled"
+                            name="remember"
+                            ng-model="login.loginInputs.remember">
+    											Remember me
     										</label>
     									</div>
 
@@ -38,8 +55,17 @@
     								</div><!-- /.row -->
     							</div>
 
+                  <div class="alert alert-danger" ng-show="login.loginError">
+                    <p>{{ login.loginError }}</p>
+                  </div>
+
+                  <div class="alert alert-danger" ng-show="login.loginSuccess">
+                    <p>{{ login.loginSuccess }}</p>
+                  </div>
+
     							<div class="form-group text-center">
-    								<input id="login-submit" type="submit" class="btn btn-success btn-block" value="Login">
+                    <span ng-show="login.loggingIn === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+                    <button ng-show="login.loggingIn === false" type="submit" class="btn btn-success btn-block">Login</button>
     							</div>
 
                   <div class="or text-center text-muted">
@@ -61,41 +87,102 @@
           <h2 class="text-center">Register</h2>
 
           <div class="panel-body">
-            <form id="register-form" role="form" method="post" action="">
-                  <div class="form-group has-feedback has-feedback-left">
-                    <input type="text" class="form-control" placeholder="Username" name="username" value="" required autofocus>
+            <form id="register-form" ng-submit="login.register(login.registerInputs)">
+                  <div class="form-group has-feedback">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="First Name"
+                      name="firstName"
+                      value=""
+                      ng-model="login.registerInputs.firstName"
+                      required autofocus>
                     <div class="form-control-feedback icons">
                       <i class="fa fa-user text-muted"></i>
                     </div>
                   </div>
 
                   <div class="form-group has-feedback">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Last Name"
+                      name="lastName"
+                      value=""
+                      ng-model="login.registerInputs.lastName"
+                      required>
                     <div class="form-control-feedback icons">
-                      <i class="fa fa-lock text-muted"></i>
+                      <i class="fa fa-user text-muted"></i>
                     </div>
-                    <input type="password" class="form-control" placeholder="Password" name="password" required>
+                  </div>
+
+                  <div class="form-group has-feedback">
+                    <input
+                      type="email"
+                      class="form-control"
+                      placeholder="Email"
+                      name="email"
+                      value=""
+                      ng-model="login.registerInputs.email"
+                      required>
+                    <div class="form-control-feedback icons">
+                      <i class="fa fa-envelope text-muted"></i>
+                    </div>
                   </div>
 
                   <div class="form-group has-feedback">
                     <div class="form-control-feedback icons">
                       <i class="fa fa-lock text-muted"></i>
                     </div>
-                    <input type="password" class="form-control" placeholder="Confirm Password" name="confirm-password" required>
+                    <input
+                      type="password"
+                      class="form-control"
+                      placeholder="Password"
+                      name="password"
+                      ng-model="login.registerInputs.password"
+                      required>
+                  </div>
+
+                  <div class="form-group has-feedback">
+                    <div class="form-control-feedback icons">
+                      <i class="fa fa-lock text-muted"></i>
+                    </div>
+                    <input
+                      type="password"
+                      class="form-control"
+                      placeholder="Confirm Password"
+                      name="confirmPassword"
+                      ng-model="login.registerInputs.confirmPassword"
+                      required>
                   </div>
 
                   <div class="form-group login-options">
                     <div class="row">
                       <div class="col-sm-12">
                         <label class="checkbox-inline">
-                          <input type="checkbox" class="styled" name="agreed" required>
+                          <input
+                            type="checkbox"
+                            class="styled"
+                            name="agreed"
+                            ng-model="login.registerInputs.terms"
+                            required>
                           I have read and agree to the <a href="/#/terms_of_service/#">Terms of Service</a>
                         </label>
                       </div>
                     </div><!-- /.row -->
                   </div>
 
+                  <div class="alert alert-danger" ng-show="login.registerError">
+                    <p>{{ login.registerError }}</p>
+                  </div>
+
+                  <div class="alert alert-success" ng-show="login.registerSuccess">
+                    <p>{{ login.registerSuccess }}</p>
+                  </div>
+
                   <div class="form-group text-center">
-                    <input id="login-submit" type="submit" class="btn btn-success btn-block" value="Create Account">
+                    <span ng-show="login.submitting === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+                    <button ng-show="login.submitting === false" type="submit" class="btn btn-success btn-block">Create Account</button>
                   </div>
 
               </form>
