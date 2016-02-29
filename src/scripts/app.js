@@ -13,6 +13,7 @@ angular
     'ezfb',
     'ngAnimate',
     'logoutDirective',
+    'firebase',
   ])
   .config([
     '$routeProvider',
