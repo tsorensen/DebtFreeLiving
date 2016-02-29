@@ -54,6 +54,13 @@ section:not(#hero) {
     margin-top: 22px;
 }
 
+.nav.navbar-right {
+  font-size:14px;
+}
+
+.nav.navbar-nav.navbar-right .logout a {
+  color: #a94442;
+}
 
 /*****************************/
 /*********** HOME **********/
