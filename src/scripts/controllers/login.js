@@ -12,18 +12,15 @@ angular
     '$route',
     '$window',
     '$timeout',
-    function(auth, users, $location, $route, $window, $timeout) {
+    '$rootScope',
+    function(auth, users, $location, $route, $window, $timeout, $rootScope) {
       var self = this;
       self.submitting = false;
       self.loggingIn = false;
 
-      auth.isLoggedIn().then(function(isLoggedIn) {
-        console.log('here is the auth stuff: ');
-        console.log(isLoggedIn);
-        if (isLoggedIn) {
+      if(auth.isLoggedIn()) {
           $location.url('/my_plan');
-        }
-      });
+      }
 
       self.signin = function(data) {
         self.loggingIn = true;
@@ -33,17 +30,18 @@ angular
         self.loginUser(data.email, data.password, data.remember)
           .then(function(res) {
             //$location('/my_plan');
-            //$route.reload();
-            $timeout(function(){ $window.location.reload() }, 5000);
+            $rootScope.$broadcast('auth-userLoginChange');
+            $timeout(function(){ $route.reload() }, 3000);
+            //$timeout(function(){ $window.location.reload() }, 3000);
           })
-          .catch(function(res) {
+          .catch(function(error) {
             //there was an error logging the user in
             console.log('there was an error with login');
-            console.log(res);
+            console.log(error);
             var error;
-            if(res.data === 'INVALID_PASSWORD') {
+            if(error.code === 'INVALID_PASSWORD') {
               self.loginError = 'Invalid email and password combination. Please try again.';
-            } else if(res.data === 'INVALID_USER') {
+            } else if(error.code === 'INVALID_USER' || error.code === 'INVALID_EMAIL') {
               self.loginError = "We couldn't find an account with that email address.  Please check your email address above or register an account.";
             } else {
               self.loginError = 'There was an error logging you in.';
@@ -100,7 +98,7 @@ angular
             console.log(res);
             //successful login
             self.loginSuccess = 'Login successful...';
-          })
+          });
       }
 
       self.createUser = function(email, password, firstName, lastName) {
