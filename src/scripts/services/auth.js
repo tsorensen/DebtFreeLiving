@@ -19,7 +19,6 @@ angular
     var auth = {
 
       login: function(user) {
-        var self = this;
         return fireAuth.$authWithPassword({
           email    : user.email,
           password : user.password
@@ -32,6 +31,46 @@ angular
           console.log("Login Failed!", error);
           return $q.reject(error);
         });
+      },
+
+      oauth: function(provider) {
+        return fireAuth.$authWithOAuthPopup(provider)
+          .then(function(authData) {
+            console.log("OAuth successful with payload:", authData);
+            currentUser = authData;
+          })
+          .then(function(res) {
+            ref.child('users/' + currentUser.uid).once("value", function(snapshot) {
+              var exists = snapshot.exists();
+              if(exists) {
+                $q.resolve(exists);
+              }
+            });
+          })
+          .then(function(res) {
+            console.log('this is where i would create the user data in db');
+            //save user data to DB
+            var timestamp = new Date().getTime();
+            ref.child('users').child(currentUser.uid).set({
+                firstName: currentUser.facebook.cachedUserProfile.first_name,
+                lastName: currentUser.facebook.cachedUserProfile.last_name,
+                provider: currentUser.provider,
+                joined: timestamp
+            }, function(error) {
+              if (error) {
+                console.log("Error saving user to database:", error.code);
+                return $q.reject(error);
+              } else {
+                console.log('Successfully saved user data');
+              }
+            }); //end set
+
+            $rootScope.$broadcast('auth-userLoginChange');
+          })
+          .catch(function(error) {
+            console.error("OAuth login failed:", error);
+            return $q.reject(error);
+          });
       },
 
       logout: function() {

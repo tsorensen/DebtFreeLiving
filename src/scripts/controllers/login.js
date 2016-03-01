@@ -22,7 +22,7 @@ angular
           $location.url('/my_plan');
       }
 
-      self.signin = function(data) {
+      self.login = function(data) {
         self.loggingIn = true;
         self.loginError = null;
         self.loginSuccess = null;
@@ -38,7 +38,6 @@ angular
             //there was an error logging the user in
             console.log('there was an error with login');
             console.log(error);
-            var error;
             if(error.code === 'INVALID_PASSWORD') {
               self.loginError = 'Invalid email and password combination. Please try again.';
             } else if(error.code === 'INVALID_USER' || error.code === 'INVALID_EMAIL') {
@@ -47,6 +46,26 @@ angular
               self.loginError = 'There was an error logging you in.';
             }
             self.loggingIn = false;
+          });
+      };
+
+      self.oauth = function(provider) {
+        self.loginError = null;
+        self.loginSuccess = null;
+        self.oauthUser(provider)
+          .then(function(res) {
+            console.log('oauth login success');
+            $timeout(function(){ $route.reload() }, 3000);
+          })
+          .catch(function(error) {
+            console.log('there was an error with oauth login');
+            console.log(error);
+            console.log(error.code);
+            if(error.code === 'INVALID_CREDENTIALS') {
+              self.loginError = "We couldn't log you in with the credentials you provided for " + provider;
+            } else {
+              self.loginError = 'There was an error logging you in with ' + provider;
+            }
           });
       };
 
@@ -67,7 +86,7 @@ angular
         }
 
         //create new user account
-        self.createUser(data.email, data.password, data.firstName, data.lastName)
+        self.registerUser(data.email, data.password, data.firstName, data.lastName)
           .then(function(res) {
               //$location.url('/my_plan');
               //$timeout(function(){ $window.location.reload() }, 5000);
@@ -86,6 +105,11 @@ angular
           });
       };
 
+
+      /*
+       * Helper functions for logging in/registering users.
+       *
+       */
       self.loginUser = function(email, password, remember) {
         var user = {
           email: email,
@@ -93,26 +117,33 @@ angular
           remember: remember
         };
 
-        return auth
-          .login(user)
+        return auth.login(user)
           .then(function(res) {
             console.log('User has been successfully logged in');
             console.log(res);
             //successful login
             self.loginSuccess = 'Login successful...';
           });
-      }
+      };
 
-      self.createUser = function(email, password, firstName, lastName) {
-        console.log('in create user');
+      self.oauthUser = function(provider) {
+        return auth.oauth(provider)
+          .then(function(res) {
+            console.log('User has been successfully logged in');
+            console.log(res);
+            //successful login
+            self.loginSuccess = 'Login with ' + provider + ' successful...';
+          });
+      };
+
+      self.registerUser = function(email, password, firstName, lastName) {
         var user = {
           email: email,
           password: password,
           firstName: firstName,
           lastName: lastName
         };
-        return auth
-          .register(user)
+        return auth.register(user)
           .then(function(res) {
             console.log('Account has been created successfully');
             //account has been created successfully, user has also been logged in
