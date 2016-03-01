@@ -11,9 +11,8 @@ angular
   '$firebaseAuth',
   function($http, host, $q, $location, $rootScope, $firebaseAuth) {
     var currentUser;
-    var user;
-
     var userData;
+
     var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
     var fireAuth = $firebaseAuth(ref);
 
@@ -83,22 +82,47 @@ angular
 
       register: function(user) {
         //create user
-        ref.createUser({
-          email    : user.email,
-          password : user.password
-        }, function(error, userData) {
-          if (error) {
-            console.log("Error creating user:", error.code);
-          } else {
-            console.log("Successfully created user account with uid:", userData.uid);
-          }
+        return fireAuth.$createUser({
+          email: user.email,
+          password: user.password
+        })
+        .then(function(userData) {
+          //log in newly registered user
+          console.log("User " + userData.uid + " created successfully!");
+          return fireAuth.$authWithPassword({
+            email: user.email,
+            password: user.password
+          });
+        })
+        .then(function(authData) {
+          //set currentUser
+          console.log("Logged in as:", authData.uid);
+          currentUser = authData;
         })
         .then(function(res) {
-          login2(user.email, user.password)
+          //save user data to DB
+          var timestamp = new Date().getTime();
+          ref.child('users').child(currentUser.uid).set({
+              firstName: user.firstName,
+              lastName: user.lastName,
+              provider: 'password',
+              joined: timestamp
+          }, function(error) {
+            if (error) {
+              console.log("Error saving user to database:", error.code);
+              return $q.reject(error);
+            } else {
+              console.log('Successfully saved user data');
+            }
+          }); //end set
+
+          $rootScope.$broadcast('auth-userLoginChange');
         })
-        .then(function(res) {
-          console.log('stuff');
-        }); //end createUser
+        .catch(function(error) {
+          console.log('in catch');
+          console.error("Error: unable to register account");
+          return $q.reject(error);
+        });
       },
 
     };

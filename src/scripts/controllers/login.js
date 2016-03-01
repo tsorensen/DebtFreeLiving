@@ -61,7 +61,7 @@ angular
           self.submitting = false;
           return;
         } else if (data.terms !== true) {
-          self.registerError = 'You must agree to the Terms of Service before registering';
+          self.registerError = 'You must agree to the Terms of Service before registering.';
           self.submitting = false;
           return;
         }
@@ -70,17 +70,19 @@ angular
         self.createUser(data.email, data.password, data.firstName, data.lastName)
           .then(function(res) {
               //$location.url('/my_plan');
-              $timeout(function(){ $window.location.reload() }, 5000);
+              //$timeout(function(){ $window.location.reload() }, 5000);
+              $timeout(function(){ $route.reload() }, 5000);
           })
-          .catch(function(res) {
+          .catch(function(err) {
             //there was a problem creating a new user account
-            var error;
-            if(res.data === 'EMAIL_TAKEN') {
+            if(err.code === 'EMAIL_TAKEN') {
               //make the error more understandable
-              error = 'Email is already in use';
+              self.registerError = 'That email is already in use. Unable to create account.';
+            } else {
+              self.registerError = 'There was an error creating your account';
             }
             self.submitting = false;
-            self.registerError = 'There was an error creating your account: ' + error;
+
           });
       };
 
@@ -102,14 +104,15 @@ angular
       }
 
       self.createUser = function(email, password, firstName, lastName) {
+        console.log('in create user');
         var user = {
           email: email,
           password: password,
           firstName: firstName,
           lastName: lastName
         };
-        return users
-          .create(user)
+        return auth
+          .register(user)
           .then(function(res) {
             console.log('Account has been created successfully');
             //account has been created successfully, user has also been logged in
