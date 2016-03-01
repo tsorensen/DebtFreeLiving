@@ -89,7 +89,7 @@ angular
             var principal = newPymnt - monthlyIntPmt;
             if(principal <= 0) {
               $scope.errorAmount = monthlyIntPmt + 1;
-              $scope.errorMessage = "ERROR: The interest collected on this debt is higher than the payment amount. To add this debt to your elimination plan, your monthly payment must be $" + $scope.errorAmount + " or higher.";
+              $scope.errorMessage = "ERROR: The interest collected on \"" + $scope.loanList[i].calcDesc + "\" (Debt #"+[i + 1]+") is higher than the payment amount. To add this debt to your elimination plan, your monthly payment must be $" + $scope.errorAmount + " or higher.";
               $scope.loanList.splice(itemIndex, 1);
               theBal = 0;
             } else if(principal > 0){
