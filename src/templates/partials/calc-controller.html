@@ -10,26 +10,37 @@
           <div class="panel-body">
             <form ng-submit="calcLoans()">
               <div ng-repeat="loan in initList">
-              <div class="form-group">
-                <h3>Debt #{{$index + 1}} <button type="button" ng-click="removeLoan($index)" class="btn btn-primary">Remove</button></h3>
-                <label for="description">Description: </label>
-                <input type="text" name="description" class="form-control" ng-model="loan.desc" placeholder="Description"/>
-              </div>
-              <div class="form-group">
-                <label for="balance">Balance: </label>
-                <input type="text" class="form-control" ng-model="loan.balance" placeholder="Balance" />
-              </div>
-              <div class="form-group">
-                <label for="intRate">Interest Rate: </label>
-                <input type="text" name="intRate" class="form-control" ng-model="loan.intRate" placeholder = "Interest Rate" />
-              </div>
-              <div class="form-group">
-                <label for="payment">Monthly Payment: </label>
-                <input type="text" name="payment" class="form-control" ng-model="loan.payment" placeholder = "Payment" />
-              </div>
-              <h4>Desc: {{loan.length}}</h4>
-
+                <fieldset>
+                  <div class="form-group">
+                    <div class="col-xs-12">
+                    <h3>Debt #{{$index + 1}} <button type="button" ng-click="removeLoan($index)" class="btn btn-danger">Remove</button></h3>
+                    <input type="text" name="description" class="form-control" ng-model="loan.desc" placeholder="Description (ex. Home, Auto, Student)"/>
+                  </div>
+                </div>
+                </fieldset>
+                <fieldset class="form-inline">
+                  <div class="form-group">
+                    <div class="col-xs-4">
+                      <label for="balance"></label>
+                      <input type="text" class="form-control" ng-model="loan.balance" placeholder="Balance" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-xs-4">
+                      <label for="intRate"></label>
+                      <input type="text" name="intRate" class="form-control" ng-model="loan.intRate" placeholder = "Interest Rate" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-xs-4">
+                      <label for="payment"></label>
+                      <input type="text" name="payment" class="form-control" ng-model="loan.payment" placeholder = "Monthly Payment" />
+                    </div>
+                  </div>
+                </fieldset>
             </div>
+            <br />
+            <div class="col-xs-12">
               <button type="button" ng-click="addLoans()" class="btn btn-primary">Add Debt</button>
               <input type="submit" class="btn btn-primary">
               <br ng-show="errorMessage" />
@@ -38,6 +49,7 @@
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                   {{ errorMessage }}
               </div>
+            </div>
 
             </form>
           </div>
