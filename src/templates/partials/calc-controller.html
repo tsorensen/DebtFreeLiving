@@ -11,7 +11,7 @@
             <form ng-submit="calcLoans()">
               <div ng-repeat="loan in initList">
               <div class="form-group">
-                <h3>Debt #{{$index + 1}}</h3>
+                <h3>Debt #{{$index + 1}} <button type="button" ng-click="removeLoan($index)" class="btn btn-primary">Remove</button></h3>
                 <label for="description">Description: </label>
                 <input type="text" name="description" class="form-control" ng-model="loan.desc" placeholder="Description"/>
               </div>

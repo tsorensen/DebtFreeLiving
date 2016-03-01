@@ -22,6 +22,10 @@ angular
         )
       };
 
+      $scope.removeLoan = function(k){
+        $scope.initList.splice(k, 1);
+      };
+
       //Function to add loan objects to the loan list above
       $scope.calcLoans = function(){
 
