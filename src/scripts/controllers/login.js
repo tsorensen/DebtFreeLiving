@@ -29,10 +29,8 @@ angular
 
         self.loginUser(data.email, data.password, data.remember)
           .then(function(res) {
-            //$location('/my_plan');
             $rootScope.$broadcast('auth-userLoginChange');
             $timeout(function(){ $route.reload() }, 3000);
-            //$timeout(function(){ $window.location.reload() }, 3000);
           })
           .catch(function(error) {
             //there was an error logging the user in
@@ -54,7 +52,7 @@ angular
         self.loginSuccess = null;
         self.oauthUser(provider)
           .then(function(res) {
-            console.log('oauth login success');
+            $rootScope.$broadcast('auth-userLoginChange');
             $timeout(function(){ $route.reload() }, 3000);
           })
           .catch(function(error) {
@@ -62,9 +60,11 @@ angular
             console.log(error);
             console.log(error.code);
             if(error.code === 'INVALID_CREDENTIALS') {
-              self.loginError = "We couldn't log you in with the credentials you provided for " + provider;
+              self.loginError = "We couldn't log you in with the credentials you provided for " + provider + '.';
+            } else if(error.code === 'USER_CANCELLED') {
+              self.loginError = "You have cancelled your login with " + provider + '.';
             } else {
-              self.loginError = 'There was an error logging you in with ' + provider;
+              self.loginError = 'There was an error logging you in with ' + provider + '.';
             }
           });
       };
@@ -88,8 +88,7 @@ angular
         //create new user account
         self.registerUser(data.email, data.password, data.firstName, data.lastName)
           .then(function(res) {
-              //$location.url('/my_plan');
-              //$timeout(function(){ $window.location.reload() }, 5000);
+              $rootScope.$broadcast('auth-userLoginChange');
               $timeout(function(){ $route.reload() }, 5000);
           })
           .catch(function(err) {
