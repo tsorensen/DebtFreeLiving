@@ -37,13 +37,13 @@ angular
               .then(function(user) {
                 console.log('current user data: ');
                 console.log(user);
-                elem.html('<li class="border-right"><a href="/#/my_plan/account">Hello, '
+                elem.html('<li class="border-right"><a href="/#/account">Hello, '
                           + user.firstName
                           + '</a></li><li class="logout"><a href="#">Logout</a></li>');
               })
               .then(function(res) {
                 //attach logout event handler
-                elem.children('.logout').bind('click', scope.logoutClickHandler);
+                $('.logout').bind('click', scope.logoutClickHandler);
               });
             } else {
               elem.html('<li class="border-right"><a href="/#/login">Sign Up</a></li><li><a href="/#/login">Login</a></li>');
