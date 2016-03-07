@@ -1,7 +1,5 @@
 angular
   .module('LoginController', [
-    'ui.bootstrap',
-    'ngAnimate',
     'blogApp.auth',
     'blogApp.users',
   ])
@@ -14,13 +12,14 @@ angular
     '$timeout',
     '$rootScope',
     function(auth, users, $location, $route, $window, $timeout, $rootScope) {
-      var self = this;
-      self.submitting = false;
-      self.loggingIn = false;
-
+      //auth check
       if(auth.isLoggedIn()) {
           $location.url('/my_plan');
       }
+
+      var self = this;
+      self.submitting = false;
+      self.loggingIn = false;
 
       self.login = function(data) {
         self.loggingIn = true;
@@ -105,7 +104,7 @@ angular
       };
 
 
-      /*
+      /**
        * Helper functions for logging in/registering users.
        *
        */
