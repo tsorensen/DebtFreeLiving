@@ -188,7 +188,7 @@ section:not(#hero) {
 
 
 /************************************/
-/************** LOGIN *************/
+/***** LOGIN/FORGOT PASSWORD ******/
 /********************************/
 .panel {
   background: #efefef;
@@ -219,11 +219,15 @@ section:not(#hero) {
   border-left:none;
 }
 
-#login-form input, #register-form input {
+#login-form input,
+#register-form input,
+#forgot-form input {
   padding-left:30px;
 }
 
-#login-form .icons, #register-form .icons {
+#login-form .icons,
+#register-form .icons,
+#forgot-form .icons {
   left:0;
 }
 
