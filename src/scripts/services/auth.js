@@ -10,19 +10,29 @@ angular
   '$rootScope',
   '$firebaseAuth',
   function($http, host, $q, $location, $rootScope, $firebaseAuth) {
-    var currentUser;
-    var userData;
-
     var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
     var fireAuth = $firebaseAuth(ref);
+
+    var currentUser;
+    var userData;
 
     var auth = {
 
       login: function(user) {
+        var remember;
+        console.log("remember: ");
+        console.log(remember);
+        if(user.remember === true) {
+          //default uses value defined as default within firebase account settings
+          remember = 'default';
+        } else {
+          remember = 'sessionOnly';
+        }
+        console.log(remember);
         return fireAuth.$authWithPassword({
           email    : user.email,
           password : user.password
-        })
+        }, {remember: user.remember})
         .then(function(authData) {
             console.log("Authenticated successfully with payload:", authData);
             currentUser = authData;
@@ -36,7 +46,7 @@ angular
       oauth: function(provider) {
         console.log('in oauth');
         console.log('here is provider: ' + provider);
-        return fireAuth.$authWithOAuthPopup(provider, {remember: "sessionOnly"})
+        return fireAuth.$authWithOAuthPopup(provider, {remember: "default"})
           .then(function(authData) {
             console.log("OAuth successful with payload:", authData);
             currentUser = authData;
@@ -44,7 +54,7 @@ angular
           })
           .then(function(res) {
             //If this oauth user has already logged in before, their user data
-            //should already exist in the DB.  If so, resolve the promise.
+            //should already exist in the DB.  If so, set currentUser.exists to true.
             return ref.child('users/' + currentUser.uid).once("value", function(snapshot) {
               var exists = snapshot.exists();
 
@@ -56,7 +66,7 @@ angular
           .then(function(res) {
             //only save user data if they don't exist in DB yet
             if(!currentUser.exists) {
-              //Facebook and Google have their name properties labeled differently. Use Facebook as default.
+              //Facebook and Google have their name properties labeled differently.
               var names = {};
 
               if(currentUser.provider === 'facebook') {
