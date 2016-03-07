@@ -37,16 +37,27 @@ angular
               .then(function(user) {
                 console.log('current user data: ');
                 console.log(user);
-                elem.html('<li class="border-right"><a href="/#/account">Hello, '
-                          + user.firstName
-                          + ' <i class="fa fa-gear"></i></a></li><li class="logout"><a href="#">Logout</a></li>');
+                elem.html('<li class="border-right">'
+                          +   '<a data-toggle="collapse" data-target=".navbar-collapse.in" href="/#/account">'
+                          +     'Hello, ' + user.firstName
+                          +     ' <i class="fa fa-gear"></i>'
+                          +   '</a>'
+                          + '</li>'
+                          + '<li class="logout">'
+                          +   '<a href="">Logout</a>'
+                          + '</li>');
               })
               .then(function(res) {
                 //attach logout event handler
                 $('.logout').bind('click', scope.logoutClickHandler);
               });
             } else {
-              elem.html('<li class="border-right"><a href="/#/login">Sign Up</a></li><li><a href="/#/login">Login</a></li>');
+              elem.html('<li class="border-right">'
+                          +   '<a data-toggle="collapse" data-target=".navbar-collapse.in" href="/#/login">Sign Up</a>'
+                          + '</li>'
+                          + '<li>'
+                          +   '<a data-toggle="collapse" data-target=".navbar-collapse.in" href="/#/login">Login</a>'
+                          + '</li>');
             }
           $compile(elem.contents())(scope);
         }
