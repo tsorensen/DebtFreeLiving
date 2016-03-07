@@ -1,0 +1,48 @@
+<section id="forgot">
+  <div class="container">
+    <div class="col-sm-6 col-sm-offset-3">
+
+      <h2 class="text-center">Forgot Your Password?</h2>
+      <div class="panel-body">
+        <p>Enter the email address associated with your account.  We will send you an email with a temporary password.</p>
+        <p>After logging in, please update your password in your account settings.</p>
+        <br>
+
+        <form id="forgot-form" ng-submit="forgot.reset(forgot.email)">
+              <div ng-show="forgot.emailSent === false" class="form-group has-feedback has-feedback-left">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Email"
+                  name="email"
+                  value=""
+                  ng-model="forgot.email"
+                  required autofocus>
+                <div class="form-control-feedback icons">
+                  <i class="fa fa-envelope text-muted"></i>
+                </div>
+              </div>
+
+              <div class="alert alert-danger" ng-show="forgot.forgotError">
+                <p>{{ forgot.forgotError }}</p>
+              </div>
+
+              <div class="alert alert-success" ng-show="forgot.forgotSuccess">
+                <p>{{ forgot.forgotSuccess }}</p>
+              </div>
+
+              <div ng-show="forgot.emailSent === false" class="form-group text-center">
+                <span ng-show="forgot.sending === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+                <button ng-show="forgot.sending === false" type="submit" class="btn btn-success btn-block">Reset Password</button>
+              </div>
+
+              <div ng-show="forgot.emailSent === true" class="form-group text-center">
+                <a href="/#/login" class="btn btn-success btn-block">Login</button>
+              </div>
+
+          </form>
+      </div><!-- /.panel-body -->
+
+    </div><!-- /.col 10 -->
+  </div><!-- /.container -->
+</section><!-- /#forgot -->

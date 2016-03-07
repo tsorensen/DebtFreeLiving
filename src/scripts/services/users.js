@@ -5,7 +5,12 @@ angular
 .factory('users', [
   '$http',
   'blogAppHost',
-  function($http, host) {
+  '$q',
+  '$firebaseAuth',
+  function($http, host, $q, $firebaseAuth) {
+    var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
+    var fireAuth = $firebaseAuth(ref);
+
     var users = {
       create: function(user) {
         var fd = new FormData();
@@ -23,7 +28,21 @@ angular
             console.log(res);
             return res.data;
           });
-      }
+      },
+
+      resetPassword: function(email) {
+        return fireAuth.$resetPassword({
+          email: email
+        })
+        .then(function() {
+          console.log("Password reset email sent successfully!");
+        })
+        .catch(function(error) {
+          console.error("Error: ", error);
+          return $q.reject(error);
+        });
+      },
+
     };
 
     return users;

@@ -6,6 +6,7 @@ angular
     'HomeController',
     'AddController',
     'LoginController',
+    'ForgotController',
     'DashboardController',
     'DebtCalcController',
     'MenuController',
@@ -71,6 +72,11 @@ angular
           templateUrl: '/partials/account-controller.html',
           controller: 'AccountController',
           controllerAs: 'account'
+        })
+        .when('/forgot', {
+          templateUrl: '/partials/forgot-controller.html',
+          controller: 'ForgotController',
+          controllerAs: 'forgot'
         })
         .otherwise('/');
     }
