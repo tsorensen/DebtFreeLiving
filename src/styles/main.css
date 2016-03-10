@@ -24,6 +24,13 @@ section:not(#hero) {
   margin-top: 30px;
 }
 
+.img-responsive {
+  margin: 0 auto;
+}
+
+img.rounded {
+  border-radius: 6px;
+}
 
 
 /***********************************/
@@ -162,6 +169,10 @@ section:not(#hero) {
   display:none;
 }
 
+#bio a.btn {
+  margin:20px 0;
+}
+
 /***********************************/
 /************** BLOG *************/
 /*******************************/
@@ -184,6 +195,23 @@ section:not(#hero) {
 
 .space-left {
   margin-left:5px;
+}
+
+
+/***********************************/
+/************* ABOUT *************/
+/*******************************/
+#about a.btn {
+  margin:20px 0;
+}
+
+#about .founder-photo img {
+  margin-top:10px;
+  margin-bottom:20px;
+}
+
+#dflTeam img {
+  margin: 20px auto;
 }
 
 
@@ -356,6 +384,13 @@ footer {
 /***********************************/
 /********* MEDIA QUERIES *********/
 /*******************************/
+
+@media (min-width: 991px) {
+  #about .founder-photo {
+    float:right;
+  }
+}
+
 @media (max-width: 991px) {
   #testimonials {
     padding: 10px;
