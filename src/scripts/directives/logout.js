@@ -37,15 +37,26 @@ angular
               .then(function(user) {
                 console.log('current user data: ');
                 console.log(user);
-                elem.html('<li class="border-right">'
-                          +   '<a data-toggle="collapse" data-target=".navbar-collapse.in" href="/#/account">'
-                          +     'Hello, ' + user.firstName
-                          +     ' <i class="fa fa-gear"></i>'
-                          +   '</a>'
-                          + '</li>'
-                          + '<li class="logout">'
-                          +   '<a href="">Logout</a>'
-                          + '</li>');
+                if(user.provider === 'password') {
+                  elem.html('<li class="border-right">'
+                            +   '<a data-toggle="collapse" data-target=".navbar-collapse.in" href="/#/account">'
+                            +     'Hello, ' + user.firstName
+                            +     ' <i class="fa fa-gear"></i>'
+                            +   '</a>'
+                            + '</li>'
+                            + '<li class="logout">'
+                            +   '<a href="">Logout</a>'
+                            + '</li>');
+                } else {
+                  elem.html('<li class="border-right">'
+                            +   '<a data-toggle="collapse" data-target=".navbar-collapse.in" href="/#/my_plan">'
+                            +     'Hello, ' + user.firstName
+                            +   '</a>'
+                            + '</li>'
+                            + '<li class="logout">'
+                            +   '<a href="">Logout</a>'
+                            + '</li>');
+                }
               })
               .then(function(res) {
                 //attach logout event handler
