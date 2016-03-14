@@ -146,6 +146,21 @@ angular
         return currentUser;
       },
 
+      isOAuth: function() {
+        if (currentUser.provider === 'password') {
+          console.log('not an ouath user');
+          return false;
+        }
+
+        var authData = fireAuth.$getAuth()
+        if(authData.provider === 'facebook' || authData.provider === 'google') {
+          console.log('yes oauth');
+          return true;
+        } else {
+          return false;
+        }
+      },
+
       register: function(user) {
         //create user
         return fireAuth.$createUser({
@@ -171,6 +186,7 @@ angular
           ref.child('users').child(currentUser.uid).set({
               firstName: user.firstName,
               lastName: user.lastName,
+              email: user.email,
               provider: 'password',
               joined: timestamp
           }, function(error) {
