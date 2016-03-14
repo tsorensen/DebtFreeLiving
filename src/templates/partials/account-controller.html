@@ -1,7 +1,127 @@
 <section id="account">
   <div class="container">
+    <div class="col-sm-6 col-sm-offset-3">
+      <div class="row">
 
-    <h1>Your Account</h1>
+        <div class="col-sm-12 login-side">
+          <h2 class="text-center">Change Account Settings</h2>
+          <p>Change your account information using the form below.</p>
 
-  </div>
-</section>
+          <form id="account-form" ng-submit="update(account.accountInputs)">
+            <div class="form-group has-feedback">
+              <label for="firstName">First Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="First Name"
+                name="firstName"
+                value=""
+                ng-model="accountInputs.firstName">
+              <div class="form-control-feedback icons">
+                <i class="fa fa-user text-muted"></i>
+              </div>
+            </div>
+
+            <div class="form-group has-feedback">
+              <label for="lastName">Last Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Last Name"
+                name="lastName"
+                value=""
+                ng-model="accountInputs.lastName"
+                required>
+              <div class="form-control-feedback icons">
+                <i class="fa fa-user text-muted"></i>
+              </div>
+            </div>
+
+						<div class="form-group has-feedback has-feedback-left">
+              <label for="email">Email:</label>
+							<input
+                type="email"
+                class="form-control"
+                placeholder="Email"
+                name="email"
+                value=""
+                ng-model="accountInputs.email">
+							<div class="form-control-feedback icons">
+								<i class="fa fa-envelope text-muted"></i>
+							</div>
+						</div>
+
+            <div class="form-group has-feedback">
+              <label for="password">Change Password:</label>
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                name="password"
+                ng-model="accountInputs.password">
+              <div class="form-control-feedback icons">
+                <i class="fa fa-lock text-muted"></i>
+              </div>
+            </div>
+
+            <div class="form-group has-feedback">
+              <div class="form-control-feedback icons">
+                <i class="fa fa-lock text-muted"></i>
+              </div>
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Confirm Password"
+                name="confirmPassword"
+                ng-model="accountInputs.confirmPassword">
+            </div>
+
+            <div class="alert alert-danger" ng-show="updateError">
+              <p>{{ updateError }}</p>
+            </div>
+
+            <div class="alert alert-success" ng-show="updateSuccess">
+              <p>{{ updateSuccess }}</p>
+            </div>
+
+						<div class="form-group text-center pull-left">
+              <a href="/#/my_plan" class="btn btn-default">Cancel</a>
+              <span ng-show="updating === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+              <button ng-show="updating === false" type="submit" class="btn btn-success">Update Account</button>
+						</div>
+
+					</form><!-- /#account-form -->
+
+          <div class="form-group text-center pull-right">
+            <span ng-show="deleting === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+            <button ng-show="deleting === false" ng-click="toggleModal()" class="btn btn-danger">Delete Account</button>
+					</div>
+
+          <modal title="Are you sure?" visible="showModal">
+            <form id="delete-form" ng-submit="delete(deleteInput.confirmDelete)">
+              <div class="form-group">
+                <p>Type "delete" in the field below to continue.</p>
+              </div>
+              <div class="form-group">
+                <label for="confirmDelete">Confirm:</label>
+                <input ng-model="deleteInput.confirmDelete" type="text" class="form-control" id="confirmDelete" placeholder="delete" required/>
+              </div>
+
+              <div class="alert alert-danger" ng-show="deleteError">
+                <p>{{ deleteError }}</p>
+              </div>
+
+              <div class="alert alert-success" ng-show="deleteSuccess">
+                <p>{{ deleteSuccess }}</p>
+              </div>
+
+              <button type="submit" class="btn btn-danger">Delete Account</button>
+            </form>
+          </modal>
+
+        </div><!-- /.col -->
+
+      </div><!-- /.row -->
+    </div><!-- /.col 10 -->
+  </div><!-- /.container -->
+</section><!-- /#account -->
