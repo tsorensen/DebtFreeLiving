@@ -4,10 +4,10 @@ angular
 ])
 .directive('logout', [
   'auth',
-  '$route',
+  '$location',
   '$timeout',
   '$compile',
-  function(auth, $route, $timeout, $compile) {
+  function(auth, $location, $timeout, $compile) {
     return {
       restrict: 'AE',
       scope: {},
@@ -23,7 +23,7 @@ angular
           logoutText.innerHTML = 'Logging out...';
           $timeout(function(){
             auth.logout();
-            $route.reload();
+            $location.url('/login');
           }, 3000);
         };
 
