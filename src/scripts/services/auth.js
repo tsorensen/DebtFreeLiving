@@ -113,6 +113,9 @@ angular
             console.log('User data is set already');
             console.log(userData);
             return $q.resolve(userData);
+          } else if(!currentUser || !currentUser.uid) {
+            console.log("currentUser not available.  No one is logged in");
+            return $q.resolve();
           } else {
           return ref.child('users/' + currentUser.uid).once('value')
             .then(function(snapshot) {
@@ -135,7 +138,7 @@ angular
           return $q.resolve(currentUser);
         }
 
-        var authData = fireAuth.$getAuth()
+        var authData = fireAuth.$getAuth();
         if(authData) {
           console.log("Logged in as:", authData.uid);
           currentUser = authData;
@@ -152,7 +155,7 @@ angular
           return false;
         }
 
-        var authData = fireAuth.$getAuth()
+        var authData = fireAuth.$getAuth();
         if(authData.provider === 'facebook' || authData.provider === 'google') {
           console.log('yes oauth');
           return true;
