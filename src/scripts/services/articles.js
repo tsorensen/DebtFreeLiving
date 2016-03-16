@@ -6,7 +6,11 @@ angular
     '$http',
     'blogAppHost',
     '$filter',
-    function($http, host, $filter) {
+    '$firebaseArray',
+    function($http, host, $filter, $firebaseArray) {
+      var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
+      var articlesRef = ref.child('articles');
+
       return {
 
         create: function(data, file) {
@@ -76,32 +80,32 @@ angular
         }, //end read
 
         readAll: function() {
-          return $http
-            .get(host + '/articles')
-            .then(function(res) {
+          var query = articlesRef.orderByChild("date");
+          var articles = $firebaseArray(articlesRef);
+          console.log('here are the articles: ');
+          console.log(articles);
+          console.log(articles.length);
+          return articles.$loaded()
+            .then(function(){
+                angular.forEach(articles, function(article) {
+                  article._id = article.$id;
 
-              //loop through object of article objects
-              Object.keys(res.data).map(function(id, index) {
-                var article = res.data[id];
+                  //render html using filter
+                  article.body = $filter('renderHtml')(article.body);
 
-                //set article id as attribute
-                article._id = id;
+                  //split categories into array
+                  if(article.category) {
+                    article.category = article.category.split(', ');
+                  }
 
-                //render html using filter
-                article.body = $filter('renderHtml')(article.body);
+                  //format dates using moment
+                  article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+                  console.log(article);
+                });
 
-                //split categories into array
-                if(article.category) {
-                  article.category = article.category.split(', ');
-                }
-
-                //format dates using moment
-                article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
-              });
-
-              return res.data;
+                return articles;
             });
-        }, //end readAll
+        },
 
         update: function(articleId, data) {
           return $http
