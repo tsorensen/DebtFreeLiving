@@ -14,6 +14,9 @@ angular
       var self = this;
       self.articles = [];
       self.categories = [];
+      self.query = {}
+      self.queryBy = '$';
+      self.orderProp = 'title';
 
       function getArticles() {
         articles.readAll()

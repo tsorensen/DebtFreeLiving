@@ -4,45 +4,48 @@
     <h1 class="page-header text-center">Blog</h1>
 
     <!-- Blog Entries Column -->
-    <div class="col-md-8">
+    <div class="col-md-8 search-results">
 
-        <!-- Blog Posts -->
-        <div class="articles" ng-repeat="article in blog.articles">
-          <h2>
-              <a href="#/articles/{{ article._id }}">{{ article.title }}</a>
-          </h2>
-          <p class="">
-              by <span class="author">{{ article.author }}</span>
-              <span class="glyphicon glyphicon-time space-left"></span> Posted on {{ article.date }}
-              <span ng-if="article.category" class="fa fa-folder-open space-left"></span>
-              <span class="cat-wrapper" ng-if="article.category" ng-repeat="cat in article.category">
-                <a href="#/search/category/{{ cat }}" class="categories" >{{ cat }}</a>{{ $last ? '' : ', '}}
-              </span>
-          </p>
+      <!-- Blog Posts -->
+      <div class="articles" ng-repeat="article in blog.articles | filter:blog.query">
+        <h2>
+            <a href="#/articles/{{ article._id }}">{{ article.title }}</a>
+        </h2>
+        <p class="">
+            by <span class="author">{{ article.author }}</span>
+            <span class="glyphicon glyphicon-time space-left"></span> Posted on {{ article.date }}
+            <span ng-if="article.category" class="fa fa-folder-open space-left"></span>
+            <span class="cat-wrapper" ng-if="article.category" ng-repeat="cat in article.category">
+              <a href="#/search/category/{{ cat }}" class="categories" >{{ cat }}</a>{{ $last ? '' : ', '}}
+            </span>
+        </p>
 
-          <div ng-if="article.image" class="article-img">
-            <hr>
-            <a href="#/articles/{{ article._id }}"><img class="img-responsive" ng-src="images/uploads/{{article.image}}" alt="Article image"></a>
-            <hr>
-          </div>
-
-          <div class="excerpt" ng-bind-html="(article.body | limitHtml:300) + '...'"></div>
-          <a class="read-more btn btn-primary" href="#/articles/{{ article._id }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
+        <div ng-if="article.image" class="article-img">
+          <hr>
+          <a href="#/articles/{{ article._id }}"><img class="img-responsive" ng-src="images/uploads/{{article.image}}" alt="Article image"></a>
           <hr>
         </div>
 
+        <div class="excerpt" ng-bind-html="(article.body | limitHtml:300) + '...'"></div>
+        <a class="read-more btn btn-primary" href="#/articles/{{ article._id }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
-        <!-- Pagination -->
-        <!-- <ul class="pager">
-            <li class="previous">
-                <a href="#">← Older</a>
-            </li>
-            <li class="next">
-                <a href="#">Newer →</a>
-            </li>
-        </ul> -->
+        <hr>
+      </div>
     </div><!-- /col -->
+
+      <!-- Pagination -->
+      <!-- <div class="col-sm-12 text-center">
+        <ul class = "pagination pagination-lg">
+           <li><a href = "">&laquo;</a></li>
+           <li><a href = "">1</a></li>
+           <li><a href = "">2</a></li>
+           <li><a href = "">3</a></li>
+           <li><a href = "">4</a></li>
+           <li><a href = "">5</a></li>
+           <li><a href = "">&raquo;</a></li>
+        </ul>
+      </div> -->
+
 
     <!-- Blog Sidebar Widgets Column -->
     <div class="col-md-4">
@@ -51,7 +54,7 @@
         <div class="well">
             <h4>Blog Search</h4>
             <div class="input-group">
-                <input type="text" class="form-control">
+                <input id="searchbox" type="text" class="form-control" ng-model="blog.query[blog.queryBy]">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">
                         <span class="glyphicon glyphicon-search"></span>
@@ -59,6 +62,15 @@
                 </span>
             </div>
             <!-- /.input-group -->
+            <h4>Search By:</h4>
+            <select class="form-control" ng-model="queryBy">
+              <option value="$"></option>
+              <option value="title">Title</option>
+              <option value="category">Category</option>
+              <option value="date">Date</option>
+              <option value="author">author</option>
+              <option value="body">Text content</option>
+            </select>
         </div>
 
         <!-- Recent Articles Well -->
