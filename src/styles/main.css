@@ -353,11 +353,11 @@ img.rounded {
 /************************************/
 /************* ACCOUNT ************/
 /********************************/
-#account-form input {
+#account form input {
   padding-left:30px;
 }
 
-#account-form .icons {
+#account form .icons {
   left:0;
 }
 
