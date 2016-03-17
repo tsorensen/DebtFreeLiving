@@ -10,7 +10,8 @@ angular
     'articles',
     '$scope',
     '$filter',
-    function(articles, $scope, $filter) {
+    '$location',
+    function(articles, $scope, $filter, $location) {
       var self = this;
       self.articles = [];
       self.categories = [];
@@ -18,6 +19,12 @@ angular
       //blog search variables for filter
       self.query = {}
       self.queryBy = '$';
+
+      //check for query string params - search params from article page
+      if($location.search()) {
+        self.queryBy = 'category';
+        self.query[self.queryBy] = $location.search().search;
+      }
 
       self.clearSearch = function() {
         self.query = {}
