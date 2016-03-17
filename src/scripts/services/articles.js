@@ -7,7 +7,8 @@ angular
     'blogAppHost',
     '$filter',
     '$firebaseArray',
-    function($http, host, $filter, $firebaseArray) {
+    '$firebaseObject',
+    function($http, host, $filter, $firebaseArray, $firebaseObject) {
       var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
       var articlesRef = ref.child('articles');
 
@@ -55,36 +56,41 @@ angular
         }, //end createComment
 
         read: function(articleId) {
-          return $http
-          .get(host + '/articles/' + articleId)
-          .then(function(res) {
-            //render html
-            res.data.body = $filter('renderHtml')(res.data.body);
+          var article = $firebaseObject(articlesRef.child(articleId));
 
-            //format dates
-            res.data.date = moment(res.data.date).format('MMM DD, YYYY hh:mm a');
+          return article.$loaded(
+            function(article) {
+              //render html
+              article.body = $filter('renderHtml')(article.body);
 
-            //if there are comments, format comment dates as well
-            if(res.data.comments) {
-              //loop through object of comments objects
-              Object.keys(res.data.comments).map(function(id, index) {
-                var comment = res.data.comments[id];
-                //set comment id
-                comment._id = id;
-                comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
-              });
+              //format dates
+              article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+
+              //if there are comments, format comment dates as well
+              if(article.comments) {
+                //loop through object of comments objects
+                Object.keys(article.comments).map(function(id, index) {
+                  var comment = article.comments[id];
+                  //set comment id
+                  comment._id = id;
+                  comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
+                });
+              }
+
+              return article;
+            },
+            function(error) {
+              console.error("Error retrieving article by ID:", error);
+              return $q.reject(error);
             }
+          );//end $loaded
 
-            return res.data;
-          });
         }, //end read
 
         readAll: function() {
           var query = articlesRef.orderByChild("date");
           var articles = $firebaseArray(articlesRef);
-          console.log('here are the articles: ');
-          console.log(articles);
-          console.log(articles.length);
+
           return articles.$loaded()
             .then(function(){
                 angular.forEach(articles, function(article) {
@@ -100,7 +106,6 @@ angular
 
                   //format dates using moment
                   article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
-                  console.log(article);
                 });
 
                 return articles;
