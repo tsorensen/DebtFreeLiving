@@ -12,11 +12,11 @@
 
             <!-- Author -->
             <p class="">
-                by <span class="author">{{ article.author }}</span>
+                by <span class="author">{{ article.content.author }}</span>
                 <span class="glyphicon glyphicon-time space-left"></span> Posted on {{ article.content.date }}
                 <span ng-if="article.content.category" class="fa fa-folder-open space-left"></span>
                 <span class="cat-wrapper" ng-if="article.content.category" ng-repeat="cat in article.content.category.split(', ')">
-                  <a href="#/search/category/{{ cat }}" class="categories" >{{ cat }}</a>{{ $last ? '' : ', '}}
+                  <a href="#/blog?search={{ cat }}&by=category" class="categories" >{{ cat }}</a>{{ $last ? '' : ', '}}
                 </span>
             </p>
             <hr>
@@ -107,18 +107,27 @@
       <div class="col-md-4">
 
           <!-- Blog Search Well -->
-          <div class="well">
+          <!-- <div class="well">
               <h4>Blog Search</h4>
               <div class="input-group">
-                  <input type="text" class="form-control">
+                  <input id="searchbox" type="text" class="form-control" ng-model="article.query[article.queryBy]">
                   <span class="input-group-btn">
                       <button class="btn btn-default" type="button">
                           <span class="glyphicon glyphicon-search"></span>
                   </button>
                   </span>
               </div>
-              <!-- /.input-group -->
-          </div>
+              <!--
+              <h4>Search By:</h4>
+              <select class="form-control" ng-change="article.clearSearch()" ng-model="article.queryBy">
+                <option value="$"></option>
+                <option value="title">Title</option>
+                <option value="category">Category</option>
+                <option value="date">Date</option>
+                <option value="author">Author</option>
+                <option value="body">Text content</option>
+              </select>
+          </div> -->
 
           <!-- Recent Articles Well -->
           <div class="well">
@@ -142,14 +151,14 @@
                   <div class="col-lg-6">
                       <ul class="list-unstyled">
                           <li ng-repeat='cat_odds in article.categories' ng-if="$index % 2 !== 0">
-                              <a href="#/search/category/{{ cat_odds }}">{{ cat_odds }}</a>
+                              <a href="#/blog?search={{ cat_odds }}&by=category">{{ cat_odds }}</a>
                           </li>
                       </ul>
                   </div>
                   <div class="col-lg-6">
                       <ul class="list-unstyled">
                           <li ng-repeat='cat_evens in article.categories' ng-if="$index % 2 === 0">
-                              <a href="#/search/category/{{ cat_evens }}">{{ cat_evens }}</a>
+                              <a href="#/blog?search={{ cat_evens }}&by=category">{{ cat_evens }}</a>
                           </li>
                       </ul>
                   </div>
