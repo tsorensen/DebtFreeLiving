@@ -14,9 +14,20 @@ angular
       var self = this;
       self.articles = [];
       self.categories = [];
+
+      //blog search variables for filter
       self.query = {}
       self.queryBy = '$';
-      self.orderProp = 'title';
+
+      self.clearSearch = function() {
+        self.query = {}
+      };
+
+      self.categorySearch = function(category) {
+        self.query = {};
+        self.queryBy = 'category';
+        self.query[self.queryBy] = category;
+      };
 
       function getArticles() {
         articles.readAll()

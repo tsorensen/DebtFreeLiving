@@ -16,7 +16,7 @@
             <span class="glyphicon glyphicon-time space-left"></span> Posted on {{ article.date }}
             <span ng-if="article.category" class="fa fa-folder-open space-left"></span>
             <span class="cat-wrapper" ng-if="article.category" ng-repeat="cat in article.category">
-              <a href="#/search/category/{{ cat }}" class="categories" >{{ cat }}</a>{{ $last ? '' : ', '}}
+              <a href="" ng-click="blog.categorySearch(cat)" class="categories" >{{ cat }}</a>{{ $last ? '' : ', '}}
             </span>
         </p>
 
@@ -63,12 +63,12 @@
             </div>
             <!-- /.input-group -->
             <h4>Search By:</h4>
-            <select class="form-control" ng-model="queryBy">
+            <select class="form-control" ng-change="blog.clearSearch()" ng-model="blog.queryBy">
               <option value="$"></option>
               <option value="title">Title</option>
               <option value="category">Category</option>
               <option value="date">Date</option>
-              <option value="author">author</option>
+              <option value="author">Author</option>
               <option value="body">Text content</option>
             </select>
         </div>
@@ -95,14 +95,14 @@
                 <div class="col-lg-6">
                     <ul class="list-unstyled">
                         <li ng-repeat='cat_odds in blog.categories' ng-if="$index % 2 !== 0">
-                            <a href="#/search/category/{{ cat_odds }}">{{ cat_odds }}</a>
+                            <a href="" ng-click="blog.categorySearch(cat_odds)">{{ cat_odds }}</a>
                         </li>
                     </ul>
                 </div>
                 <div class="col-lg-6">
                     <ul class="list-unstyled">
                         <li ng-repeat='cat_evens in blog.categories' ng-if="$index % 2 === 0">
-                            <a href="#/search/category/{{ cat_evens }}">{{ cat_evens }}</a>
+                            <a href="" ng-click="blog.categorySearch(cat_evens)">{{ cat_evens }}</a>
                         </li>
                     </ul>
                 </div>
