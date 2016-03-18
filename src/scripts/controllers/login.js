@@ -14,7 +14,11 @@ angular
     function(auth, users, $location, $route, $window, $timeout, $rootScope) {
       //auth check
       if(auth.isLoggedIn()) {
+        if($location.search().article) {
+          $location.url('/articles/' + $location.search().article);
+        } else {
           $location.url('/my_plan');
+        }
       }
 
       var self = this;
