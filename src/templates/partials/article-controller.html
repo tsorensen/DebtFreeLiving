@@ -36,36 +36,46 @@
           <!-- Blog Comments -->
           <!-- Comments Form -->
           <div class="well">
-              <h4>Leave a Comment:</h4>
-              <form id="comment-form" role="form" enctype="multipart/form-data" ng-submit="article.submit(article.inputs)">
-                <div class="form-group has-feedback">
-                  <label class="labels" for="title">Name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    placeholder="Your name"
-                    name="name"
-                    ng-model="article.inputs.name">
-                </div>
+              <form ng-if="article.isLoggedIn === true" id="comment-form" role="form" enctype="multipart/form-data" ng-submit="article.submit(article.inputs)">
+                <h4>Leave a Comment:</h4>
                 <div class="form-group">
-                    <label class="labels" for="comment">Comment</label>
                     <textarea
                       class="form-control"
                       rows="3"
                       ng-model="article.inputs.comment"
                       id="comment"
-                      name="comment">
+                      name="comment"
+                      rqeuired>
                     </textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+
+                <div class="alert alert-danger" ng-show="article.saveCommentError">
+                  <p>{{ article.saveCommentError }}</p>
+                </div>
+
+                <div class="alert alert-success" ng-show="article.saveCommentSuccess">
+                  <p>{{ article.saveCommentSuccess }}</p>
+                </div>
+
+                <input type="hidden" name="name" ng-model="article.inputs.name">
+                <div class="form-group">
+                  <span ng-show="article.savingComment === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+                  <button ng-show="article.savingComment === false" type="submit" class="btn btn-primary">Submit Comment</button>
+                </div>
               </form>
+              <div ng-if="article.isLoggedIn === false">
+                <p>You must be logged in to comment</p>
+                <a href="/#/login?article={{ article.id }}" class="btn btn-primary">Login</a>
+              </div>
           </div>
 
 
           <!-- Posted Comments -->
-          <div ng-if="article.content.comments" class="media" ng-repeat="comment in article.content.comments">
-              <a class="pull-left" href="#">
+          <div ng-if="article.comments" class="media" ng-repeat="comment in article.comments">
+              <!-- <div class="user-icon pull-left">
+                <i class="fa fa-user fa-3x"></i>
+              </div> -->
+              <a class="pull-left" href="">
                   <img class="media-object" src="http://placehold.it/64x64" alt="">
               </a>
               <div class="media-body">
@@ -75,6 +85,10 @@
                   {{ comment.comment }}
               </div>
           </div>
+          <div ng-if="article.comments.length === 0" class="media">
+              <p>No comments yet.</p>
+          </div>
+
 
           <!-- Comment w/ nested comment -->
           <!-- <div class="media">
@@ -105,7 +119,9 @@
 
       <!-- Blog Sidebar Widgets Column -->
       <div class="col-md-4">
-
+          <div class="well text-center">
+            <a href="/#/blog" class="btn btn-lg btn-block btn-primary">Back to Blog</a>
+          </div>
           <!-- Blog Search Well -->
           <!-- <div class="well">
               <h4>Blog Search</h4>
