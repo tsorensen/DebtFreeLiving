@@ -6,9 +6,10 @@ angular
     '$http',
     'blogAppHost',
     '$filter',
+    '$q',
     '$firebaseArray',
     '$firebaseObject',
-    function($http, host, $filter, $firebaseArray, $firebaseObject) {
+    function($http, host, $filter, $q, $firebaseArray, $firebaseObject) {
       var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
       var articlesRef = ref.child('articles');
 
@@ -38,22 +39,64 @@ angular
         }, //end create
 
         createComment: function(comment) {
-          var fd = new FormData();
+          var articleId = comment.id;
+          //get timestamp to insert into comment date field
+          var timestamp = new Date().getTime();
+          //makes comments sort from newest to oldest
+          var priority = 0 - Date.now();
 
-          for(var attr in comment) {
-            fd.append(attr, comment[attr]);
-          }
+          //create reference to comments object and article comments by id
+          var commentsRef = ref.child('comments/' + articleId);
+          var userCommentsRef = ref.child('articles/' + articleId + '/comments/');
 
-          return $http
-            .post(host + '/comments', fd, {
-              transformRequest: angular.identity,
-              headers: {'Content-Type': undefined}
+          var newCommentRef = commentsRef.push();
+          //creates id reference in article document to comment by id
+          var newUserCommentRef = userCommentsRef.push({
+            commentRefId: newCommentRef.name(),
+            name: comment.name,
+            date: timestamp,
+          });
+
+          //set with priority lets us prioritize comments based on date
+          return newCommentRef.setWithPriority({
+            name: comment.name,
+            date: timestamp,
+            comment: comment.content,
+            articleId: articleId,
+            articleName: comment.articleName,
+            approved: false,
+            nestedId: ''
+          },
+          priority,
+          function(error) {
+            if(error) {
+              console.log('Error saving new comment:', error);
+              return $q.reject(error);
+            } else {
+              console.log('Comment saved successfully!');
+              return $q.resolve();
+            }
+          });
+        },//end createComment
+
+        getComments: function(articleId) {
+          var query = ref.child('comments/' + articleId);
+          var comments = $firebaseArray(query);
+
+          return comments.$loaded()
+            .then(function(){
+                angular.forEach(comments, function(comment) {
+                  //format dates using moment
+                  comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
+                });
+
+                return comments;
             })
-            .then(function(res) {
-              console.log('Comment submitted successfully');
-              return res.data;
+            .catch(function(error) {
+              console.log('There was an error getting comments.');
+              return $q.reject(error);
             });
-        }, //end createComment
+        },
 
         read: function(articleId) {
           var article = $firebaseObject(articlesRef.child(articleId));
