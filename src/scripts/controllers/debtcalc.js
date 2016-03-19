@@ -8,6 +8,9 @@ angular
 
       $scope.initList = [];
 
+      //Create an array for the final output
+      $scope.finalOutput = [];
+
       //Create an array to hold information for each loan
       $scope.loanList = [];
 
@@ -73,6 +76,8 @@ angular
               $scope.loanList[i].thisIndex
             )
             console.log("hit 3: " + $scope.loanList[$scope.loanList.length -1].calcDesc);
+
+            calculateOutput($scope.loanList);
           };
         }
 
@@ -112,6 +117,22 @@ angular
         console.log("Hit 2")
         return termLength;
     };
+
+    //Create function to begin creating the final output
+    function calculateOutput(loanList){
+
+      var highestTerm = 0;
+
+      //Loop through the loan list to find the highest term length.
+      for(k = 0; k < loanList.length; k++){
+        if(loanList[k].calcTerm > highestTerm){
+          highestTerm = loanList[k].calcTerm;
+        }
+      };
+
+
+    };
+
   };
 }
 
