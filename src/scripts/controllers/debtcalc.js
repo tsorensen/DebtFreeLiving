@@ -6,6 +6,14 @@ angular
     '$scope',
     function($scope) {
 
+      //Initialize DataTables
+      var table = $('#outputTable').DataTable({
+        "searching": false,
+        "ordering": false,
+        "paging": false,
+      });
+
+      //Initialize Data Tables
       $scope.initList = [];
 
       //Create an array for the final output
@@ -69,7 +77,17 @@ angular
           };
         }
 
+        //Use the termCalc function to get the final output.
+        console.log("hit 1");
         termCalc($scope.loanList);
+        console.log("hit 2");
+        //Remove the last item from the finalOutput array.
+        //$scope.finalOutput.pop();
+
+        //Clear all data from the table and add the finalOutput array.
+        table.clear();
+        table.rows.add($scope.finalOutput);
+        table.draw();
 
         //Calculate the term of every object.
         function termCalc(loanList){
@@ -79,8 +97,6 @@ angular
           for(k=0; k < loanList.length; k++){
             totalBalance += loanList[k].calcBalance;
           }
-
-          console.log("Total balance: " + totalBalance);
 
           while(totalBalance > 0){
             //As long as the total balance is anything higher than 0, push a new object to the array that will contain
@@ -100,12 +116,14 @@ angular
               //If the principal payment is less than or equal to 0, return an error
               if(principal <= 0) {
                 $scope.errorAmount = monthlyIntPmt + 1;
-                $scope.errorMessage = "ERROR: The interest collected on \"" + $scope.loanList[i].calcDesc + "\" (Debt #"+[i + 1]+") is higher than the payment amount. To add this debt to your elimination plan, your monthly payment must be $" + $scope.errorAmount + " or higher.";
+                $scope.errorMessage = "ERROR: The interest collected is higher than the payment amount. To add this debt to your elimination plan, your monthly payment must be $" + $scope.errorAmount + " or higher.";
                 $scope.loanList.splice(loanList[j].thisIndex, 1);
+                console.log("Hit 5");
               }
 
               else if(principal > 0){
                 loanList[j].calcBalance -= principal;
+                totalBalance -= principal;
                 $scope.errorMessage = null;
                 $scope.errorAmount = null;
 
@@ -120,13 +138,15 @@ angular
                   }
                   loanList[j].calcPayment = 0;
                 }
+                console.log("Final Payment :" + finalPayment);
 
                 $scope.finalOutput[$scope.finalOutput.length - 1].push(
                   loanList[j].calcPayment
                 );
+
               }
-            }
-          }
+            }   console.log("hit 3: " + totalBalance);
+          }  console.log("hit 4");
         };
       };
     }
