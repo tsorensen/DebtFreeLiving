@@ -15,28 +15,52 @@ angular
 
       return {
 
-        create: function(data, file) {
-          var fd = new FormData();
+        create: function(article, image) {
+          //saves new article + image to Firebase
+          var deferred = $q.defer();
+          var FR = new FileReader();
 
-          for(var attr in data) {
-            fd.append(attr, data[attr]);
-          }
+          FR.onload = function(e) {
+            console.log('in onload');
+            var imageString = e.target.result;
+            //have to do it this way to return a promise
+            deferred.resolve(saveArticle(imageString, article));
+          };
 
-          if(file) {
-            fd.append('file', file);
-          }
+          //save the article using the passed in imagestring
+          function saveArticle(imageString, article) {
+            var timestamp = new Date().getTime();
+            //makes articles sort from newest to oldest
+            var priority = 0 - Date.now();
 
-          return $http
-            .post(host + '/articles', fd, {
-              transformRequest: angular.identity,
-              headers: {'Content-Type': undefined}
+      	    //create URL that refers to a specific article and add images + article data as an array-like object
+            var syncArray = $firebaseArray(articlesRef);
+
+            return syncArray.$add({
+                title:    article.title,
+                author:   article.author,
+                date:     timestamp,
+                category: article.category,
+                body:     article.content,
+                image:    imageString,
+                comments: "",
+                $priority: priority
+      	    })
+            .then(function(article) {
+                console.log('Article and image have been uploaded successfully.');
+                return $q.resolve();
             })
-            .then(function(res) {
-              console.log('here is the return from the save:');
-              console.log(res.data);
-              return res.data;
+            .catch(function(error) {
+              console.log('Error with uploading article.', error);
+              return $q.reject(error);
             });
-        }, //end create
+          }
+
+
+          FR.readAsDataURL(image);
+          //returns a promise
+          return deferred.promise;
+        },//end create
 
         createComment: function(comment) {
           var articleId = comment.id;
