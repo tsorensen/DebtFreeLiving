@@ -5,25 +5,107 @@ angular
 .factory('users', [
   '$http',
   'blogAppHost',
-  function($http, host) {
-    var users = {
-      create: function(user) {
-        var fd = new FormData();
+  '$q',
+  '$firebaseAuth',
+  function($http, host, $q, $firebaseAuth) {
+    var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
+    var fireAuth = $firebaseAuth(ref);
 
-        for(var attr in user) {
-          fd.append(attr, user[attr]);
+    var users = {
+      resetPassword: function(email) {
+        return fireAuth.$resetPassword({
+          email: email
+        })
+        .then(function() {
+          console.log("Password reset email sent successfully!");
+        })
+        .catch(function(error) {
+          console.error("Error: ", error);
+          return $q.reject(error);
+        });
+      },
+
+      changeName: function(firstName, lastName, uid) {
+        if(!uid) {
+          //don't update the database without the uid
+          return $q.reject('Missing user ID');
         }
 
-        return $http
-          .post(host + '/users', fd, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-          })
-          .then(function(res) {
-            console.log(res);
-            return res.data;
-          });
-      }
+        return ref.child('users/' + uid).update({
+            "firstName": firstName,
+            "lastName": lastName
+        }, function(error) {
+          if (error) {
+            console.log("Error changing account name:", error.code);
+            return $q.reject(error);
+          } else {
+            console.log('Successfully changed account name');
+          }
+        }); //end update
+      },
+
+      changeEmail: function(oldEmail, newEmail, password, uid) {
+        if(!uid) {
+          //don't update the database without the uid
+          return $q.reject('Missing user ID');
+        }
+
+        return fireAuth.$changeEmail({
+          password: password,
+          oldEmail: oldEmail,
+          newEmail: newEmail
+        }).then(function() {
+          console.log("Email changed successfully!");
+          //now update email in the DB
+          return ref.child('users/' + uid).update({
+              "email": newEmail
+          }, function(error) {
+            if (error) {
+              console.log("Error changing account email:", error.code);
+              return $q.reject(error);
+            } else {
+              console.log('Successfully changed account email');
+            }
+          }); //end update
+
+        }).catch(function(error) {
+          console.error("Error changing email: ", error);
+          return $q.reject(error);
+        });
+      },
+
+      changePassword: function(email, oldPassword, newPassword) {
+        return fireAuth.$changePassword({
+          email: email,
+          oldPassword: oldPassword,
+          newPassword: newPassword
+        }).then(function() {
+          console.log("Password changed successfully!");
+        }).catch(function(error) {
+          console.error("Error changing password: ", error);
+          return $q.reject(error);
+        });
+      },
+
+      deleteAccount: function(email, password, uid) {
+        if(!uid) {
+          //don't update the database without the uid
+          return $q.reject('Missing user ID');
+        }
+
+        return fireAuth.$removeUser({
+          email: email,
+          password: password
+        }).then(function() {
+          console.log("User removed successfully!");
+          //removes the users data from the DB
+          ref.child('users/' + uid).remove();
+        }).catch(function(error) {
+          console.error("Error removing user: ", error);
+          return $q.reject(error);
+        });
+      },
+
     };
 
     return users;

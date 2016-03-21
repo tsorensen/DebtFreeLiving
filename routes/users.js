@@ -15,25 +15,60 @@ exports.register = function(req, res) {
     } else {
       console.log("Successfully created user account with uid:", userData.uid);
 
-      //save user data to DB
-      var timestamp = new Date().getTime();
-      usersRef.child(userData.uid).set({
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          provider: 'password',
-          joined: timestamp
-      }, function(error) {
+      ref.authWithPassword({
+        email    : req.body.email,
+        password : req.body.password
+      }, function(error, authData) {
         if (error) {
-          console.log("Error saving user to database:", error.code);
+          console.log("Login Failed!", error);
           res.status(401);
           res.send(error.code);
         } else {
-          res.send('Successfully created account');
-        }
-      });
 
-    }
-  });
+          //save user data to DB
+          var timestamp = new Date().getTime();
+          usersRef.child(userData.uid).set({
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
+              provider: 'password',
+              joined: timestamp
+          }, function(error) {
+            if (error) {
+              console.log("Error saving user to database:", error.code);
+              res.status(401);
+              res.send(error.code);
+            } else {
+              res.send('Successfully created account');
+            }
+          }); //end set
+        } //end else
+      }); //end authWithPassword
+
+    } //end else
+  }); //end createUser
+}; //end exports.register
+
+//get user data, ie name, origin, date joined, etc.
+exports.getUserData = function(req, res) {
+  var authData = ref.getAuth();
+
+  if(authData) {
+    var id = authData.uid;
+    var usersRef = ref.child('users/' + id);
+
+    usersRef.once('value', function(snapshot) {
+      res.json(snapshot.val());
+    }, function (errorObject) {
+      console.log("Failed getting user data by ID: " + errorObject.code);
+      res.send("Failed getting user data by ID: " + errorObject.code);
+    });
+
+  } else {
+    console.log("No user is logged in");
+    res.status(401);
+    res.send("No user is logged in");
+  }
+
 };
 
 exports.login = function(req, res) {
@@ -66,7 +101,9 @@ exports.getUser = function(req, res) {
 };
 
 exports.logout = function(req, res) {
-
+  ref.unauth();
+  console.log("User has successfully logged out");
+  res.send("User has successfully logged out");
 };
 
 exports.changeEmail = function(req, res) {

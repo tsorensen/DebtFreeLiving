@@ -1,0 +1,213 @@
+<section id="account">
+  <div class="container">
+    <div class="col-sm-6 col-sm-offset-3">
+      <div class="row">
+
+        <div class="col-sm-12">
+          <h2 class="text-center">Change Account Settings</h2>
+          <p>Change your account information using the forms below.</p>
+        </div><!-- /.col -->
+
+        <div class="col-sm-12 panel panel-default">
+          <div clas="panel-body">
+            <h3 class="text-center">Name</h3>
+            <form id="name-form" ng-submit="account.updateName(account.nameInputs)">
+                <div class="form-group has-feedback">
+                  <label for="firstName">First Name:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="First Name"
+                    name="firstName"
+                    value=""
+                    ng-model="account.nameInputs.firstName"
+                    required>
+                  <div class="form-control-feedback icons">
+                    <i class="fa fa-user text-muted"></i>
+                  </div>
+                </div>
+
+                <div class="form-group has-feedback">
+                  <label for="lastName">Last Name:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Last Name"
+                    name="lastName"
+                    value=""
+                    ng-model="account.nameInputs.lastName"
+                    required>
+                  <div class="form-control-feedback icons">
+                    <i class="fa fa-user text-muted"></i>
+                  </div>
+                </div>
+
+                <div class="alert alert-danger" ng-show="account.updateNameError">
+                  <p>{{ account.updateNameError }}</p>
+                </div>
+
+                <div class="alert alert-success" ng-show="account.updateNameSuccess">
+                  <p>{{ account.updateNameSuccess }}</p>
+                </div>
+
+                <div class="form-group">
+                  <span ng-show="account.updatingName === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+                  <button ng-show="account.updatingName === false" type="submit" class="btn btn-success">Update Name</button>
+                </div>
+            </form>
+          </div><!-- /.panel-body -->
+        </div><!-- /.col -->
+
+        <div class="col-sm-12 panel panel-default">
+          <div clas="panel-body">
+            <h3 class="text-center">Email</h3>
+            <form id="email-form" ng-submit="account.updateEmail(account.emailInputs.email, account.emailInputs.password)">
+              <div class="form-group has-feedback">
+                <label for="email">Pasword is required to change email:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Password"
+                  name="password"
+                  ng-model="account.emailInputs.password"
+                  required>
+                <div class="form-control-feedback icons">
+                  <i class="fa fa-lock text-muted"></i>
+                </div>
+              </div>
+
+  						<div class="form-group has-feedback has-feedback-left">
+                <label for="email">Email:</label>
+  							<input
+                  type="email"
+                  class="form-control"
+                  placeholder="Email"
+                  name="email"
+                  value=""
+                  ng-model="account.emailInputs.email"
+                  required>
+  							<div class="form-control-feedback icons">
+  								<i class="fa fa-envelope text-muted"></i>
+  							</div>
+  						</div>
+
+              <div class="alert alert-danger" ng-show="account.updateEmailError">
+                <p>{{ account.updateEmailError }}</p>
+              </div>
+
+              <div class="alert alert-success" ng-show="account.updateEmailSuccess">
+                <p>{{ account.updateEmailSuccess }}</p>
+              </div>
+
+              <div class="form-group">
+                <span ng-show="account.updatingEmail === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+                <button ng-show="account.updatingEmail === false" type="submit" class="btn btn-success">Update Email</button>
+              </div>
+            </form>
+          </div><!-- /.panel-body -->
+        </div><!-- /.col -->
+
+        <div class="col-sm-12 panel panel-default">
+          <div clas="panel-body">
+            <h3 class="text-center">Password</h3>
+            <form id="password-form" ng-submit="account.updatePassword(account.passwordInputs)">
+              <div class="form-group has-feedback">
+                <label for="email">Old Password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Old Password"
+                  name="password"
+                  ng-model="account.passwordInputs.password"
+                  required>
+                <div class="form-control-feedback icons">
+                  <i class="fa fa-lock text-muted"></i>
+                </div>
+              </div>
+
+              <div class="form-group has-feedback">
+                <label for="password">Change Password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="New Password"
+                  name="newPassword"
+                  ng-model="account.passwordInputs.newPassword"
+                  required>
+                <div class="form-control-feedback icons">
+                  <i class="fa fa-lock text-muted"></i>
+                </div>
+              </div>
+
+              <div class="form-group has-feedback">
+                <div class="form-control-feedback icons">
+                  <i class="fa fa-lock text-muted"></i>
+                </div>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Confirm New Password"
+                  name="confirmNewPassword"
+                  ng-model="account.passwordInputs.confirmNewPassword"
+                  required>
+              </div>
+
+              <div class="alert alert-danger" ng-show="account.updatePasswordError">
+                <p>{{ account.updatePasswordError }}</p>
+              </div>
+
+              <div class="alert alert-success" ng-show="account.updatePasswordSuccess">
+                <p>{{ account.updatePasswordSuccess }}</p>
+              </div>
+
+              <div class="form-group">
+                <input type="hidden" name="passwordChangeEmail" ng-model="account.passwordInputs.email">
+                <span ng-show="account.updatingPassword === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+                <button ng-show="account.updatingPassword === false" type="submit" class="btn btn-success">Update Password</button>
+              </div>
+
+  					</form><!-- /#password-form -->
+          </div><!-- /.panel-body -->
+        </div><!-- /.col -->
+
+        <div class="col-sm-12 text-center">
+            <button ng-click="toggleDeleteModal()" class="btn btn-danger">Delete Account</button>
+        </div><!-- /.col -->
+
+        <modal title="Are you sure?" visible="deleteModal">
+          <form id="delete-form" ng-submit="account.delete(account.deleteInputs.email, account.deleteInputs.password)">
+            <p>Enter your password to delete your account.  <span class="text-danger">Warning</span>: this is not reversible!</p>
+            <div class="form-group has-feedback">
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                name="password"
+                ng-model="account.deleteInputs.password"
+                required>
+              <div class="form-control-feedback icons">
+                <i class="fa fa-lock text-muted"></i>
+              </div>
+            </div>
+
+            <div class="alert alert-danger" ng-show="account.deleteError">
+              <p>{{ account.deleteError }}</p>
+            </div>
+
+            <div class="alert alert-success" ng-show="account.deleteSuccess">
+              <p>{{ account.deleteSuccess }}</p>
+            </div>
+
+            <div class="form-group">
+              <input type="hidden" name="deleteEmail" ng-model="account.deleteInputs.email">
+              <span ng-show="account.deleting === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+              <button ng-show="account.deleting === false" type="submit" class="btn btn-danger">Delete Account</button>
+            </div>
+          </form>
+        </modal>
+
+
+      </div><!-- /.row -->
+    </div><!-- /.col 10 -->
+  </div><!-- /.container -->
+</section><!-- /#account -->

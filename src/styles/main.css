@@ -24,6 +24,13 @@ section:not(#hero) {
   margin-top: 30px;
 }
 
+.img-responsive {
+  margin: 0 auto;
+}
+
+img.rounded {
+  border-radius: 6px;
+}
 
 
 /***********************************/
@@ -54,6 +61,13 @@ section:not(#hero) {
     margin-top: 22px;
 }
 
+.nav.navbar-right {
+  font-size:14px;
+}
+
+.nav.navbar-nav.navbar-right .logout a {
+  color: #a94442;
+}
 
 /*****************************/
 /*********** HOME **********/
@@ -115,7 +129,6 @@ section:not(#hero) {
 /* Testimonials */
 #testimonials {
   background: #efefef;
-  border-radius: 8px;
   padding: 40px;
 }
 
@@ -156,12 +169,16 @@ section:not(#hero) {
   display:none;
 }
 
+#bio a.btn {
+  margin:20px 0;
+}
+
 /***********************************/
 /************** BLOG *************/
 /*******************************/
 .read-more {
   margin-top:20px;
-  margin-bottom:50px;
+  margin-bottom:30px;
 }
 
 .title {
@@ -181,8 +198,25 @@ section:not(#hero) {
 }
 
 
+/***********************************/
+/************* ABOUT *************/
+/*******************************/
+#about a.btn {
+  margin:20px 0;
+}
+
+#about .founder-photo img {
+  margin-top:10px;
+  margin-bottom:20px;
+}
+
+#dflTeam img {
+  margin: 20px auto;
+}
+
+
 /************************************/
-/************** LOGIN *************/
+/***** LOGIN/FORGOT PASSWORD ******/
 /********************************/
 .panel {
   background: #efefef;
@@ -213,11 +247,15 @@ section:not(#hero) {
   border-left:none;
 }
 
-#login-form input, #register-form input {
+#login-form input,
+#register-form input,
+#forgot-form input {
   padding-left:30px;
 }
 
-#login-form .icons, #register-form .icons {
+#login-form .icons,
+#register-form .icons,
+#forgot-form .icons {
   left:0;
 }
 
@@ -266,6 +304,64 @@ section:not(#hero) {
   color:#fff;
 }
 
+/************************************/
+/*********** DASHBOARD ************/
+/********************************/
+#dashboard .panel {
+  margin-bottom: 20px;
+  border-color: #ddd;
+  color: #333;
+}
+
+.panel-flat>.panel-heading {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #fff;
+}
+
+#dashboard .panel-body,
+#dashboard .panel-footer,
+#dashboard .panel-heading,
+#dashboard .panel-title {
+    position: relative;
+}
+.h5.panel-title, h5.panel-title {
+    font-size: 17px;
+}
+
+#dashboard .panel-flat>.panel-heading+.panel-body {
+    padding-top: 0;
+}
+
+.chart, .chart-container {
+    position: relative;
+    width: 100%;
+}
+
+.chart {
+    display: block;
+}
+.chart, .chart-container {
+    position: relative;
+    width: 100%;
+}
+.chart-pie, .has-fixed-height {
+    height: 400px;
+}
+
+
+/************************************/
+/************* ACCOUNT ************/
+/********************************/
+#account form input {
+  padding-left:30px;
+}
+
+#account form .icons {
+  left:0;
+}
+
+
 /***********************************/
 /************* FOOTER ************/
 /*******************************/
@@ -298,6 +394,13 @@ footer {
 /***********************************/
 /********* MEDIA QUERIES *********/
 /*******************************/
+
+@media (min-width: 991px) {
+  #about .founder-photo {
+    float:right;
+  }
+}
+
 @media (max-width: 991px) {
   #testimonials {
     padding: 10px;
@@ -325,6 +428,25 @@ footer {
 
   .login-side .border-right {
     display:none;
+  }
+
+  .heading-elements .icons-list {
+      margin-top: 9px;
+  }
+
+  .heading-elements .breadcrumb, .heading-elements .daterange-custom,
+  .heading-elements .heading-btn, .heading-elements .heading-form,
+  .heading-elements .heading-text, .heading-elements .icons-list,
+  .heading-elements .nav-pills, .heading-elements .nav-tabs,
+  .heading-elements .noui-slider, .heading-elements .pager,
+  .heading-elements .pagination, .heading-elements .progress,
+  .heading-elements .ui-slider, .heading-elements>.btn-group {
+      float: left;
+      margin-left: 20px;
+  }
+
+  .heading-elements-toggle {
+    display: none;
   }
 
 }

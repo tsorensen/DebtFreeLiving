@@ -6,10 +6,16 @@ angular
     'HomeController',
     'AddController',
     'LoginController',
+    'ForgotController',
+    'DashboardController',
+    'DebtCalcController',
+    'MenuController',
+    'AboutController',
+    'AccountController',
     'ezfb',
     'ngAnimate',
-    'DebtCalcController',
     'logoutDirective',
+    'firebase',
   ])
   .config([
     '$routeProvider',
@@ -51,14 +57,26 @@ angular
         })
         .when('/about', {
           templateUrl: '/partials/about-controller.html',
+          controller: 'AboutController',
+          controllerAs: 'about',
         })
         .when('/privacy_policy', {
           templateUrl: '/partials/privacy-policy-controller.html',
         })
         .when('/my_plan', {
-          templateUrl: '/partials/calc-controller.html',
-          controller: 'DebtCalcController',
-          controllerAs: 'loan'
+          templateUrl: '/partials/dashboard-controller.html',
+          controller: 'DashboardController',
+          controllerAs: 'dashboard'
+        })
+        .when('/account', {
+          templateUrl: '/partials/account-controller.html',
+          controller: 'AccountController',
+          controllerAs: 'account'
+        })
+        .when('/forgot', {
+          templateUrl: '/partials/forgot-controller.html',
+          controller: 'ForgotController',
+          controllerAs: 'forgot'
         })
         .otherwise('/');
     }

@@ -1,7 +1,5 @@
 angular
   .module('LoginController', [
-    'ui.bootstrap',
-    'ngAnimate',
     'blogApp.auth',
     'blogApp.users',
   ])
@@ -10,42 +8,67 @@ angular
     'users',
     '$location',
     '$route',
-    function(auth, users, $location, $route) {
+    '$window',
+    '$timeout',
+    '$rootScope',
+    function(auth, users, $location, $route, $window, $timeout, $rootScope) {
+      //auth check
+      if(auth.isLoggedIn()) {
+        if($location.search().article) {
+          $location.url('/articles/' + $location.search().article);
+        } else {
+          $location.url('/my_plan');
+        }
+      }
+
       var self = this;
       self.submitting = false;
       self.loggingIn = false;
 
-      auth.isLoggedIn().then(function(isLoggedIn) {
-        console.log('here is the auth stuff: ');
-        console.log(isLoggedIn);
-        if (isLoggedIn) {
-          $location.url('/my_plan');
-        }
-      });
-
-      self.signin = function(data) {
+      self.login = function(data) {
         self.loggingIn = true;
         self.loginError = null;
         self.loginSuccess = null;
 
         self.loginUser(data.email, data.password, data.remember)
           .then(function(res) {
-            self.loginSuccess = 'Login successful...';
-            $location.url('/my_plan');
+            $rootScope.$broadcast('auth-userLoginChange');
+            $timeout(function(){ $route.reload() }, 3000);
           })
-          .catch(function(res) {
+          .catch(function(error) {
             //there was an error logging the user in
             console.log('there was an error with login');
-            console.log(res);
-            var error;
-            if(res.data === 'INVALID_PASSWORD') {
+            console.log(error);
+            if(error.code === 'INVALID_PASSWORD') {
               self.loginError = 'Invalid email and password combination. Please try again.';
-            } else if(res.data === 'INVALID_USER') {
+            } else if(error.code === 'INVALID_USER' || error.code === 'INVALID_EMAIL') {
               self.loginError = "We couldn't find an account with that email address.  Please check your email address above or register an account.";
             } else {
               self.loginError = 'There was an error logging you in.';
             }
             self.loggingIn = false;
+          });
+      };
+
+      self.oauth = function(provider) {
+        self.loginError = null;
+        self.loginSuccess = null;
+        self.oauthUser(provider)
+          .then(function(res) {
+            $rootScope.$broadcast('auth-userLoginChange');
+            $timeout(function(){ $route.reload() }, 3000);
+          })
+          .catch(function(error) {
+            console.log('there was an error with oauth login');
+            console.log(error);
+            console.log(error.code);
+            if(error.code === 'INVALID_CREDENTIALS') {
+              self.loginError = "We couldn't log you in with the credentials you provided for " + provider + '.';
+            } else if(error.code === 'USER_CANCELLED') {
+              self.loginError = "You have cancelled your login with " + provider + '.';
+            } else {
+              self.loginError = 'There was an error logging you in with ' + provider + '.';
+            }
           });
       };
 
@@ -60,29 +83,35 @@ angular
           self.submitting = false;
           return;
         } else if (data.terms !== true) {
-          self.registerError = 'You must agree to the Terms of Service before registering';
+          self.registerError = 'You must agree to the Terms of Service before registering.';
           self.submitting = false;
           return;
         }
 
         //create new user account
-        self.createUser(data.email, data.password, data.firstName, data.lastName)
+        self.registerUser(data.email, data.password, data.firstName, data.lastName)
           .then(function(res) {
-              self.registerSuccess = 'Your account has been created successfully, you are now being logged in...';
-              $location.url('/my_plan');
+              $rootScope.$broadcast('auth-userLoginChange');
+              $timeout(function(){ $route.reload() }, 5000);
           })
-          .catch(function(res) {
+          .catch(function(err) {
             //there was a problem creating a new user account
-            var error;
-            if(res.data === 'EMAIL_TAKEN') {
+            if(err.code === 'EMAIL_TAKEN') {
               //make the error more understandable
-              error = 'Email is already in use';
+              self.registerError = 'That email is already in use. Unable to create account.';
+            } else {
+              self.registerError = 'There was an error creating your account';
             }
             self.submitting = false;
-            self.registerError = 'There was an error creating your account: ' + error;
+
           });
       };
 
+
+      /**
+       * Helper functions for logging in/registering users.
+       *
+       */
       self.loginUser = function(email, password, remember) {
         var user = {
           email: email,
@@ -90,28 +119,37 @@ angular
           remember: remember
         };
 
-        return auth
-          .login(user)
+        return auth.login(user)
           .then(function(res) {
             console.log('User has been successfully logged in');
             console.log(res);
-            $route.reload();
-          })
-      }
+            //successful login
+            self.loginSuccess = 'Login successful...';
+          });
+      };
 
-      self.createUser = function(email, password, firstName, lastName) {
+      self.oauthUser = function(provider) {
+        return auth.oauth(provider)
+          .then(function(res) {
+            console.log('User has been successfully logged in');
+            console.log(res);
+            //successful login
+            self.loginSuccess = 'Login with ' + provider + ' successful...';
+          });
+      };
+
+      self.registerUser = function(email, password, firstName, lastName) {
         var user = {
           email: email,
           password: password,
           firstName: firstName,
           lastName: lastName
         };
-        return users
-          .create(user)
+        return auth.register(user)
           .then(function(res) {
             console.log('Account has been created successfully');
-            //account has been created successfully, log the new user in
-            return auth.login(user);
+            //account has been created successfully, user has also been logged in
+            self.registerSuccess = 'Your account has been created successfully, you are now being logged in...';
           });
       };
 

@@ -1,8 +1,83 @@
 <section id="about">
   <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h4>About Us</h4>
+      </div>
+      <div class="col-md-4 text-center founder-photo">
+        <img src="/images/Einar_Schow.JPG" class="img-circle img-responsive" alt="Photo of Einar Schow"/>
+      </div><!-- div class="col-md-4 text-center" -->
 
-    <!-- HTML for About page goes here -->
-    <h1>This is a test</h1>
+      <div class="col-md-8">
+        <p>
+          Einar Schow was one of the co-founders of Debt Free Living in 1996, and served as the President and CEO.  He was instrumental
+          in creating the original Debt Elimination Plan, which assisted American Families in the quest to become completely debt free,
+          including their mortgage.  Einar has a long history of helping families design and successfully implement their debt elimination
+          plans by giving them access to effective tools and educating them on the how to eliminate debt as quickly and effectively as possible.
+        </p>
+        <p>
+          Over the years, Einar has continued to be a student of all of the processes and products available for helping people become debt free.
+          The underlying principles of debt elimination are simple to understand, but require a commitment to a consistent application of a plan.
+          This web-site is dedicated to helping people understand how to eliminate their debt.
+        </p>
 
+        <a href="/#/login" class="btn btn-primary">Create Your Free Debt Elimination Plan Today &gt;&gt;</a>
+      </div><!-- /.col-md-8 -->
+
+    </div><!-- /.row -->
   </div><!-- /.container -->
-</div><!-- /#about -->
+</section>
+
+<section id="testimonials">
+  <div class="container">
+      <uib-carousel interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
+          <uib-slide ng-repeat="testimonial in testimonials" active="testimonial.active" index="testimonial.id">
+            <!-- ng-swipe-x for mobile -->
+            <img ng-src="">
+            <div class="testimonials" ng-swipe-right="showPrev()" ng-swipe-left="showNext()">
+              <div class="row">
+                <div class="col-md-4">
+                  <img class="img-circle testimonial-image" ng-src="{{testimonial.image}}">
+                </div>
+                <div class="col-md-8">
+                  <div class="text-wrapper">
+                    <p class="testimonial-text">"{{testimonial.text}}"</p>
+                    <p class="testimonial-name">~ {{testimonial.name}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </uib-slide>
+      </uib-carousel>
+    </div><!-- /container -->
+</section>
+
+<section id="dflTeam">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h4>Debt Free Living Development Team</h4>
+
+        <p>
+          This web application is brought to you, as a free debt elimination resource, by Einar Schow, a
+          professional CEPA Financial Planner. It was built through UVU's College of Technology and Computing
+          as a senior project during the 2015-2016 school year.
+        </p>
+        <p>
+          Design and development done by <a href="http://tysonsorensen.com" target="_blank">Tyson Sorensen</a>, <a href="#" target="_blank">Micah Schow</a>,
+          and <a href="http://www.russannjohnson.com" target="_blank">Russann Johnson</a>, using Angular 1.x and Firebase.
+        </p>
+        <p>
+          Many thanks to our UVU advisors Dr. Paul Cheney, Thor (Thortek) Anderson, and
+          Keith Smith.
+        </p>
+
+      </div><!-- div class= "col-md-8" -->
+
+      <div class="col-md-4">
+        <img src="/images/group_square.jpg" class="img-responsive rounded" alt="Photo of DFL Development Team"/>
+      </div><!-- div class="col-md-4 text-center" -->
+    </div><!-- div class= "row" -->
+  </div><!-- div class= "container" -->
+</section>
