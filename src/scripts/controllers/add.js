@@ -9,9 +9,11 @@ angular
     'articles',
     '$location',
     '$scope',
-    function(articles, $location, $scope) {
+    '$timeout',
+    function(articles, $location, $scope, $timeout) {
       var self = this;
       self.image = '';
+      self.savingArticle = false;
 
       function resetAddForm() {
         self.create = {
@@ -25,10 +27,15 @@ angular
       resetAddForm();
 
       self.submit = function (data) {
-        var file = $scope.myFile || '';
-        console.log('here is the file: ');
-        console.log(file);
-        console.log(self);
+        self.savingArticle = true;
+        self.saveArticleError = null;
+        self.saveArticleSuccess = null;
+
+        var image = $scope.myFile || '';
+        console.log('here is the image: ');
+        console.log(image);
+        console.log('article data: ');
+        console.log(data);
 
         var article = {
           title: data.title,
@@ -37,14 +44,22 @@ angular
           content: data.content
         };
 
-        articles.create(article, file)
-          .then(function() {
-            $location.url('blog');
+        return articles.create(article, image)
+          .then(function(res) {
+            console.log(res);
+            self.saveArticleSuccess = 'This article has been saved successfully.';
+            $timeout(function() {
+              self.savingArticle = false;
+              $location.url('/admin');
+            }, 3000);
             console.log('success');
           })
-          .catch(function(res) {
+          .catch(function(error) {
             console.log('There was an error: ');
-            console.log(res.data);
+            console.log(error);
+            console.log(error.code);
+            self.saveArticleError = 'There was an error saving the article: ' + error;
+            self.savingArticle = false;
           });
       };
 
