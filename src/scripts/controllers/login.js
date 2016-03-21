@@ -14,8 +14,8 @@ angular
     function(auth, users, $location, $route, $window, $timeout, $rootScope) {
       //auth check
       if(auth.isLoggedIn()) {
-        if($location.search().article) {
-          $location.url('/articles/' + $location.search().article);
+        if($location.search().page) {
+          $location.url('/' + $location.search().page);
         } else {
           $location.url('/my_plan');
         }
