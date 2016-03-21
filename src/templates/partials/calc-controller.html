@@ -5,7 +5,7 @@
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
           <h1 class="mainHeader">Debt Elimination Plan</h1>
-          <h2>{{ initList | json }}</h2>
+          <h2>{{ finalOutput }}</h2>
         <div class="panel panel-default">
           <div class="panel-body">
             <form ng-submit="calcLoans()">
@@ -67,26 +67,30 @@
 
       <br />
 
+      <div ng-repeat="item in finalOutput"><div ng-repeat="payment in item.payments">{{ payment[$index] }}</div></div>
+
       <h2>Loan Info</h2>
+
+      <div ng-repeat="item in finalOutput">
+        {{ item.month }}
+
+        <ul>
+          <li ng-repeat="payment in item.payments">{{payment}}</li>
+        </ul>
+      </div>
+
+
+
+
       <table class="table">
         <thead>
-          <tr>
-            <th>Loan</th>
-            <th>Int %</th>
-            <th>Initial Payment</th>
-            <th>Altered Payment</th>
-            <th>Term</th>
-            <th>Prev Term</th>
+            <th>Month</th>
+            <th ng-repeat="loan in loanList">{{ loan.calcDesc }}</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="loan in loanList">
-            <td>{{ loan.calcDesc }}</td>
-            <td>{{ loan.calcIntRate }}</td>
-            <td>{{ loan.calcPayment }}</td>
-            <td>{{ loan.finishedPayment }}</td>
-            <td>{{ loan.calcTerm }}</td>
-            <td>{{ loan.prevTerm }}</td>
+          <tr ng-repeat="item in finalOutput">
+            <td ng-repeat="data in item">{{ data }}</td>
           </tr>
         </tbody>
       </table>

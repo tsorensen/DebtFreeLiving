@@ -32,8 +32,9 @@ angular
       //Function to add loan objects to the loan list above
       $scope.calcLoans = function(){
 
-        //Clear the loanList array
+        //Clear the loanList array and the final output array
         $scope.loanList = [];
+        $scope.finalOutput = [];
 
         //Loop through the initList array
         for(j=0; j < $scope.initList.length; j++){
@@ -65,75 +66,68 @@ angular
               $scope.loanList[i].prevPayment = $scope.loanList[i-1].finishedPayment;
               $scope.loanList[i].prevTerm = $scope.loanList[i-1].calcTerm;
             }
-
-            //Calculate or recalculate term length of each object
-            $scope.loanList[i].calcTerm = termCalc(
-              $scope.loanList[i].calcBalance,
-              $scope.loanList[i].calcIntRate,
-              $scope.loanList[i].calcPayment,
-              $scope.loanList[i].prevTerm,
-              $scope.loanList[i].finishedPayment,
-              $scope.loanList[i].thisIndex
-            )
-            console.log("hit 3: " + $scope.loanList[$scope.loanList.length -1].calcDesc);
-
-            calculateOutput($scope.loanList);
           };
         }
 
+        termCalc($scope.loanList);
 
         //Calculate the term of every object.
-        function termCalc(newBal, newInt, newPymnt, previousTerm, finishedPymnt, itemIndex){
-        var termLength = 0;
-        var monthInt = newInt / 1200;
-        var theBal = newBal;
-        while(theBal > 0){
-          //If the life of the current loan is lower than the life of the loan with the previous index, add the regular payment.
-          if (termLength <= previousTerm || itemIndex === 0){
-            var monthlyIntPmt = theBal * monthInt;
-            var principal = newPymnt - monthlyIntPmt;
-            if(principal <= 0) {
-              $scope.errorAmount = monthlyIntPmt + 1;
-              $scope.errorMessage = "ERROR: The interest collected on \"" + $scope.loanList[i].calcDesc + "\" (Debt #"+[i + 1]+") is higher than the payment amount. To add this debt to your elimination plan, your monthly payment must be $" + $scope.errorAmount + " or higher.";
-              $scope.loanList.splice(itemIndex, 1);
-              theBal = 0;
-            } else if(principal > 0){
-            theBal -= principal;
-            termLength++;
-            $scope.errorMessage = null;
-            $scope.errorAmount = null;
-            }
-          } else if (termLength > previousTerm){
-            //If the life of the current loan is higher than the life of the loan with the previous index, add the second payment.
-            var monthlyIntPmt = theBal * monthInt;
-            var principal = finishedPymnt - monthlyIntPmt;
-            theBal -= principal;
-            termLength++;
-            console.log("hit");
-            $scope.errorMessage = null;
-            $scope.errorAmount = null;
+        function termCalc(loanList){
+
+          var totalBalance = 0;
+
+          for(k=0; k < loanList.length; k++){
+            totalBalance += loanList[k].calcBalance;
           }
-        }
-        console.log("Hit 2")
-        return termLength;
-    };
 
-    //Create function to begin creating the final output
-    function calculateOutput(loanList){
+          console.log("Total balance: " + totalBalance);
 
-      var highestTerm = 0;
+          while(totalBalance > 0){
+            //As long as the total balance is anything higher than 0, push a new object to the array that will contain
+            //an array of additional objects including the description and the payment owed.
+            $scope.finalOutput.push(
+                [$scope.finalOutput.length + 1]
+                    )
 
-      //Loop through the loan list to find the highest term length.
-      for(k = 0; k < loanList.length; k++){
-        if(loanList[k].calcTerm > highestTerm){
-          highestTerm = loanList[k].calcTerm;
-        }
+            for(j=0; j < loanList.length; j++){
+
+              var monthInt = loanList[j].calcIntRate / 1200;
+
+              //If the life of the current loan is lower than the life of the loan with the previous index, add the regular payment.
+              var monthlyIntPmt = loanList[j].calcBalance * monthInt;
+              var principal = loanList[j].calcPayment - monthlyIntPmt;
+
+              //If the principal payment is less than or equal to 0, return an error
+              if(principal <= 0) {
+                $scope.errorAmount = monthlyIntPmt + 1;
+                $scope.errorMessage = "ERROR: The interest collected on \"" + $scope.loanList[i].calcDesc + "\" (Debt #"+[i + 1]+") is higher than the payment amount. To add this debt to your elimination plan, your monthly payment must be $" + $scope.errorAmount + " or higher.";
+                $scope.loanList.splice(loanList[j].thisIndex, 1);
+              }
+
+              else if(principal > 0){
+                loanList[j].calcBalance -= principal;
+                $scope.errorMessage = null;
+                $scope.errorAmount = null;
+
+                var finalPayment = 0;
+                var snowballPayment = 0;
+
+                if(loanList[j].calcBalance < loanList[j].calcPayment){
+                  finalPayment = loanList[j].calcPayment - loanList[j].calcBalance;
+                  snowballPayment = loanList[j].calcPayment - finalPayment;
+                  if(loanList[j+1]){
+                    loanList[j + 1].calcPayment += snowballPayment;
+                  }
+                  loanList[j].calcPayment = 0;
+                }
+
+                $scope.finalOutput[$scope.finalOutput.length - 1].push(
+                  loanList[j].calcPayment
+                );
+              }
+            }
+          }
+        };
       };
-
-
-    };
-
-  };
-}
-
+    }
   ]);
