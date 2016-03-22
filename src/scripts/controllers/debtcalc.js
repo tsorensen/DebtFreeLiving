@@ -6,12 +6,8 @@ angular
     '$scope',
     function($scope) {
 
-      //Initialize DataTables
-      var table = $('#outputTable').DataTable({
-        "searching": false,
-        "ordering": false,
-        "paging": false,
-      });
+      var table;
+      $scope.columns = [];
 
       //Hide table until values are entered
       var showTable = true;
@@ -57,8 +53,7 @@ angular
               calcBalance: parseFloat($scope.initList[j].balance),
               calcIntRate: parseFloat($scope.initList[j].intRate),
               calcPayment: parseFloat($scope.initList[j].payment),
-              staticPayment: parseFloat($scope.initList[j].payment),
-              paidOff: false
+              staticPayment: parseFloat($scope.initList[j].payment)
             })
 
           //Arrange all objects in loanList by interest rate by highest to lowest
@@ -84,11 +79,14 @@ angular
 
         //Use the termCalc function to get the final output.
         termCalc($scope.loanList);
+        createColumns($scope.loanList);
 
-        //Clear all data from the table and add the finalOutput array.
-        table.clear();
-        table.rows.add($scope.finalOutput);
-        table.draw();
+        table = $('#outputTable').DataTable( {
+            "searching": false,
+            "ordering": false,
+            data: $scope.finalOutput,
+            columns: $scope.columns
+        } );
 
         //Calculate the term of every object.
         function termCalc(loanList){
@@ -141,18 +139,27 @@ angular
                 thisMonthsPayment
               );
 
-              /*if(loanList[j].calcBalance <= 0){
-                loanList[j].paidOff = true;
-              }*/
-
               loanList[j].calcBalance -= principal;
               totalBalance -= principal;
 
-              if(loanList[j+1] != undefined && loanList[j].paidOff == false){
+              if(loanList[j+1] != undefined){
                 loanList[j + 1].calcPayment = loanList[j+1].staticPayment + snowballPayment;
                 console.log(j + " - " + $scope.finalOutput.length + "Snowball distributed :" + snowballPayment);
               }
             }
+          }
+        };
+
+        function createColumns(loanList){
+
+          $scope.columns.push(
+            { title: "Month" }
+          );
+
+          for(j=0; j < loanList.length; j++){
+            $scope.columns.push(
+              { title: loanList[j].calcDesc }
+            );
           }
         };
       };

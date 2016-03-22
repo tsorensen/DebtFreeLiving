@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
-          <h1 class="mainHeader">Debt Elimination Plan</h1>
+          <h1 class="mainHeader">My Plan</h1>
         <div class="panel panel-default">
           <div class="panel-body">
             <form ng-submit="calcLoans()">
@@ -60,23 +60,9 @@
 
       <!--<h2 ng-repeat="loans in loanList">{{ loans.calcDesc + ": " + loans.thisIndex }}</h2>-->
 
-      <h2>Loan Info</h2>
+      <h2>Debt-Elimination Plan</h2>
 
-
-      <table id="outputTable" class="table">
-        <thead>
-            <tr>
-                <th>Months</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Row 1</td>
-                <td>Row 1</td>
-            </tr>
-        </tbody>
-      </table>
+      <table id="outputTable" class="table"></table>
 
 
       <h2>{{ finalOutput }}</h2>
