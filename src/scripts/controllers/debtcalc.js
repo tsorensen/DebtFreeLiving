@@ -5,7 +5,7 @@ angular
   .controller('DebtCalcController', [
     '$scope',
     'auth',
-    function($scoped, auth) {
+    function($scope, auth) {
 
       if(!auth.isLoggedIn()) {
         $location.url('/login')
