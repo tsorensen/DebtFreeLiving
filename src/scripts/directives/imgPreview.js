@@ -14,7 +14,15 @@ angular
           };
 
           elem.on('change', function() {
-            var name = elem[0].files[0].type;
+            var name = elem[0].files.length > 0 ? elem[0].files[0].type : null;
+
+            //if they go to select a different file but cancel
+            if(!name) {
+              scope.adder.image = '';
+              scope.$apply();
+              return;
+            }
+
             var regex = new RegExp("(.*?)\.(jpg|jpeg|JPG|JPEG|png|PNG|tiff|TIFF|gif|GIF)$");
               if(!(regex.test(name))) {
                 scope.adder.error = 'Error: File type is not an image. Please select a valid image file.';
