@@ -9,9 +9,11 @@ angular
     'articles',
     '$location',
     '$scope',
-    function(articles, $location, $scope) {
+    '$timeout',
+    function(articles, $location, $scope, $timeout) {
       var self = this;
       self.image = '';
+      self.savingArticle = false;
 
       function resetAddForm() {
         self.create = {
@@ -25,26 +27,43 @@ angular
       resetAddForm();
 
       self.submit = function (data) {
-        var file = $scope.myFile || '';
-        console.log('here is the file: ');
-        console.log(file);
-        console.log(self);
+        self.savingArticle = true;
+        self.saveArticleError = null;
+        self.saveArticleSuccess = null;
+
+        if(!data.title || !data.author || !data.content) {
+          self.saveArticleError = 'The Title, Author, and Body fields are required.';
+          self.savingArticle = false;
+          return;
+        }
+
+        var image = $scope.myFile || '';
+        data.category = data.category ? data.category.toLowerCase() : '';
+        console.log('here is the image: ');
+        console.log(image);
+        console.log('article data: ');
+        console.log(data);
 
         var article = {
           title: data.title,
           author: data.author,
-          category: data.category.toLowerCase(),
+          category: data.category,
           content: data.content
         };
 
-        articles.create(article, file)
-          .then(function() {
-            $location.url('blog');
-            console.log('success');
+        return articles.create(article, image)
+          .then(function(res) {
+            self.saveArticleSuccess = 'This article has been saved successfully.';
+            $timeout(function() {
+              self.savingArticle = false;
+              $location.url('/admin');
+            }, 3000);
           })
-          .catch(function(res) {
-            console.log('There was an error: ');
-            console.log(res.data);
+          .catch(function(error) {
+            console.log('There was an error: ', error);
+            console.log(error.code);
+            self.saveArticleError = 'There was an error saving the article: ' + error;
+            self.savingArticle = false;
           });
       };
 

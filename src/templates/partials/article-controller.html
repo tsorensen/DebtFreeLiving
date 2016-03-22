@@ -23,7 +23,7 @@
 
             <!-- article image -->
             <div ng-if="article.content.image" class="article-img">
-              <img class="img-responsive" ng-src="images/uploads/{{article.content.image}}" alt="Article image">
+              <img class="img-responsive" src="{{article.content.image}}" alt="Article image">
               <hr>
             </div>
 
@@ -65,7 +65,7 @@
               </form>
               <div ng-if="article.isLoggedIn === false">
                 <p>You must be logged in to comment</p>
-                <a href="/#/login?article={{ article.id }}" class="btn btn-primary">Login</a>
+                <a href="/#/login?page=article/{{ article.id }}" class="btn btn-primary">Login</a>
               </div>
           </div>
 

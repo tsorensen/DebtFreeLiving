@@ -4,7 +4,6 @@ angular
     'BlogController',
     'ArticleController',
     'HomeController',
-    'AddController',
     'LoginController',
     'ForgotController',
     'DashboardController',
@@ -12,9 +11,13 @@ angular
     'MenuController',
     'AboutController',
     'AccountController',
+    'AdminController',
+    'AddController',
+    'EditController',
     'ezfb',
     'ngAnimate',
     'logoutDirective',
+    'adminLinkDirective',
     'firebase',
   ])
   .config([
@@ -47,11 +50,6 @@ angular
           controller: 'ArticleController',
           controllerAs: 'article',
         })
-        .when('/add', {
-          templateUrl: '/partials/add-article-controller.html',
-          controller: 'AddController',
-          controllerAs: 'adder',
-        })
         .when('/terms_of_service', {
           templateUrl: '/partials/tos-controller.html',
         })
@@ -77,6 +75,21 @@ angular
           templateUrl: '/partials/forgot-controller.html',
           controller: 'ForgotController',
           controllerAs: 'forgot'
+        })
+        .when('/admin', {
+          templateUrl: '/partials/admin-controller.html',
+          controller: 'AdminController',
+          controllerAs: 'admin'
+        })
+        .when('/admin/add', {
+          templateUrl: '/partials/add-article-controller.html',
+          controller: 'AddController',
+          controllerAs: 'adder',
+        })
+        .when('/admin/edit/:id', {
+          templateUrl: '/partials/edit-article-controller.html',
+          controller: 'EditController',
+          controllerAs: 'adder',
         })
         .otherwise('/');
     }

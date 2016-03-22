@@ -7,7 +7,7 @@
   	<div class="col-md-10 col-md-offset-1">
 
   			<form
-          id="add-form"
+          id="edit-form"
           enctype="multipart/form-data"
           ng-submit="adder.submit(adder.inputs)">
 
@@ -72,7 +72,7 @@
               <span class="sr-only">Error:</span>
               {{ adder.error }}
             </div>
-    				<img class="img-responsive" src="{{ adder.image ? adder.image : 'http://placehold.it/750x250' }}" alt="Article image" accept="image/*">
+    				<img class="img-responsive" src="{{ adder.image ? adder.image : adder.inputs.image ? adder.inputs.image : 'http://placehold.it/750x250' }}" alt="Article image" accept="image/*">
     			</div>
 
   				<div class="form-group has-feedback description">
@@ -92,7 +92,7 @@
           <div class="form-group">
             <a href="/#/admin" class="btn btn-default">Cancel</a>
             <span ng-show="adder.savingArticle === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
-            <button ng-show="adder.savingArticle === false" type="submit" class="submit-btn btn btn-primary">Add Article</button>
+            <button ng-show="adder.savingArticle === false" type="submit" class="submit-btn btn btn-primary">Save Changes</button>
           </div>
   			</form>
 

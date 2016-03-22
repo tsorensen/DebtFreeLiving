@@ -15,28 +15,57 @@ angular
 
       return {
 
-        create: function(data, file) {
-          var fd = new FormData();
+        create: function(article, image) {
+          //saves new article + image to Firebase
+          var deferred = $q.defer();
 
-          for(var attr in data) {
-            fd.append(attr, data[attr]);
+          if(image) {
+            var FR = new FileReader();
+
+            FR.onload = function(e) {
+              console.log('in onload');
+              var imageString = e.target.result;
+              //have to do it this way to return a promise
+              deferred.resolve(saveArticle(imageString, article));
+            };
+            FR.readAsDataURL(image);
+          } else {
+            deferred.resolve(saveArticle('', article));
           }
 
-          if(file) {
-            fd.append('file', file);
-          }
 
-          return $http
-            .post(host + '/articles', fd, {
-              transformRequest: angular.identity,
-              headers: {'Content-Type': undefined}
+          //save the article using the passed in imagestring
+          function saveArticle(imageString, article) {
+            var timestamp = new Date().getTime();
+            //makes articles sort from newest to oldest
+            var priority = 0 - Date.now();
+
+      	    //create URL that refers to a specific article and add images + article data as an array-like object
+            var syncArray = $firebaseArray(articlesRef);
+
+            return syncArray.$add({
+                title:    article.title,
+                author:   article.author,
+                date:     timestamp,
+                category: article.category,
+                body:     article.content,
+                image:    imageString,
+                comments: "",
+                $priority: priority
+      	    })
+            .then(function(article) {
+                console.log('Article and image have been uploaded successfully.');
+                return $q.resolve();
             })
-            .then(function(res) {
-              console.log('here is the return from the save:');
-              console.log(res.data);
-              return res.data;
+            .catch(function(error) {
+              console.log('Error with uploading article.', error);
+              return $q.reject(error);
             });
-        }, //end create
+          }
+
+          //returns a promise
+          return deferred.promise;
+        },//end create
 
         createComment: function(comment) {
           var articleId = comment.id;
@@ -163,12 +192,39 @@ angular
             });
         }, //end update
 
-        delete: function(data) {
-          return $http
-            .delete(host + '/articles/' + data.id)
-            .then(function(res) {
-              return res.data;
-            });
+        delete: function(articleId) {
+          if(!articleId) {
+            //don't update the database without the uid
+            return $q.reject('Missing article ID.  Unable to delete article.');
+          }
+
+          var article = $firebaseObject(articlesRef.child(articleId));
+          var commentsRef = $firebaseObject(ref.child('comments/' + articleId));
+          var commentsExist = false;
+          commentsRef.$loaded(function() {
+             commentsExist = commentsRef.$value !== null;
+          });
+
+          return article.$remove()
+            .then(function(ref) {
+
+              //if the article has comments, delete those as well
+              if(commentsExist) {
+                commentsRef.$remove()
+                  .then(function(ref) {
+                    console.log('Article and comments deleted successfully.');
+                  })
+                  .catch(function(error) {
+                    console.log("Article was deleted but error deleting comments:", error);
+                    return $q.reject(error);
+                  });
+              }
+
+              console.log('Article has been deleted successfully.');
+            }, function(error) {
+              console.log("Error deleting article:", error);
+              return $q.reject(error);
+          });
         }, //end delete
 
       }; //end object return
