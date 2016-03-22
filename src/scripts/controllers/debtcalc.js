@@ -1,10 +1,15 @@
 angular
   .module('DebtCalcController', [
-
+    'blogApp.auth'
   ])
   .controller('DebtCalcController', [
     '$scope',
-    function($scope) {
+    'auth',
+    function($scope, auth) {
+
+      if(!auth.isLoggedIn()) {
+        $location.url('/login')
+      }
 
       var table;
       $scope.columns = [];
@@ -49,7 +54,7 @@ angular
           //Function takes form info and pushes it into the loanList array
           $scope.loanList.push(
             {
-              calcDesc: $scope.initList[j].desc,
+              calcDesc: $scope.initList[j].desc.toUpperCase(),
               calcBalance: parseFloat($scope.initList[j].balance),
               calcIntRate: parseFloat($scope.initList[j].intRate),
               calcPayment: parseFloat($scope.initList[j].payment),
@@ -80,6 +85,8 @@ angular
         //Use the termCalc function to get the final output.
         termCalc($scope.loanList);
         createColumns($scope.loanList);
+
+        if(table){ table.destroy(); }
 
         table = $('#outputTable').DataTable( {
             "searching": false,
@@ -153,7 +160,7 @@ angular
         function createColumns(loanList){
 
           $scope.columns.push(
-            { title: "Month" }
+            { title: "MONTH" }
           );
 
           for(j=0; j < loanList.length; j++){
