@@ -34,10 +34,6 @@ angular
       $scope.toggleDeleteModal = function(){
           $scope.deleteModal = !$scope.deleteModal;
       };
-      $scope.confirmModal = false;
-      $scope.toggleConfirmModal = function(){
-          $scope.confirmModal = !$scope.confirmModal;
-      };
 
       //fill in account settings form with current data
       self.user = {};
