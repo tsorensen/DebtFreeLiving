@@ -18,14 +18,21 @@ angular
         create: function(article, image) {
           //saves new article + image to Firebase
           var deferred = $q.defer();
-          var FR = new FileReader();
 
-          FR.onload = function(e) {
-            console.log('in onload');
-            var imageString = e.target.result;
-            //have to do it this way to return a promise
-            deferred.resolve(saveArticle(imageString, article));
-          };
+          if(image) {
+            var FR = new FileReader();
+
+            FR.onload = function(e) {
+              console.log('in onload');
+              var imageString = e.target.result;
+              //have to do it this way to return a promise
+              deferred.resolve(saveArticle(imageString, article));
+            };
+            FR.readAsDataURL(image);
+          } else {
+            deferred.resolve(saveArticle('', article));
+          }
+
 
           //save the article using the passed in imagestring
           function saveArticle(imageString, article) {
@@ -56,8 +63,6 @@ angular
             });
           }
 
-
-          FR.readAsDataURL(image);
           //returns a promise
           return deferred.promise;
         },//end create
@@ -187,12 +192,39 @@ angular
             });
         }, //end update
 
-        delete: function(data) {
-          return $http
-            .delete(host + '/articles/' + data.id)
-            .then(function(res) {
-              return res.data;
-            });
+        delete: function(articleId) {
+          if(!articleId) {
+            //don't update the database without the uid
+            return $q.reject('Missing article ID.  Unable to delete article.');
+          }
+
+          var article = $firebaseObject(articlesRef.child(articleId));
+          var commentsRef = $firebaseObject(ref.child('comments/' + articleId));
+          var commentsExist = false;
+          commentsRef.$loaded(function() {
+             commentsExist = commentsRef.$value !== null;
+          });
+
+          return article.$remove()
+            .then(function(ref) {
+
+              //if the article has comments, delete those as well
+              if(commentsExist) {
+                commentsRef.$remove()
+                  .then(function(ref) {
+                    console.log('Article and comments deleted successfully.');
+                  })
+                  .catch(function(error) {
+                    console.log("Article was deleted but error deleting comments:", error);
+                    return $q.reject(error);
+                  });
+              }
+
+              console.log('Article has been deleted successfully.');
+            }, function(error) {
+              console.log("Error deleting article:", error);
+              return $q.reject(error);
+          });
         }, //end delete
 
       }; //end object return
