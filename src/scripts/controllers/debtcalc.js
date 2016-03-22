@@ -1,12 +1,27 @@
 angular
   .module('DebtCalcController', [
-
+    'blogApp.auth'
   ])
   .controller('DebtCalcController', [
     '$scope',
-    function($scope) {
+    'auth',
+    function($scoped, auth) {
 
+      if(!auth.isLoggedIn()) {
+        $location.url('/login')
+      }
+
+      var table;
+      $scope.columns = [];
+
+      //Hide table until values are entered
+      var showTable = true;
+
+      //Create an array to hold information from user inputs
       $scope.initList = [];
+
+      //Create an array for the final output
+      $scope.finalOutput = [];
 
       //Create an array to hold information for each loan
       $scope.loanList = [];
@@ -22,11 +37,16 @@ angular
         )
       };
 
+      $scope.removeLoan = function(k){
+        $scope.initList.splice(k, 1);
+      };
+
       //Function to add loan objects to the loan list above
       $scope.calcLoans = function(){
 
-        //Clear the loanList array
+        //Clear the loanList array and the final output array
         $scope.loanList = [];
+        $scope.finalOutput = [];
 
         //Loop through the initList array
         for(j=0; j < $scope.initList.length; j++){
@@ -34,10 +54,11 @@ angular
           //Function takes form info and pushes it into the loanList array
           $scope.loanList.push(
             {
-              calcDesc: $scope.initList[j].desc,
+              calcDesc: $scope.initList[j].desc.toUpperCase(),
               calcBalance: parseFloat($scope.initList[j].balance),
               calcIntRate: parseFloat($scope.initList[j].intRate),
               calcPayment: parseFloat($scope.initList[j].payment),
+              staticPayment: parseFloat($scope.initList[j].payment)
             })
 
           //Arrange all objects in loanList by interest rate by highest to lowest
@@ -58,57 +79,96 @@ angular
               $scope.loanList[i].prevPayment = $scope.loanList[i-1].finishedPayment;
               $scope.loanList[i].prevTerm = $scope.loanList[i-1].calcTerm;
             }
-
-            //Calculate or recalculate term length of each object
-            $scope.loanList[i].calcTerm = termCalc(
-              $scope.loanList[i].calcBalance,
-              $scope.loanList[i].calcIntRate,
-              $scope.loanList[i].calcPayment,
-              $scope.loanList[i].prevTerm,
-              $scope.loanList[i].finishedPayment,
-              $scope.loanList[i].thisIndex
-            )
-            console.log("hit 3: " + $scope.loanList[$scope.loanList.length -1].calcDesc);
           };
         }
 
+        //Use the termCalc function to get the final output.
+        termCalc($scope.loanList);
+        createColumns($scope.loanList);
+
+        if(table){ table.destroy(); }
+
+        table = $('#outputTable').DataTable( {
+            "searching": false,
+            "ordering": false,
+            data: $scope.finalOutput,
+            columns: $scope.columns
+        } );
 
         //Calculate the term of every object.
-        function termCalc(newBal, newInt, newPymnt, previousTerm, finishedPymnt, itemIndex){
-        var termLength = 0;
-        var monthInt = newInt / 1200;
-        var theBal = newBal;
-        while(theBal > 0){
-          //If the life of the current loan is lower than the life of the loan with the previous index, add the regular payment.
-          if (termLength <= previousTerm || itemIndex === 0){
-            var monthlyIntPmt = theBal * monthInt;
-            var principal = newPymnt - monthlyIntPmt;
-            if(principal <= 0) {
-              $scope.errorAmount = monthlyIntPmt + 1;
-              $scope.errorMessage = "ERROR: The interest collected on this debt is higher than the payment amount. To add this debt to your elimination plan, your monthly payment must be $" + $scope.errorAmount + " or higher.";
-              $scope.loanList.splice(itemIndex, 1);
-              theBal = 0;
-            } else if(principal > 0){
-            theBal -= principal;
-            termLength++;
-            $scope.errorMessage = null;
-            $scope.errorAmount = null;
-            }
-          } else if (termLength > previousTerm){
-            //If the life of the current loan is higher than the life of the loan with the previous index, add the second payment.
-            var monthlyIntPmt = theBal * monthInt;
-            var principal = finishedPymnt - monthlyIntPmt;
-            theBal -= principal;
-            termLength++;
-            console.log("hit");
-            $scope.errorMessage = null;
-            $scope.errorAmount = null;
-          }
-        }
-        console.log("Hit 2")
-        return termLength;
-    };
-  };
-}
+        function termCalc(loanList){
 
+          var totalBalance = 0;
+
+          for(k=0; k < loanList.length; k++){
+            totalBalance += loanList[k].calcBalance;
+          }
+
+          while(totalBalance > 0){
+            //As long as the total balance is anything higher than 0, push a new object to the array that will contain
+            //an array of additional objects including the description and the payment owed.
+            $scope.finalOutput.push(
+                [$scope.finalOutput.length + 1]
+                    )
+
+            for(j=0; j < loanList.length; j++){
+
+              var monthInt = loanList[j].calcIntRate / 1200;
+              var monthlyIntPmt = loanList[j].calcBalance * monthInt;
+              var principal = loanList[j].calcPayment - monthlyIntPmt;
+              var payment = loanList[j].calcPayment;
+
+              //If the principal payment is less than or equal to 0, return an error
+
+              //var principal = loanList[j].calcPayment;
+              var thisMonthsPayment;
+              var snowballPayment;
+
+              //Determine how much is owed for the month
+              if(loanList[j].calcBalance < principal && loanList[j].calcBalance > 0){
+                snowballPayment = loanList[j].calcPayment - loanList[j].calcBalance;
+                thisMonthsPayment = loanList[j].calcBalance;
+                if(snowballPayment < 0) {
+                  snowballPayment = 0;
+                }
+                console.log(j + "-" + $scope.finalOutput.length + "Snowball Collected: " + snowballPayment);
+                console.log(thisMonthsPayment + " - " + loanList[j].calcBalance + " = " +  snowballPayment );
+              } else if (loanList[j].calcBalance < principal && loanList[j].calcBalance <= 0) {
+                thisMonthsPayment = 0;
+                snowballPayment = payment;
+              } else {
+                thisMonthsPayment = payment;
+                snowballPayment = 0;
+              };
+
+              //Make a payment
+              $scope.finalOutput[$scope.finalOutput.length - 1].push(
+                thisMonthsPayment
+              );
+
+              loanList[j].calcBalance -= principal;
+              totalBalance -= principal;
+
+              if(loanList[j+1] != undefined){
+                loanList[j + 1].calcPayment = loanList[j+1].staticPayment + snowballPayment;
+                console.log(j + " - " + $scope.finalOutput.length + "Snowball distributed :" + snowballPayment);
+              }
+            }
+          }
+        };
+
+        function createColumns(loanList){
+
+          $scope.columns.push(
+            { title: "MONTH" }
+          );
+
+          for(j=0; j < loanList.length; j++){
+            $scope.columns.push(
+              { title: loanList[j].calcDesc }
+            );
+          }
+        };
+      };
+    }
   ]);
