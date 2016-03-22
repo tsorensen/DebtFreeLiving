@@ -1,0 +1,101 @@
+<div class="container">
+
+  <div class="row">
+    <h1 class="page-header text-center">Add Article</h1>
+
+    <!-- add article form -->
+  	<div class="col-md-10 col-md-offset-1">
+
+  			<form
+          id="edit-form"
+          enctype="multipart/form-data"
+          ng-submit="adder.submit(adder.inputs)">
+
+  				<div class="form-group has-feedback">
+  					<label class="labels" for="title">Title</label>
+  					<input
+              type="text"
+              class="form-control"
+              id="title"
+              placeholder="Title"
+              name="title"
+              ng-model="adder.inputs.title"
+              required>
+  					<!-- <i class="fa fa-user form-icons"></i> -->
+  				</div>
+
+          <div class="form-group has-feedback">
+  					<label class="labels" for="author">Author</label>
+  					<input
+              type="text"
+              class="form-control"
+              id="author"
+              placeholder="Author's Name"
+              name="author"
+              ng-model="adder.inputs.author"
+              required>
+  					<!-- <i class="fa fa-user form-icons"></i> -->
+  				</div>
+
+          <div class="form-group has-feedback">
+  					<label class="labels" for="category">Category</label>
+  					<input
+              type="text"
+              class="form-control"
+              id="category"
+              placeholder="Comma-separated list of categories"
+              name="category"
+              ng-model="adder.inputs.category">
+  					<!-- <i class="fa fa-user form-icons"></i> -->
+  				</div>
+
+  				<!-- 750 x 250 -->
+  				<div class="form-group has-feedback">
+  					<label class="labels" for="image">Image</label>
+  					<input
+              style="color:#999"
+              type="file"
+              class="form-control"
+              id="image"
+              placeholder="750x250 minimum size"
+              name="image"
+              img-preview="imgPreview"
+              file-model="myFile"
+              ng-model="adder.inputs.image">
+  					<!-- <i class="fa fa-image form-icons"></i> -->
+  				</div>
+
+          <div class="uploaded_img form-group has-feedback">
+            <label class="labels">Image Preview</label>
+            <div ng-if="adder.error" class="alert alert-danger" role="alert">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Error:</span>
+              {{ adder.error }}
+            </div>
+    				<img class="img-responsive" src="{{ adder.image ? adder.image : adder.inputs.image ? adder.inputs.image : 'http://placehold.it/750x250' }}" alt="Article image" accept="image/*">
+    			</div>
+
+  				<div class="form-group has-feedback description">
+  					<label class="labels" for="content">Body</label>
+  					<div text-angular ng-model="adder.inputs.content" id="content" name="content"></div>
+  					<!-- <i class="fa fa-quote-right form-icons"></i> -->
+  				</div>
+
+          <div class="alert alert-danger" ng-show="adder.saveArticleError">
+            <p>{{ adder.saveArticleError }}</p>
+          </div>
+
+          <div class="alert alert-success" ng-show="adder.saveArticleSuccess">
+            <p>{{ adder.saveArticleSuccess }}</p>
+          </div>
+
+          <div class="form-group">
+            <a href="/#/admin" class="btn btn-default">Cancel</a>
+            <span ng-show="adder.savingArticle === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+            <button ng-show="adder.savingArticle === false" type="submit" class="submit-btn btn btn-primary">Save Changes</button>
+          </div>
+  			</form>
+
+  	</div><!-- /col -->
+  </div><!-- /row -->
+</div><!-- /container -->
