@@ -108,15 +108,14 @@ angular
 
             for(j=0; j < loanList.length; j++){
 
-              //var monthInt = loanList[j].calcIntRate / 1200;
-
-              //If the life of the current loan is lower than the life of the loan with the previous index, add the regular payment.
-              //var monthlyIntPmt = loanList[j].calcBalance * monthInt;
-              //var principal = loanList[j].calcPayment - monthlyIntPmt;
+              var monthInt = loanList[j].calcIntRate / 1200;
+              var monthlyIntPmt = loanList[j].calcBalance * monthInt;
+              var principal = loanList[j].calcPayment - monthlyIntPmt;
+              var payment = loanList[j].calcPayment;
 
               //If the principal payment is less than or equal to 0, return an error
 
-              var principal = loanList[j].calcPayment;
+              //var principal = loanList[j].calcPayment;
               var thisMonthsPayment;
               var snowballPayment;
 
@@ -131,9 +130,9 @@ angular
                 console.log(thisMonthsPayment + " - " + loanList[j].calcBalance + " = " +  snowballPayment );
               } else if (loanList[j].calcBalance < principal && loanList[j].calcBalance <= 0) {
                 thisMonthsPayment = 0;
-                snowballPayment = principal;
+                snowballPayment = payment;
               } else {
-                thisMonthsPayment = principal;
+                thisMonthsPayment = payment;
                 snowballPayment = 0;
               };
 
@@ -146,8 +145,8 @@ angular
                 loanList[j].paidOff = true;
               }*/
 
-              loanList[j].calcBalance -= thisMonthsPayment;
-              totalBalance -= thisMonthsPayment;
+              loanList[j].calcBalance -= principal;
+              totalBalance -= principal;
 
               if(loanList[j+1] != undefined && loanList[j].paidOff == false){
                 loanList[j + 1].calcPayment = loanList[j+1].staticPayment + snowballPayment;
