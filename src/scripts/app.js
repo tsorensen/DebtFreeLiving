@@ -4,7 +4,6 @@ angular
     'BlogController',
     'ArticleController',
     'HomeController',
-    'AddController',
     'LoginController',
     'ForgotController',
     'DashboardController',
@@ -13,6 +12,8 @@ angular
     'AboutController',
     'AccountController',
     'AdminController',
+    'AddController',
+    'EditController',
     'ezfb',
     'ngAnimate',
     'logoutDirective',
@@ -83,6 +84,11 @@ angular
         .when('/admin/add', {
           templateUrl: '/partials/add-article-controller.html',
           controller: 'AddController',
+          controllerAs: 'adder',
+        })
+        .when('/admin/edit/:id', {
+          templateUrl: '/partials/edit-article-controller.html',
+          controller: 'EditController',
           controllerAs: 'adder',
         })
         .otherwise('/');
