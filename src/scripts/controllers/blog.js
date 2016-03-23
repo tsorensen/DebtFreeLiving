@@ -21,7 +21,7 @@ angular
       self.queryBy = '$';
 
       //check for query string params - search params from article page
-      if($location.search()) {
+      if($location.search().search) {
         self.queryBy = 'category';
         self.query[self.queryBy] = $location.search().search;
       }
