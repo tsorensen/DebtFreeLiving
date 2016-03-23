@@ -2,6 +2,72 @@
   <div class='container'>
 
     <!-- html for calc -->
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <h1 class="mainHeader">My Plan</h1>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <form ng-submit="calcLoans()">
+                <div ng-repeat="loan in initList">
+                  <fieldset>
+                    <div class="form-group">
+                      <div class="col-xs-12">
+                      <h3>Debt #{{$index + 1}} <button type="button" ng-click="removeLoan($index)" class="btn btn-danger">Remove</button></h3>
+                      <input type="text" name="description" class="form-control" ng-model="loan.desc" placeholder="Description (ex. Home, Auto, Student)"/>
+                    </div>
+                  </div>
+                  </fieldset>
+                  <fieldset class="form-inline">
+                    <div class="form-group">
+                      <div class="col-xs-4">
+                        <label for="balance"></label>
+                        <input type="text" class="form-control" ng-model="loan.balance" placeholder="Balance" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-xs-4">
+                        <label for="intRate"></label>
+                        <input type="text" name="intRate" class="form-control" ng-model="loan.intRate" placeholder = "Interest Rate" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-xs-4">
+                        <label for="payment"></label>
+                        <input type="text" name="payment" class="form-control" ng-model="loan.payment" placeholder = "Monthly Payment" />
+                      </div>
+                    </div>
+                  </fieldset>
+              </div>
+              <br />
+              <div class="col-xs-12">
+                <button type="button" ng-click="addLoans()" class="btn btn-primary">Add Debt</button>
+                <input type="submit" class="btn btn-primary">
+                <br ng-show="errorMessage" />
+                <br ng-show="errorMessage" />
+                <div class="alert alert-danger" ng-show="errorMessage" role="alert">
+                  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    {{ errorMessage }}
+                </div>
+              </div>
 
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="container">
+
+        <!--<h2 ng-repeat="loans in loanList">{{ loans.calcDesc + ": " + loans.thisIndex }}</h2>-->
+
+        <h2>Debt-Elimination Plan</h2>
+
+        <table id="outputTable" class="table"></table>
+
+
+        <h2>{{ finalOutput }}</h2>
+
+      </div>
   </div>
 </section>

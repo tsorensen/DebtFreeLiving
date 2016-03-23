@@ -66,6 +66,10 @@ angular
           controller: 'DashboardController',
           controllerAs: 'dashboard'
         })
+        .when('/my_plan/calculator', {
+          templateUrl: '/partials/calc-controller.html',
+          controller: 'DebtCalcController'
+        })
         .when('/account', {
           templateUrl: '/partials/account-controller.html',
           controller: 'AccountController',
