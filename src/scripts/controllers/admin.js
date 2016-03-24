@@ -20,7 +20,9 @@ angular
 
       var self = this;
       self.loadingArticles = true;
+      self.loadingComments = true;
       self.articles = [];
+      self.comments = [];
 
       self.deletingArticle = false;
       self.articleDeleteId = null;
@@ -74,22 +76,33 @@ angular
       function getArticles() {
         articles.readAll()
           .then(function(items) {
-            self.articles = items;
-            console.log('hey');
-            console.log(self.articles);
-            for(var i = 0; i < self.articles.length; i++) {
-              if(Object.keys(self.articles[i].comments).length > 0) {
-                self.articles[i].commentCount = Object.keys(self.articles[i].comments).length;
+            for(var i = 0; i < items.length; i++) {
+              if(Object.keys(items[i].comments).length > 0) {
+                items[i].commentCount = Object.keys(items[i].comments).length;
               } else {
-                self.articles[i].commentCount = 0;
+                items[i].commentCount = 0;
               }
             }
-
+            self.articles = items;
             self.loadingArticles = false;
           });
       }
 
+      function getUnapprovedComments() {
+        articles.getCommentsForAdmin(false)
+          .then(function(comments) {
+            console.log(comments);
+            self.comments = comments;
+            self.loadingComments = false;
+          })
+          .catch(function(error) {
+            console.log("Error in retrieving unapproved comments: ", error);
+            self.loadingComments = false;
+          });
+      }
+
       getArticles();
+      getUnapprovedComments();
     },
 
   ]);
