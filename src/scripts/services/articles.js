@@ -16,6 +16,7 @@ angular
       return {
 
         create: function(article, image) {
+          console.log(image);
           //saves new article + image to Firebase
           var deferred = $q.defer();
 
@@ -184,12 +185,46 @@ angular
             });
         },
 
-        update: function(articleId, data) {
-          return $http
-            .put(host + '/articles/' + articleId, data)
-            .then(function(res) {
-              return res.data;
+        update: function(article, image) {
+          //saves new article + image to Firebase
+          var deferred = $q.defer();
+          if(image && typeof image === 'object') {
+            var FR = new FileReader();
+
+            FR.onload = function(e) {
+              var imageString = e.target.result;
+              //have to do it this way to return a promise
+              deferred.resolve(saveArticle(imageString, article));
+            };
+
+            FR.readAsDataURL(image);
+          } else if(image && typeof image === 'string') {
+            deferred.resolve(saveArticle(image, article));
+          } else {
+            deferred.resolve(saveArticle('', article));
+          }
+
+
+          //save the article using the passed in imagestring
+          function saveArticle(imageString, article) {
+            article.image = imageString;
+
+            //create URL that refers to a specific article and add images + article data as an array-like object
+            var oldArticle = articlesRef.child(article.id);
+
+            return oldArticle.update(article, function(error) {
+              if(error) {
+                console.log('Error with updating article.', error);
+                return $q.reject(error);
+              } else {
+                console.log('Article has been edited and updated successfully.');
+                return $q.resolve();
+              }
             });
+          }
+
+          //returns a promise
+          return deferred.promise;
         }, //end update
 
         delete: function(articleId) {
