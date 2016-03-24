@@ -104,10 +104,9 @@ angular
       }
 
       function resetCommentForm() {
-        self.create = {
-          name: '',
-          comment: ''
-        };
+        self.inputs.comment =  '';
+        self.saveCommentError = null;
+        self.saveCommentSuccess = null;
       }
 
       resetCommentForm();
@@ -133,13 +132,13 @@ angular
         return articles.createComment(comment)
           .then(function(res) {
             $timeout(function() {
-              self.saveCommentSuccess = "Your comment has been submitted successfully.";
+              self.saveCommentSuccess = "Your comment has been submitted successfully.  It will appear here once approved by our moderators.";
             });
 
             $timeout(function() {
               self.savingComment = false;
-              $route.reload()
-            }, 3000);
+              resetCommentForm();
+            }, 5000);
             console.log('success');
           })
           .catch(function(error) {
