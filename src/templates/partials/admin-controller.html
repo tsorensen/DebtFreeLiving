@@ -3,7 +3,7 @@
   <div class="row">
     <h1 class="page-header text-center">Admin</h1>
 
-    <!-- Blog Entries Column -->
+    <!-- Edit/Delete Articles Section -->
     <div class="col-lg-12">
       <h3>Blog Articles</h3>
       <p ng-show="admin.loadingArticles === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p>
@@ -15,7 +15,7 @@
               <th>Date</th>
               <th>Author</th>
               <th>Categories</th>
-              <th>Comments</th>
+              <th>Total Comments</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -38,39 +38,31 @@
     </div><!-- /col -->
 
 
-    <!-- Blog Entries Column -->
+    <!-- Approve Comments Section -->
     <div class="col-lg-12">
       <h3>Approve Article Comments</h3>
-      <div class="table-responsive">
+      <p ng-show="admin.loadingArticles === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p>
+      <div ng-show="admin.loadingComments === false" class="table-responsive">
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>Title</th>
+              <th>Article Title</th>
+              <th>User's Name</th>
               <th>Date</th>
-              <th>Author</th>
-              <th>Categories</th>
-              <th>Comments</th>
+              <th>Comment</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
+            <tr class="admin-comments" ng-repeat="comment in admin.comments">
+              <td>{{ comment.articleName }}</td>
+              <td>{{ comment.name }}</td>
+              <td>{{ comment.date }}</td>
+              <td>{{ comment.comment }}</td>
+              <td>
+                <button ng-click="admin.approveComment(comment.commentId)" class="btn btn-primary btn-xs">Approve</button>
+                <button class="btn btn-danger btn-xs" ng-click="admin.deleteComment(comment.commentId)">Delete</button>
+              </td>
             </tr>
           </tbody>
         </table>
