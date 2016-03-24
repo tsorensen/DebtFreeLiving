@@ -11,7 +11,8 @@ angular
     '$location',
     '$scope',
     '$timeout',
-    function(articles, $routeParams, $location, $scope, $timeout) {
+    '$route',
+    function(articles, $routeParams, $location, $scope, $timeout, $route) {
       var self = this;
       self.id = $routeParams.id;
       self.content = {};
@@ -56,6 +57,10 @@ angular
         };
       }
 
+      self.removeImage = function() {
+        self.inputs.image = '';
+      };
+
       self.submit = function (data) {
         self.savingArticle = true;
         self.saveArticleError = null;
@@ -65,43 +70,43 @@ angular
           self.saveArticleError = 'The Title, Author, and Body fields are required.';
           self.savingArticle = false;
           return;
-        } else if(data.title === self.content.title && data.author === self.content.author && data.content === self.content.body) {
+        }
+
+        var image = $scope.myFile || self.inputs.image;
+        data.category = data.category ? data.category.toLowerCase() : '';
+
+        if(data.title === self.content.title && data.author === self.content.author && data.content === self.content.body && image === self.content.image && data.category === self.content.category) {
           self.saveArticleError = 'No changes to make.';
           self.savingArticle = false;
           return;
         }
 
-        if(data.image !== self.content.image) {
-          //if image changed
-          var image = $scope.myFile || '';
-        }
-        data.category = data.category ? data.category.toLowerCase() : '';
-        console.log('here is the image: ');
-        console.log(image);
-        console.log('article data: ');
-        console.log(data);
-
         var article = {
+          id: self.content.$id,
           title: data.title,
           author: data.author,
           category: data.category,
-          content: data.content
         };
 
-        // return articles.update(article, image)
-        //   .then(function(res) {
-        //     self.saveArticleSuccess = 'This article has been saved successfully.';
-        //     $timeout(function() {
-        //       self.savingArticle = false;
-        //       $route.reload();
-        //     }, 3000);
-        //   })
-        //   .catch(function(error) {
-        //     console.log('There was an error: ', error);
-        //     console.log(error.code);
-        //     self.saveArticleError = 'There was an error saving the article: ' + error;
-        //     self.savingArticle = false;
-        //   });
+        //only update content if it has changed
+        if(typeof data.content === 'string') {
+          article['body'] = data.content;
+        }
+
+        return articles.update(article, image)
+          .then(function(res) {
+            self.saveArticleSuccess = 'This article has been saved successfully.';
+            $timeout(function() {
+              self.savingArticle = false;
+              $route.reload();
+            }, 3000);
+          })
+          .catch(function(error) {
+            console.log('There was an error: ', error);
+            console.log(error.code);
+            self.saveArticleError = 'There was an error saving the article: ' + error;
+            self.savingArticle = false;
+          });
       };
 
       resetAddForm();
