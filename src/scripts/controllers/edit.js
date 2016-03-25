@@ -1,18 +1,25 @@
 angular
   .module('EditController', [
+    'blogApp.auth',
     'blogApp.articles',
     'textAngular',
     'imgPreviewDirective',
     'fileUploadDirective',
   ])
   .controller('EditController', [
+    'auth',
     'articles',
     '$routeParams',
     '$location',
     '$scope',
     '$timeout',
     '$route',
-    function(articles, $routeParams, $location, $scope, $timeout, $route) {
+    function(auth, articles, $routeParams, $location, $scope, $timeout, $route) {
+      //if no one is logged in, redirect to login page
+      if(!auth.isLoggedIn()) {
+          $location.url('/login?page=admin');
+      }
+
       var self = this;
       self.id = $routeParams.id;
       self.content = {};
