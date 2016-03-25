@@ -12,6 +12,7 @@ angular
     function($http, host, $filter, $q, $firebaseArray, $firebaseObject) {
       var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
       var articlesRef = ref.child('articles');
+      var commentsRef = ref.child('comments');
 
       return {
 
@@ -209,14 +210,15 @@ angular
           var priority = 0 - Date.now();
 
           //create reference to comments object and article comments by id
-          var commentsRef = ref.child('comments/' + articleId);
-          var userCommentsRef = ref.child('articles/' + articleId + '/comments/');
+          var comments = commentsRef.child(articleId);
+          var newCommentRef = comments.push();
+          var userCommentsRef = ref.child('articles/' + articleId + '/comments/' + newCommentRef.key());
 
-          var newCommentRef = commentsRef.push();
+
           //creates id reference in article document to comment by id
-          var newUserCommentRef = userCommentsRef.push({
+          var newUserCommentRef = userCommentsRef.set({
             commentRefId: newCommentRef.key(),
-            name: comment.name,
+            approved: false,
             date: timestamp,
           });
 
@@ -244,7 +246,7 @@ angular
         },//end createComment
 
         getComments: function(articleId) {
-          var query = ref.child('comments/' + articleId).orderByChild('approved').equalTo(true);
+          var query = commentsRef.child(articleId).orderByChild('approved').equalTo(true);
           var comments = $firebaseArray(query);
 
           return comments.$loaded()
@@ -262,26 +264,17 @@ angular
             });
         },
 
-        getCommentsForAdmin: function(getApproved) {
-          var query = ref.child('comments');
-          var articles = $firebaseArray(query);
-          var comments = [];
+        getCommentsForAdmin: function(articleId, getApproved) {
+          var comments = $firebaseArray(commentsRef.child(articleId).orderByChild('approved').equalTo(getApproved));
 
-          return articles.$loaded()
+          return comments.$loaded()
             .then(function(){
-                angular.forEach(articles, function(commentsArr) {
-                  angular.forEach(commentsArr, function(comment) {
-                    console.log('new comment');
-                    console.log(comment);
-                    if(comment && typeof comment === 'object' && comment.approved === getApproved) {
-                      //format dates using moment
-                      comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
-
-                      comments.push(comment);
-                    }
-                  });
+                angular.forEach(comments, function(comment) {
+                  //format dates using moment
+                  comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
                 });
-
+                console.log('here are the comments');
+                console.log(comments);
                 return comments;
             })
             .catch(function(error) {
@@ -290,8 +283,34 @@ angular
             });
         },
 
-        approveComment: function(commentId) {
+        approveComment: function(articleId, commentId) {
+          var articleCommentRef = articlesRef.child(articleId).child('comments').child(commentId);
 
+          return articleCommentRef.update({
+            approved: true
+          }, function(error) {
+            if(error) {
+              console.log('Error with approving comment on article ref:', error);
+              return $q.reject(error);
+            } else {
+              console.log('Comment approved on article ref successfully.');
+              return $q.resolve();
+            }
+          });
+        },
+
+        deleteComment: function(articleId, commentId) {
+          var articleCommentRef = articlesRef.child(articleId).child('comments').child(commentId);
+
+          return articleCommentRef.remove(function(error) {
+            if (error) {
+              console.log('Error with deleting comment:', error);
+              return $q.reject(error);
+            } else {
+              console.log('Removed second comment ref under article successfully.');
+              return $q.resolve();
+            }
+          });
         },
 
       }; //end object return
