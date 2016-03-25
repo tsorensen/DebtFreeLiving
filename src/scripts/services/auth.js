@@ -9,7 +9,8 @@ angular
   '$location',
   '$rootScope',
   '$firebaseAuth',
-  function($http, host, $q, $location, $rootScope, $firebaseAuth) {
+  '$firebaseObject',
+  function($http, host, $q, $location, $rootScope, $firebaseAuth, $firebaseObject) {
     var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
     var fireAuth = $firebaseAuth(ref);
 
@@ -147,6 +148,17 @@ angular
         }
 
         return currentUser;
+      },
+
+      isAdmin: function(uid) {
+        console.log('in isAdmin');
+        console.log(uid);
+        var user = $firebaseObject(ref.child('users').child(uid));
+
+        return user.$loaded()
+          .then(function() {
+            return user;
+          })
       },
 
       isOAuth: function() {
