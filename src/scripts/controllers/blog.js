@@ -26,8 +26,11 @@ angular
         self.query[self.queryBy] = $location.search().search;
       }
 
-      self.clearSearch = function() {
+      self.clearSearch = function(all) {
         self.query = {}
+        if(all) {
+          self.queryBy = '$';
+        }
       };
 
       self.categorySearch = function(category) {
