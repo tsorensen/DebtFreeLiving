@@ -197,6 +197,14 @@ img.rounded {
   margin-left:5px;
 }
 
+.side-widgets {
+  margin-top: 80px;
+}
+
+.clear-search {
+  font-size:75%;
+}
+
 
 /***********************************/
 /************* ABOUT *************/
