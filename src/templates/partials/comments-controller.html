@@ -1,0 +1,70 @@
+<div class="container">
+
+  <div class="row">
+    <h1 class="page-header text-center">Approve Comments</h1>
+
+    <!-- Approve Comments Section -->
+    <div class="col-lg-12">
+      <h3>{{ comments.article.title}}</h3>
+      <p ng-show="comments.loadingComments === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p>
+      <div ng-show="comments.commentsArr.length > 0 && comments.loadingComments === false" class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="col-md-2">Username</th>
+              <th class="col-md-2">Date</th>
+              <th class="col-md-5">Comment</th>
+              <th class="col-md-3 text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-if="comment.approved === false" class="admin-comments" ng-repeat="comment in comments.commentsArr">
+              <td>{{ comment.name }}</td>
+              <td>{{ comment.date }}</td>
+              <td>{{ comment.comment }}</td>
+              <td class="text-center">
+                <button class="btn btn-primary btn-xs" ng-click="comments.approveComment(comment, comment.commentId)">Approve</button>
+                <button class="btn btn-danger btn-xs" ng-click="comments.commentsArr.$remove(comment); comments.deleteComment(comment.commentId)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div ng-show="comments.loadingComments === false">
+        <p ng-show="comments.commentsArr.length == 0">No comments that need approval.</p>
+        <button ng-show="comments.showApproved === false" class="btn btn-primary admin-buttons" ng-click="comments.showApprovedComments()">Show Already Approved Comments</button>
+        <button ng-show="comments.showApproved === true" class="btn btn-primary admin-buttons" ng-click="comments.showApproved = false">Hide Approved</button>
+        <p ng-show="comments.showApproved === true && comments.approvedComments.length === 0">No approved comments to show.</p>
+      </div>
+    </div><!-- /col -->
+
+    <!-- Already Approved Comments Section -->
+    <div class="col-lg-12">
+      <p ng-show="comments.approvedSpinner === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p>
+      <div ng-show="comments.showApproved === true" class="table-responsive">
+        <h4>Approved Comments:</h4>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="col-md-2">Username</th>
+              <th class="col-md-2">Date</th>
+              <th class="col-md-5">Comment</th>
+              <th class="col-md-3 text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="admin-comments" ng-repeat="comment in comments.approvedComments">
+              <td>{{ comment.name }}</td>
+              <td>{{ comment.date }}</td>
+              <td>{{ comment.comment }}</td>
+              <td class="text-center">
+                <button class="btn btn-danger btn-xs" ng-click="comments.approvedComments.$remove(comment); comments.deleteComment(comment.commentId)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /col -->
+
+  </div><!-- /row -->
+</div><!-- /container -->
