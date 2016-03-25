@@ -12,7 +12,6 @@ angular
     '$route',
     '$timeout',
     function(auth, articles, $location, $scope, $route, $timeout) {
-
       //if no one is logged in, redirect to login page
       if(!auth.isLoggedIn()) {
           $location.url('/login?page=admin');
@@ -35,8 +34,6 @@ angular
             title: title,
             id: id
           };
-          console.log("id: " + id);
-          console.log("title: " + title);
           $scope.deleteArticleModal = !$scope.deleteArticleModal;
       };
 
@@ -61,8 +58,6 @@ angular
             $timeout(function(){
               self.deletingArticle = false;
               $scope.deleteArticleModal = false;
-              // $route.reload();
-              //$window.location.reload();
             }, 3000);
           })
           .catch(function(error) {
@@ -77,10 +72,14 @@ angular
         articles.readAll()
           .then(function(items) {
             for(var i = 0; i < items.length; i++) {
-              if(Object.keys(items[i].comments).length > 0) {
-                items[i].commentCount = Object.keys(items[i].comments).length;
-              } else {
-                items[i].commentCount = 0;
+              items[i].commentCount = 0;
+              var commentsObj = Object.keys(items[i].comments);
+              if(commentsObj.length > 0) {
+                for(var comment in items[i].comments) {
+                  if(items[i].comments[comment].approved === false) {
+                    items[i].commentCount++;
+                  }
+                }
               }
             }
             self.articles = items;
@@ -88,21 +87,7 @@ angular
           });
       }
 
-      function getUnapprovedComments() {
-        articles.getCommentsForAdmin(false)
-          .then(function(comments) {
-            console.log(comments);
-            self.comments = comments;
-            self.loadingComments = false;
-          })
-          .catch(function(error) {
-            console.log("Error in retrieving unapproved comments: ", error);
-            self.loadingComments = false;
-          });
-      }
-
       getArticles();
-      getUnapprovedComments();
     },
 
   ]);
