@@ -10,10 +10,12 @@ angular
     'DebtCalcController',
     'MenuController',
     'AboutController',
+    'ContactController',
     'AccountController',
     'AdminController',
     'AddController',
     'EditController',
+    'CommentsController',
     'ezfb',
     'ngAnimate',
     'logoutDirective',
@@ -58,6 +60,11 @@ angular
           controller: 'AboutController',
           controllerAs: 'about',
         })
+        .when('/contact', {
+          templateUrl: '/partials/contact-controller.html',
+          controller: 'ContactController',
+          controllerAs: 'contact',
+        })
         .when('/privacy_policy', {
           templateUrl: '/partials/privacy-policy-controller.html',
         })
@@ -94,6 +101,11 @@ angular
           templateUrl: '/partials/edit-article-controller.html',
           controller: 'EditController',
           controllerAs: 'adder',
+        })
+        .when('/admin/comments/:id', {
+          templateUrl: '/partials/comments-controller.html',
+          controller: 'CommentsController',
+          controllerAs: 'comments',
         })
         .otherwise('/');
     }
