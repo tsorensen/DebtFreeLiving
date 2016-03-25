@@ -7,11 +7,6 @@ angular
       'auth',
       function($scope, auth) {
 
-        //redirects user to login page if they aren't logged in
-        if(!auth.isLoggedIn()) {
-          $location.url('/login')
-        }
-
         var table;
         $scope.columns = [];
 

@@ -13,9 +13,9 @@ angular
     '$timeout',
     function(auth, articles, $location, $scope, $route, $timeout) {
       //if no one is logged in, redirect to login page
-      if(!auth.isLoggedIn()) {
-          $location.url('/login?page=admin');
-      }
+      // if(!auth.isLoggedIn()) {
+      //     $location.url('/login?page=admin');
+      // }
 
       var self = this;
       self.loadingArticles = true;

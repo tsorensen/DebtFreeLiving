@@ -14,10 +14,7 @@ angular
     '$route',
     function(auth, users, $scope, $location, $timeout, $window, $route) {
 
-      //if no one is logged in, redirect to login page
-      if(!auth.isLoggedIn()) {
-          $location.url('/login');
-      } else if(auth.isOAuth()) {
+      if(auth.isOAuth()) {
           $location.url('/my_plan');
       }
 
