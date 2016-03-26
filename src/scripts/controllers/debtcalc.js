@@ -1,11 +1,10 @@
 angular
     .module('DebtCalcController', [
-      'blogApp.auth'
+
     ])
     .controller('DebtCalcController', [
       '$scope',
-      'auth',
-      function($scope, auth) {
+      function($scope) {
 
         var table;
         $scope.columns = [];

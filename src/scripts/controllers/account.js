@@ -13,11 +13,6 @@ angular
     '$window',
     '$route',
     function(auth, users, $scope, $location, $timeout, $window, $route) {
-
-      if(auth.isOAuth()) {
-          $location.url('/my_plan');
-      }
-
       var self = this;
 
       //triggers button spinner if set to true

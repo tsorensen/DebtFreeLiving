@@ -1,23 +1,16 @@
 angular
   .module('AddController', [
-    'blogApp.auth',
     'blogApp.articles',
     'textAngular',
     'imgPreviewDirective',
     'fileUploadDirective',
   ])
   .controller('AddController', [
-    'auth',
     'articles',
     '$location',
     '$scope',
     '$timeout',
-    function(auth, articles, $location, $scope, $timeout) {
-      //if no one is logged in, redirect to login page
-      if(!auth.isLoggedIn()) {
-          $location.url('/login?page=admin');
-      }
-
+    function(articles, $location, $scope, $timeout) {
       var self = this;
       self.image = '';
       self.savingArticle = false;

@@ -1,22 +1,15 @@
 angular
   .module('AdminController', [
-    'blogApp.auth',
     'blogApp.articles',
     'modalDirective',
   ])
   .controller('AdminController', [
-    'auth',
     'articles',
     '$location',
     '$scope',
     '$route',
     '$timeout',
-    function(auth, articles, $location, $scope, $route, $timeout) {
-      //if no one is logged in, redirect to login page
-      // if(!auth.isLoggedIn()) {
-      //     $location.url('/login?page=admin');
-      // }
-
+    function(articles, $location, $scope, $route, $timeout) {
       var self = this;
       self.loadingArticles = true;
       self.loadingComments = true;
