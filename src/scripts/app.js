@@ -21,7 +21,7 @@ angular
     'logoutDirective',
     'adminLinkDirective',
     'firebase',
-    'blogApp.auth',
+    'blogApp.protector',
   ])
   .config([
     '$routeProvider',
@@ -74,12 +74,8 @@ angular
           controller: 'DashboardController',
           controllerAs: 'dashboard',
           resolve: {
-            // controller will not be loaded until $requireAuth resolves
-            // Auth refers to our $firebaseAuth wrapper in the example above
-            "currentAuth": ["Auth", function(Auth) {
-              // $requireAuth returns a promise so the resolve waits for it to complete
-              // If the promise is rejected, it will throw a $stateChangeError (see above)
-              return Auth.$requireAuth();
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.accountRoute();
             }]
           }
         })
@@ -87,8 +83,8 @@ angular
           templateUrl: '/partials/calc-controller.html',
           controller: 'DebtCalcController',
           resolve: {
-            "currentAuth": ["Auth", function(Auth) {
-              return Auth.$requireAuth();
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.accountRoute();
             }]
           }
         })
@@ -97,8 +93,8 @@ angular
           controller: 'AccountController',
           controllerAs: 'account',
           resolve: {
-            "currentAuth": ["Auth", function(Auth) {
-              return Auth.$requireAuth();
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.accountRoute();
             }]
           }
         })
@@ -112,18 +108,18 @@ angular
           controller: 'AdminController',
           controllerAs: 'admin',
           resolve: {
-            "currentAuth": ["Auth", function(Auth) {
-              return Auth.$requireAuth();
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.adminRoute();
             }]
-          }
+          },
         })
         .when('/admin/add', {
           templateUrl: '/partials/add-article-controller.html',
           controller: 'AddController',
           controllerAs: 'adder',
           resolve: {
-            "currentAuth": ["Auth", function(Auth) {
-              return Auth.$requireAuth();
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.adminRoute();
             }]
           }
         })
@@ -132,8 +128,8 @@ angular
           controller: 'EditController',
           controllerAs: 'adder',
           resolve: {
-            "currentAuth": ["Auth", function(Auth) {
-              return Auth.$requireAuth();
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.adminRoute();
             }]
           }
         })
@@ -142,31 +138,26 @@ angular
           controller: 'CommentsController',
           controllerAs: 'comments',
           resolve: {
-            "currentAuth": ["Auth", function(Auth) {
-              return Auth.$requireAuth();
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.adminRoute();
             }]
           }
         })
         .otherwise('/');
     }
   ])
-  .factory("Auth", ["$firebaseAuth",
-    function($firebaseAuth) {
-      var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
-      return $firebaseAuth(ref);
-    }
-  ])
   .run([
     '$rootScope',
     '$location',
-    'auth',
     function ($rootScope, $location, auth, $firebaseAuth) {
       $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
-        // We can catch the error thrown when the $requireAuth promise is rejected
-        // and redirect the user back to the home page
         if (error === "AUTH_REQUIRED") {
           $location.path("/login");
+        } else if(error === 'ADMIN_AUTH_REQUIRED') {
+          $location.url("/login?page=admin");
+        } else if(error === 'NOT_ADMIN') {
+          $location.path("/");
         }
       });
-
-    }]);
+    }
+  ]);
