@@ -4,7 +4,7 @@ angular
   ])
   .controller('DashboardController', [
     '$location',
-    function(auth, $location) {
+    function($location) {
 
 
     },
