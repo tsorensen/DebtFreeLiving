@@ -4,13 +4,13 @@ angular
   ])
   .factory('articles', [
     '$http',
-    'blogAppHost',
+    'firebaseHost',
     '$filter',
     '$q',
     '$firebaseArray',
     '$firebaseObject',
     function($http, host, $filter, $q, $firebaseArray, $firebaseObject) {
-      var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
+      var ref = new Firebase(host);
       var articlesRef = ref.child('articles');
       var commentsRef = ref.child('comments');
 

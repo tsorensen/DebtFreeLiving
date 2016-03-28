@@ -5,10 +5,11 @@ angular
 ])
 .factory("routeProtector", [
   "$firebaseAuth",
+  'firebaseHost',
   "auth",
   "$q",
-  function($firebaseAuth, auth, $q) {
-    var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
+  function($firebaseAuth, host, auth, $q) {
+    var ref = new Firebase(host);
     return {
       adminRoute: function() {
         return $firebaseAuth(ref).$waitForAuth()

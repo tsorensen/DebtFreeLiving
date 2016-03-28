@@ -4,11 +4,11 @@ angular
 ])
 .factory('users', [
   '$http',
-  'blogAppHost',
+  'firebaseHost',
   '$q',
   '$firebaseAuth',
   function($http, host, $q, $firebaseAuth) {
-    var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
+    var ref = new Firebase(host);
     var fireAuth = $firebaseAuth(ref);
 
     var users = {
