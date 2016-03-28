@@ -10,9 +10,9 @@ angular
       $scope.noWrapSlides = false;
       var currIndex = 0;
 
-      $scope.testimonials = [];
+      $scope.testimonialsSlides = [];
       //this data could be made dynamic
-      $scope.testimonials.push(
+      $scope.testimonialsSlides.push(
         {
           text: 'Ut auctor et lacinia. Nam felis lorem, ex nec, viverra malesuada ligula. Aenean lorem metus, ullamcorper ac magna at, luctus pulvinar ante. Vestibulum sit amet pharetra diam, nec placerat magna. Nullam pretium feugiat ex, id scelerisque quam rutrum ut. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris sodales gravida libero feugiat iaculis.',
           name: 'John Doe',
@@ -30,15 +30,16 @@ angular
         }
       );
 
-      $scope.showNext = function(){
-          var index = ($('#myCarousel .active').index()+1)%(slides.length);
-          var modIndex = (((index)%(slides.length))+(slides.length))%(slides.length);
-          $scope.slides[modIndex].active=true;
+      $scope.showNext = function(name){
+          var index = ($('#' + name + '-carousel .active').index()+1)%($scope[name + 'Slides'].length);
+          var modIndex = (((index)%($scope[name + 'Slides'].length))+($scope[name + 'Slides'].length))%($scope[name + 'Slides'].length);
+          $scope[name + 'Slides'][modIndex].active=true;
       };
-      $scope.showPrev = function(){
-          var index = ($('#myCarousel .active').index()-1)%(slides.length);
-          var modIndex = (((index)%(slides.length))+(slides.length))%(slides.length);
-          $scope.slides[modIndex].active=true;
+
+      $scope.showPrev = function(name){
+          var index = ($('#' + name + '-carousel .active').index()-1)%($scope[name + 'Slides'].length);
+          var modIndex = (((index)%($scope[name + 'Slides'].length))+($scope[name + 'Slides'].length))%($scope[name + 'Slides'].length);
+          $scope[name + 'Slides'][modIndex].active=true;
       };
     },
   ]);
