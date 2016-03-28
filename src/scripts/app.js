@@ -22,6 +22,7 @@ angular
     'adminLinkDirective',
     'firebase',
     'blogApp.protector',
+    'vcRecaptcha',
   ])
   .config([
     '$routeProvider',
