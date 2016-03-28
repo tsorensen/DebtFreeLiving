@@ -222,6 +222,18 @@ img.rounded {
   margin: 20px auto;
 }
 
+/********************************/
+/*********** CONTACT **********/
+/****************************/
+.contact-icons {
+  margin: 30px 0;
+}
+
+#contact .captcha {
+  display:inline-block;
+}
+
+
 
 /************************************/
 /***** LOGIN/FORGOT PASSWORD ******/
@@ -257,13 +269,16 @@ img.rounded {
 
 #login-form input,
 #register-form input,
-#forgot-form input {
+#forgot-form input,
+#contact-form input,
+#contact-form textarea {
   padding-left:30px;
 }
 
 #login-form .icons,
 #register-form .icons,
-#forgot-form .icons {
+#forgot-form .icons,
+#contact-form .icons {
   left:0;
 }
 
