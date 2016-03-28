@@ -39,30 +39,70 @@
     </div><!-- /col -->
 
 
-    <!-- Approve Comments Section -->
+    <!-- Contact Requests Section -->
     <div class="col-lg-12">
-      <h3>Contact Requests</h3>
-      <!-- <p class="spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p> -->
-      <div class="table-responsive">
+      <h3>Contact Requests <span class="text-primary" ng-show="admin.contactCount">({{admin.contactCount}})</span></h3>
+      <p ng-show="admin.loadingContacts === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p>
+      <div ng-show="admin.loadingContacts === false && admin.contacts.length > 0" class="table-responsive">
         <table class="table table-hover">
           <thead>
             <tr>
-              <th class="col-md-2">Article Title</th>
-              <th class="col-md-1">Username</th>
               <th class="col-md-2">Date</th>
-              <th class="col-md-5">Comment</th>
+              <th class="col-md-1">Name</th>
+              <th class="col-md-2">Email</th>
+              <th class="col-md-2">Subject</th>
+              <th class="col-md-3">Message</th>
               <th class="col-md-2 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="admin-comments">
-              <td>articleName </td>
-              <td>name </td>
-              <td>date </td>
-              <td>comment </td>
+            <tr class="admin-contacts" ng-repeat="contact in admin.contacts">
+              <td>{{ contact.date }}</td>
+              <td>{{ contact.name }}</td>
+              <td>{{ contact.email }}</td>
+              <td>{{ contact.subject }}</td>
+              <td>{{ contact.message }}</td>
               <td class="text-center">
-                <button class="btn btn-primary btn-xs">Approve</button>
-                <button class="btn btn-danger btn-xs">Delete</button>
+                <button class="btn btn-primary btn-xs" ng-click="admin.contactCounter(); admin.markContactAsRead(contact.$id)">Mark as Read</button>
+                <button class="btn btn-danger btn-xs" ng-click="admin.contactCounter(); admin.deleteContact(contact.$id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div ng-show="admin.loadingContacts === false">
+        <p ng-show="admin.contacts.length == 0">No unread contact requests.</p>
+        <button ng-show="admin.showRead === false" class="btn btn-primary admin-buttons" ng-click="admin.showRead = true; admin.getReadContacts()">Show Read Contact Requests</button>
+        <button ng-show="admin.showRead === true" class="btn btn-primary admin-buttons" ng-click="admin.showRead = false">Hide Approved</button>
+        <p ng-show="admin.showRead === true && admin.readContacts.length === 0">No read contact requests to show.</p>
+      </div>
+    </div><!-- /col -->
+
+    <!-- Already Read Contact Requests Section -->
+    <div class="col-lg-12">
+      <p ng-show="admin.readSpinner === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p>
+      <div ng-show="admin.showRead === true && admin.readContacts.length > 0" class="table-responsive">
+        <h4>Read Contact Requests:</h4>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="col-md-2">Date</th>
+              <th class="col-md-1">Name</th>
+              <th class="col-md-2">Email</th>
+              <th class="col-md-2">Subject</th>
+              <th class="col-md-3">Message</th>
+              <th class="col-md-2 text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="admin-contacts" ng-repeat="contact in admin.readContacts">
+              <td>{{ contact.date }}</td>
+              <td>{{ contact.name }}</td>
+              <td>{{ contact.email }}</td>
+              <td>{{ contact.subject }}</td>
+              <td>{{ contact.message }}</td>
+              <td class="text-center">
+                <button class="btn btn-danger btn-xs" ng-click="admin.readContacts.$remove(contact)">Delete</button>
               </td>
             </tr>
           </tbody>
