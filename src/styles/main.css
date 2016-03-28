@@ -93,6 +93,12 @@ img.rounded {
   min-width:420px;
 }
 
+.slider-images {
+  margin:auto;
+  min-width:960px;
+  min-height:300px;
+}
+
 .slide-title {
   font-size:40px;
 }
@@ -452,6 +458,23 @@ footer {
   .testimonial-name {
     font-size: 14px;
   }
+
+  .carousel-caption .faded {
+    min-width:420px;
+  }
+
+  .slide-title {
+    font-size:36px;
+  }
+
+  .slide-caption {
+    font-size:22px;
+  }
+
+  .slide-button {
+    font-size:14px;
+    padding: 10px;
+  }
 }
 
 
@@ -478,6 +501,27 @@ footer {
 
   .heading-elements-toggle {
     display: none;
+  }
+
+  .carousel-caption .faded {
+    min-width:0;
+  }
+
+  #hero .off-center {
+    margin-left:-200px;
+  }
+
+  .slide-title {
+    font-size:30px;
+  }
+
+  .slide-caption {
+    font-size:16px;
+  }
+
+  .slide-button {
+    font-size:12px;
+    padding: 5px;
   }
 
 }

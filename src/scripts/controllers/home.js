@@ -13,22 +13,28 @@ angular
       $scope.slides = [];
       $scope.slides.push(
         {
-          title: 'Live Debt Free',
-          text: 'A possibility for everyone',
-          image: '/images/macbook-tea-1.jpg',
-          button: 'Learn More'
-        },
-        {
-          title: 'Free Financial Resources',
-          text: 'Checkout our blog for resources and tips',
-          image: '/images/bussiness_man.jpg',
-          button: 'Learn More'
-        },
-        {
-          title: 'Your Custom Plan',
-          text: 'Start your debt elimination plan today',
+          title: 'Custom Planner',
+          class: 'off-center',
+          text: 'Are you ready to live debt free?',
           image: '/images/planner.jpg',
-          button: 'Learn More'
+          button: 'Sign Up',
+          link: '/login'
+        },
+        {
+          title: 'Advice and Tips',
+          class: 'off-center',
+          text: 'Checkout our blog for advice from our experts',
+          image: '/images/bussiness_man.jpg',
+          button: 'Visit Blog',
+          link: '/blog'
+        },
+        {
+          title: 'Backed by Professionals',
+          class: '',
+          text: 'Learn more about us',
+          image: '/images/macbook-tea-1.jpg',
+          button: 'Learn More',
+          link: '/about'
         }
       );
 

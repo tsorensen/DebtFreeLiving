@@ -4,12 +4,12 @@
   <uib-carousel interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
       <uib-slide ng-repeat="slide in slides" active="slide.active" index="slide.id">
         <!-- ng-swipe-x for mobile -->
-        <img ng-src="{{slide.image}}" style="margin:auto;" ng-swipe-right="showPrev()" ng-swipe-left="showNext()">
+        <img ng-src="{{slide.image}}" class="slider-images {{ slide.class }}" ng-swipe-right="showPrev()" ng-swipe-left="showNext()">
         <div class="carousel-caption">
           <div class="faded">
             <h1 class="slide-title">{{slide.title}}</h1>
             <p class="slide-caption">{{slide.text}}</p>
-            <a href="#" class="slide-button btn btn-primary">{{slide.button}}</a>
+            <a href="{{ slide.link }}" class="slide-button btn btn-primary">{{slide.button}}</a>
           </div>
         </div>
       </uib-slide>
