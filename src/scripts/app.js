@@ -18,6 +18,7 @@ angular
     'CommentsController',
     'ezfb',
     'ngAnimate',
+    'ngTouch',
     'logoutDirective',
     'adminLinkDirective',
     'firebase',
