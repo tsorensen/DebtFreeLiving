@@ -1,20 +1,24 @@
 angular
   .module('AdminController', [
     'blogApp.articles',
+    'blogApp.contacts',
     'modalDirective',
   ])
   .controller('AdminController', [
     'articles',
-    '$location',
+    'contacts',
     '$scope',
-    '$route',
     '$timeout',
-    function(articles, $location, $scope, $route, $timeout) {
+    function(articles, contacts, $scope, $timeout) {
       var self = this;
       self.loadingArticles = true;
-      self.loadingComments = true;
+      self.loadingContacts = true;
       self.articles = [];
-      self.comments = [];
+      self.contacts = [];
+      self.readContacts = [];
+      self.readSpinner = false;
+      self.contactCount = null;
+      self.showRead = false;
 
       self.deletingArticle = false;
       self.articleDeleteId = null;
@@ -37,7 +41,6 @@ angular
         self.deleteArticleSuccess = null;
 
         if(!deleteText || deleteText.toLowerCase() !== "delete") {
-          console.log("Typing delete is required to confirm and delete article.");
           self.deleteArticleError = 'You must type "Delete" in the field above to delete this article.';
           self.deletingArticle = false;
           return;
@@ -80,7 +83,48 @@ angular
           });
       }
 
+      function getContacts() {
+        //get unread contact requests (pass in false)
+        contacts.getRequests(false)
+          .then(function(contactRequests) {
+            self.contacts = contactRequests;
+            self.contactCount = contactRequests.length;
+            self.loadingContacts = false;
+          });
+      }
+
+      self.getReadContacts = function() {
+        self.readSpinner = true;
+        //get read contact requests (pass in true)
+        contacts.getRequests(true)
+          .then(function(contactRequests) {
+            self.readContacts = contactRequests;
+            self.readSpinner = false;
+          });
+      };
+
+      self.markContactAsRead = function(id) {
+        contacts.markAsRead(id)
+          .catch(function(error) {
+            console.log("Error marking contact request as read: ", error);
+            console.log(error.code);
+          });
+      };
+
+      self.deleteContact = function(id) {
+        contacts.delete(id)
+          .catch(function(error) {
+            console.log("Error deleting contact request: ", error);
+            console.log(error.code);
+          });
+      };
+
+      self.contactCounter = function() {
+        self.contactCount -= 1;
+      };
+
       getArticles();
+      getContacts();
     },
 
   ]);
