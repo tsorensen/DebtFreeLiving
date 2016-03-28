@@ -8,7 +8,8 @@ angular
   'verifierUrl',
   'verifierKey',
   '$q',
-  function($http, host, verifierUrl, verifierKey, $q) {
+  '$firebaseArray',
+  function($http, host, verifierUrl, verifierKey, $q, $firebaseArray) {
     var ref = new Firebase(host);
 
     var contacts = {
@@ -42,6 +43,7 @@ angular
           email: contactData.email,
           subject: contactData.subject,
           message: contactData.message,
+          read: false
         },
         priority,
         function(error) {
@@ -54,6 +56,53 @@ angular
           }
         });
       },//end createComment
+
+      getRequests: function(getRead) {
+        var contacts = $firebaseArray(ref.child('contacts').orderByChild('read').equalTo(getRead));
+
+        return contacts.$loaded()
+          .then(function(){
+              angular.forEach(contacts, function(contact) {
+                //format dates using moment
+                contact.date = moment(contact.date).format('MMM DD, YYYY hh:mm a');
+              });
+              return contacts;
+          })
+          .catch(function(error) {
+            console.log('There was an error getting contacts.');
+            return $q.reject(error);
+          });
+      },
+
+      markAsRead: function(id) {
+        var contactRef = ref.child('contacts').child(id);
+
+        return contactRef.update({
+          read: true
+        }, function(error) {
+          if(error) {
+            console.log('Error with marking contact as read:', error);
+            return $q.reject(error);
+          } else {
+            console.log('Contact marked as read successfully.');
+            return $q.resolve();
+          }
+        });
+      },
+
+      delete: function(id) {
+        var contactRef = ref.child('contacts').child(id);
+
+        return contactRef.remove(function(error) {
+          if (error) {
+            console.log('Error with deleting contact request:', error);
+            return $q.reject(error);
+          } else {
+            console.log('Deleted contact request successfully.');
+            return $q.resolve();
+          }
+        });
+      },
 
     };
 
