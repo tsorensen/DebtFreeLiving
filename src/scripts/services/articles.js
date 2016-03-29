@@ -225,6 +225,7 @@ angular
           //set with priority lets us prioritize comments based on date
           return newCommentRef.setWithPriority({
             name: comment.name,
+            image: comment.userImage,
             date: timestamp,
             comment: comment.content,
             articleId: articleId,
