@@ -211,6 +211,16 @@ img.rounded {
   font-size:75%;
 }
 
+.comment-img {
+  width:40px;
+  height:40px;
+}
+
+.default {
+  border:1px solid lightgrey;
+  background:#ccc;
+}
+
 
 /***********************************/
 /************* ABOUT *************/
@@ -431,6 +441,12 @@ footer {
 /***********************************/
 /********* MEDIA QUERIES *********/
 /*******************************/
+
+@media (min-width: 1008px) {
+  .blog-spinner {
+    margin-top:150px;
+  }
+}
 
 @media (min-width: 991px) {
   #about .founder-photo {
