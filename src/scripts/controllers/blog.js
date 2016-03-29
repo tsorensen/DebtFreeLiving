@@ -14,6 +14,7 @@ angular
     function(articles, $scope, $filter, $location) {
       var self = this;
       self.articles = [];
+      self.loadingArticles = true;
       self.categories = [];
 
       //blog search variables for filter
@@ -62,6 +63,7 @@ angular
             if(self.categories) {
               formatCategories();
             }
+            self.loadingArticles = false;
           });
       }
 
