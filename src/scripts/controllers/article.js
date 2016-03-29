@@ -15,6 +15,7 @@ angular
       var self = this;
       self.id = $routeParams.id;
       self.content = [];
+      self.contentLoading = true;
       self.articles = [];
       self.categories = [];
       self.comments = [];
@@ -27,6 +28,7 @@ angular
         articles.read(self.id)
           .then(function(article) {
             self.content = article;
+            self.contentLoading = false;
           })
           .then(function() {
             articles.getComments(self.id)
@@ -80,6 +82,7 @@ angular
             auth.getCurrentUser()
               .then(function(userData) {
                   self.inputs.name = userData.firstName + ' ' + userData.lastName;
+                  self.inputs.userImage = userData.image;
               })
               .catch(function(error) {
                 console.log('Error in retreiving user data: ', error);
@@ -127,6 +130,7 @@ angular
           name: data.name,
           content: data.comment,
           articleName: self.content.title,
+          userImage: data.userImage,
         };
 
         return articles.createComment(comment)
