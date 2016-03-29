@@ -8,35 +8,41 @@
           <h2 class="text-center">Login</h2>
 
           <div class="panel-body">
-            <form id="login-form" ng-submit="login.login(login.loginInputs)">
-    							<div class="form-group has-feedback has-feedback-left">
+            <form id="login-form" name="loginForm" ng-submit="login.login(login.loginInputs)" novalidate>
+              <div class="form-group has-feedback has-feedback-left" ng-class="{ 'has-error': clickedLogin && loginForm.email.$invalid }">
     								<input
                       type="email"
                       class="form-control"
                       placeholder="Email"
                       name="email"
-                      value=""
                       ng-model="login.loginInputs.email"
-                      required autofocus>
-    								<div class="form-control-feedback icons">
+                      ng-required="true"
+                      autofocus>
+                    <div class="help-block" ng-messages="loginForm.email.$error" ng-show="clickedLogin">
+                      <p ng-message="required">Email is required.</p>
+                    </div>
+                    <div class="form-control-feedback icons">
     									<i class="fa fa-envelope text-muted"></i>
     								</div>
     							</div>
 
-    							<div class="form-group has-feedback">
-                    <div class="form-control-feedback icons">
-    									<i class="fa fa-lock text-muted"></i>
-    								</div>
-    								<input
+                  <div class="form-group has-feedback" ng-class="{ 'has-error': clickedLogin && loginForm.password.$invalid }">
+                    <input
                       type="password"
                       class="form-control"
                       placeholder="Password"
                       name="password"
                       ng-model="login.loginInputs.password"
-                      required>
-    							</div>
+                      ng-required="true">
+                    <div class="help-block" ng-messages="loginForm.password.$error" ng-show="clickedLogin">
+                      <p ng-message="required">Password is required.</p>
+                    </div>
+                    <div class="form-control-feedback icons">
+                      <i class="fa fa-lock text-muted"></i>
+                    </div>
+                  </div>
 
-    							<div class="form-group login-options">
+                  <div class="form-group login-options">
     								<div class="row">
     									<div class="col-sm-6">
     										<label class="checkbox-inline">
@@ -87,8 +93,8 @@
           <h2 class="text-center">Register</h2>
 
           <div class="panel-body">
-            <form id="register-form" ng-submit="login.register(login.registerInputs)">
-                  <div class="form-group has-feedback">
+            <form id="register-form" name="registerForm" ng-submit="login.register(login.registerInputs)" novalidate>
+                  <div class="form-group has-feedback" ng-class="{ 'has-error': (registerForm.firstName.$touched || submitted) && registerForm.firstName.$invalid }">
                     <input
                       type="text"
                       class="form-control"
@@ -96,13 +102,20 @@
                       name="firstName"
                       value=""
                       ng-model="login.registerInputs.firstName"
-                      required autofocus>
+                      ng-maxlength="30"
+                      ng-pattern="/^[a-zA-Z]*$/"
+                      ng-required="true">
+                    <div class="help-block" ng-messages="registerForm.firstName.$error" ng-show="registerForm.firstName.$touched || submitted">
+                      <p ng-message="maxlength">First Name is limited to 30 characters.</p>
+                      <p ng-message="required">First Name is required.</p>
+                      <p ng-message="pattern">Only letter characters allowed.</p>
+                    </div>
                     <div class="form-control-feedback icons">
                       <i class="fa fa-user text-muted"></i>
                     </div>
                   </div>
 
-                  <div class="form-group has-feedback">
+                  <div class="form-group has-feedback" ng-class="{ 'has-error': (registerForm.lastName.$touched || submitted) && registerForm.lastName.$invalid }">
                     <input
                       type="text"
                       class="form-control"
@@ -110,53 +123,76 @@
                       name="lastName"
                       value=""
                       ng-model="login.registerInputs.lastName"
-                      required>
+                      ng-maxlength="30"
+                      ng-pattern="/^[a-zA-Z]*$/"
+                      ng-required="true">
+                    <div class="help-block" ng-messages="registerForm.lastName.$error" ng-show="registerForm.lastName.$touched || submitted">
+                      <p ng-message="maxlength">30 character limit.</p>
+                      <p ng-message="required">Last Name is required.</p>
+                      <p ng-message="pattern">Only letter characters allowed.</p>
+                    </div>
                     <div class="form-control-feedback icons">
                       <i class="fa fa-user text-muted"></i>
                     </div>
                   </div>
 
-                  <div class="form-group has-feedback">
+                  <div class="form-group has-feedback" ng-class="{ 'has-error' : (registerForm.email.$touched || submitted) && registerForm.email.$invalid }">
                     <input
                       type="email"
                       class="form-control"
                       placeholder="Email"
                       name="email"
-                      value=""
                       ng-model="login.registerInputs.email"
-                      required>
+                      ng-required="true">
+                    <div class="help-block" ng-messages="registerForm.email.$error" ng-show="registerForm.email.$touched || submitted">
+                      <p ng-message="required">Email is required.</p>
+                    </div>
                     <div class="form-control-feedback icons">
                       <i class="fa fa-envelope text-muted"></i>
                     </div>
                   </div>
 
-                  <div class="form-group has-feedback">
-                    <div class="form-control-feedback icons">
-                      <i class="fa fa-lock text-muted"></i>
-                    </div>
+                  <div class="form-group has-feedback" ng-class="{ 'has-error' : (registerForm.password.$touched || submitted) && registerForm.password.$invalid }">
                     <input
                       type="password"
                       class="form-control"
                       placeholder="Password"
                       name="password"
                       ng-model="login.registerInputs.password"
-                      required>
-                  </div>
-
-                  <div class="form-group has-feedback">
+                      ng-minlength="6"
+                      ng-maxlength="25"
+                      ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/"
+                      ng-required="true">
+                    <div class="help-block" ng-messages="registerForm.password.$error" ng-show="registerForm.password.$touched || submitted">
+                      <p ng-message="required">Password is required.</p>
+                      <p ng-message="minlength">Password must be 6-25 characters long.</p>
+                      <p ng-message="maxlength">Password must be 6-25 characters long.</p>
+                      <p ng-message="pattern">Password must contain one lowercase letter, one uppercase letter, and one non-alpha character (number or symbol).</p>
+                    </div>
                     <div class="form-control-feedback icons">
                       <i class="fa fa-lock text-muted"></i>
                     </div>
+                  </div>
+
+                  <div class="form-group has-feedback" ng-class="{ 'has-error' : (registerForm.confirmPassword.$touched || submitted) && registerForm.confirmPassword.$invalid }">
                     <input
                       type="password"
                       class="form-control"
                       placeholder="Confirm Password"
                       name="confirmPassword"
                       ng-model="login.registerInputs.confirmPassword"
-                      required>
+                      compare-to="login.registerInputs.password"
+                      ng-required="true">
+                    <div class="help-block" ng-messages="registerForm.confirmPassword.$error" ng-show="registerForm.confirmPassword.$touched || submitted">
+                      <p ng-message="required">Confirm Password is required.</p>
+                      <p ng-message="password">Password and Confirm Password fields must match.</p>
+                    </div>
+                    <div class="form-control-feedback icons">
+                      <i class="fa fa-lock text-muted"></i>
+                    </div>
                   </div>
 
-                  <div class="form-group login-options">
+                  <div class="form-group login-options" ng-class="{ 'has-error' : submitted && registerForm.agreed.$invalid }">
                     <div class="row">
                       <div class="col-sm-12">
                         <label class="checkbox-inline">
@@ -165,11 +201,32 @@
                             class="styled"
                             name="agreed"
                             ng-model="login.registerInputs.terms"
-                            required>
+                            ng-required="true">
                           I have read and agree to the <a href="/#/terms_of_service/#">Terms of Service</a>
                         </label>
+                        <div class="help-block" ng-messages="registerForm.agreed.$error" ng-show="submitted">
+                          <p ng-message="required">You must agree to the Terms of Service.</p>
+                        </div>
                       </div>
                     </div><!-- /.row -->
+                  </div>
+
+                  <div class="form-group has-feedback text-center" ng-class="{ 'has-error' : submitted && registerForm.captcha.$invalid }">
+                      <div
+                        class="captcha"
+                        vc-recaptcha
+                        theme="'light'"
+                        name="captcha"
+                        ng-model="login.registerInputs.captcha"
+                        ng-required="true"
+                        key="'6LfR6xsTAAAAAH7nsoMdVZ66dAKGk5TTq94oOavv'"
+                        on-create="setWidgetId(widgetId)"
+                        on-success="setResponse(response)"
+                        on-expire="cbExpiration()">
+                      </div>
+                      <div class="help-block" ng-messages="registerForm.captcha.$error" ng-show="registerForm.captcha.$invalid && submitted">
+                        <p ng-message="required">Captcha is required.</p>
+                      </div>
                   </div>
 
                   <div class="alert alert-danger" ng-show="login.registerError">
