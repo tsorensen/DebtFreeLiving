@@ -3,8 +3,10 @@
       <h1 class="page-header no-border text-center"></h1>
 
       <!-- Blog Post Content Column -->
-      <div class="col-md-8">
 
+      <div class="col-md-8">
+        <p ng-show="article.contentLoading === true" class="blog-spinner spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p>
+        <div class="loadingWrapper" ng-show="article.contentLoading === false">
           <!-- Blog Post -->
           <div class="post">
             <!-- Title -->
@@ -37,7 +39,6 @@
           <hr>
 
           <!-- Blog Comments -->
-          <!-- Comments Form -->
           <div class="well">
               <form ng-if="article.isLoggedIn === true" id="comment-form" role="form" enctype="multipart/form-data" ng-submit="article.submit(article.inputs)">
                 <h4>Leave a Comment:</h4>
@@ -61,6 +62,7 @@
                 </div>
 
                 <input type="hidden" name="name" ng-model="article.inputs.name">
+                <input type="hidden" name="userImage" ng-model="article.inputs.userImage">
                 <div class="form-group">
                   <span ng-show="article.savingComment === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
                   <button ng-show="article.savingComment === false" type="submit" class="btn btn-success">Submit Comment</button>
@@ -68,7 +70,7 @@
               </form>
               <div ng-if="article.isLoggedIn === false">
                 <p>You must be logged in to comment</p>
-                <a href="/#/login?page=article/{{ article.id }}" class="btn btn-primary">Login</a>
+                <a href="/#/login?page=articles/{{ article.id }}" class="btn btn-success">Login</a>
               </div>
           </div>
 
@@ -78,9 +80,9 @@
               <!-- <div class="user-icon pull-left">
                 <i class="fa fa-user fa-3x"></i>
               </div> -->
-              <a class="pull-left" href="">
-                  <img class="media-object" src="http://placehold.it/64x64" alt="">
-              </a>
+              <div class="pull-left">
+                  <img class="comment-img media-object" ng-class="{ default: comment.image === 'default' }" src="{{ comment.image === 'default' ? '/images/user.png' : comment.image }}" alt="User profile image">
+              </div>
               <div class="media-body">
                   <h4 class="media-heading">{{ comment.name }}
                       <small>{{ comment.date }}</small>
@@ -92,58 +94,11 @@
               <p>No comments yet.</p>
           </div>
 
-
-          <!-- Comment w/ nested comment -->
-          <!-- <div class="media">
-              <a class="pull-left" href="#">
-                  <img class="media-object" src="http://placehold.it/64x64" alt="">
-              </a>
-              <div class="media-body">
-                  <h4 class="media-heading">Start Bootstrap
-                      <small>August 25, 2014 at 9:30 PM</small>
-                  </h4>
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-                  <div class="media nested-comment">
-                      <a class="pull-left" href="#">
-                          <img class="media-object" src="http://placehold.it/64x64" alt="">
-                      </a>
-                      <div class="media-body">
-                          <h4 class="media-heading">Nested Start Bootstrap
-                              <small>August 25, 2014 at 9:30 PM</small>
-                          </h4>
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                      </div>
-                  </div>
-              </div>
-          </div> -->
-
-      </div>
+        </div><!-- /.loadingWrapper -->
+      </div><!-- /.col-md-8 -->
 
       <!-- Blog Sidebar Widgets Column -->
       <div class="col-md-4 side-widgets">
-          <!-- Blog Search Well -->
-          <!-- <div class="well">
-              <h4>Blog Search</h4>
-              <div class="input-group">
-                  <input id="searchbox" type="text" class="form-control" ng-model="article.query[article.queryBy]">
-                  <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">
-                          <span class="glyphicon glyphicon-search"></span>
-                  </button>
-                  </span>
-              </div>
-              <!--
-              <h4>Search By:</h4>
-              <select class="form-control" ng-change="article.clearSearch()" ng-model="article.queryBy">
-                <option value="$"></option>
-                <option value="title">Title</option>
-                <option value="category">Category</option>
-                <option value="date">Date</option>
-                <option value="author">Author</option>
-                <option value="body">Text content</option>
-              </select>
-          </div> -->
 
           <!-- Recent Articles Well -->
           <div class="well">
