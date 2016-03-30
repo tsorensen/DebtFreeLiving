@@ -18,7 +18,7 @@ angular
           text: 'Are you ready to live debt free?',
           image: '/images/planner.jpg',
           button: 'Sign Up',
-          link: '/login'
+          link: '/#/login'
         },
         {
           title: 'Advice and Tips',
@@ -26,7 +26,7 @@ angular
           text: 'Checkout our blog for advice from our experts',
           image: '/images/bussiness_man.jpg',
           button: 'Visit Blog',
-          link: '/blog'
+          link: '/#/blog'
         },
         {
           title: 'Backed by Professionals',
@@ -34,7 +34,7 @@ angular
           text: 'Learn more about us',
           image: '/images/macbook-tea-1.jpg',
           button: 'Learn More',
-          link: '/about'
+          link: '/#/about'
         }
       );
 
