@@ -69,20 +69,6 @@ angular
           function sortInt(a, b) {
           return b.calcIntRate-a.calcIntRate;
           };
-
-          //Add or recalculate the following for each object in loanList: 1) Each item's current index, 2) the payment amount as well as the term of the previous object, 3) Each object's "second payment" amount, equal to the payment plus the previous loan's payment.
-          for(i = 0; i < $scope.loanList.length; i++){
-            $scope.loanList[i].thisIndex = i;
-            if(i === 0){
-              $scope.loanList[i].prevPayment = 0;
-              $scope.loanList[i].prevTerm = 0;
-              $scope.loanList[i].finishedPayment = $scope.loanList[i].calcPayment;
-            } else {
-              $scope.loanList[i].finishedPayment = $scope.loanList[i-1].finishedPayment + $scope.loanList[i].calcPayment;
-              $scope.loanList[i].prevPayment = $scope.loanList[i-1].finishedPayment;
-              $scope.loanList[i].prevTerm = $scope.loanList[i-1].calcTerm;
-            }
-          };
         }
 
         //Use the termCalc function to get the final output.
@@ -102,19 +88,23 @@ angular
         function termCalc(loanList){
 
           var totalBalance = 0;
+          var paidOff = false;
 
           for(k=0; k < loanList.length; k++){
             totalBalance += loanList[k].calcBalance;
           }
 
-          while(totalBalance > 0){
+          while(!paidOff){
             //As long as the total balance is anything higher than 0, push a new object to the array that will contain
             //an array of additional objects including the description and the payment owed.
+
+            if(totalBalance <= 0){
+              paidOff = true;
+            }
+
             $scope.finalOutput.push(
                 [$scope.finalOutput.length + 1]
-                    )
-
-            var snowballPayment;
+            )
 
             for(j=0; j < loanList.length; j++){
 
@@ -122,37 +112,37 @@ angular
               var monthlyIntPmt = loanList[j].calcBalance * monthInt;
               $scope.loanList[j].principal = loanList[j].calcPayment - monthlyIntPmt;
               var payment = loanList[j].calcPayment;
+              var snowballPayment = 0;
+              var tempSnowball = 0;
 
 
               //Determine how much is owed for the month
               if(loanList[j].calcBalance < $scope.loanList[j].principal && loanList[j].calcBalance > 0){
-                snowballPayment = loanList[j].calcPayment - loanList[j].calcBalance;
+                tempSnowball = loanList[j].calcPayment - loanList[j].calcBalance;
                 $scope.loanList[j].thisMonthsPayment = loanList[j].calcBalance;
-                if(snowballPayment < 0) {
-                  snowballPayment = 0;
+                if(tempSnowball < 0) {
+                  tempSnowball = 0;
                 }
               } else if (loanList[j].calcBalance < $scope.loanList[j].principal && loanList[j].calcBalance <= 0) {
                 $scope.loanList[j].thisMonthsPayment = 0;
-                snowballPayment = payment;
+                tempSnowball = payment;
                 console.log("Hit!!!!!");
               } else {
                 $scope.loanList[j].thisMonthsPayment = payment;
-                snowballPayment = 0;
+                tempSnowball = 0;
               };
 
-              var alreadySnowballed = false;
+              snowballPayment += tempSnowball;
+
+              loanList[j].alreadySnowballed = false;
 
               for(n=0; n < loanList.length; n++){
-                if(!alreadySnowballed){
+                if(!loanList[j].alreadySnowballed && loanList[n].calcBalance > 0){
                   loanList[n].calcPayment = loanList[n].staticPayment + snowballPayment;
-                  alreadySnowballed = true;
+                  loanList[j].alreadySnowballed = true;
+                  console.log(j + " Snowball: " + snowballPayment);
                 }
               }
-
-              /*if(loanList[j+1] != undefined){
-                loanList[j + 1].calcPayment = loanList[j+1].staticPayment + snowballPayment;
-                console.log(j + " - " + $scope.finalOutput.length + "Snowball distributed :" + snowballPayment);
-              }*/
             }
 
 
