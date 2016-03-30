@@ -6,11 +6,14 @@
  *   2. Navigation
  *   3. Home Page
  *   4. Blog
- *   5. Login
- *   6.
- *   7.
- *   8. Footer
- *   9. Media Queries
+ *   5. About
+ *   6. Contact
+ *   7. Login/Forgot Password
+ *   8. Admin
+ *   9. Dashboard
+ *  10. Account
+ *  11. Footer
+ *  12. Media Queries
  */
 
 /***********************************/
@@ -383,22 +386,6 @@ img.rounded {
 
 #dashboard .panel-flat>.panel-heading+.panel-body {
     padding-top: 0;
-}
-
-.chart, .chart-container {
-    position: relative;
-    width: 100%;
-}
-
-.chart {
-    display: block;
-}
-.chart, .chart-container {
-    position: relative;
-    width: 100%;
-}
-.chart-pie, .has-fixed-height {
-    height: 400px;
 }
 
 
