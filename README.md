@@ -4,6 +4,7 @@ Repository for our DGM 2015-2016 Senior Project.
 
 ## How to Run this Project Locally
 
+##### Instructions
 1. Fork the project to your GitHub account
 2. Clone the project to your local machine
 3. Install dependencies
