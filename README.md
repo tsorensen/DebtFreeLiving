@@ -2,8 +2,18 @@
 
 Repository for our DGM 2015-2016 Senior Project.
 
-# Handling Version Control on this Project
-Just a quick overview/cheatsheet from our meeting with Thor on how we should handle the version control on this project.
+## How to Run this Project Locally
+
+1. Fork the project to your GitHub account
+2. Clone the project to your local machine
+3. Install dependencies
+ * Navigate in your console to the project directory on your local machine
+ * Run `npm install` to install dependencies from package.json
+ * Run `bower install` to install dependencies from bower.json
+4. Run `gulp watch` in your console to serve up the project on `localhost:8000`
+
+## Handling Version Control on this Project
+Just a quick overview/cheatsheet on how we should handle the version control on this project.
 
 ##### Setup
 * Fork the main repository to your own profile
@@ -11,7 +21,7 @@ Just a quick overview/cheatsheet from our meeting with Thor on how we should han
 * Set the upstream to the main repository `git remote add upstream https://github.com/tsorensen/DebtFreeLiving.git`
 * Check that the upstream has been set `git remote -v`.  More info [here](https://help.github.com/articles/configuring-a-remote-for-a-fork/).
 
-You should now be set.  You can make all the changes/additions you need to on your local copy.  You can also update your local copy at anytime (if you see new commits come through on the main repo in Slack) by fetching the upstream `git fetch upstream`.
+You should now be set.  You can make all the changes/additions you need to on your local copy.  You can also update your local copy at anytime (if you see new commits come through on the main repo in Slack) by fetching the upstream (see below).
 
 ##### Committing Changes
 When you're ready to commit changes, make sure to fetch the upstream first.
