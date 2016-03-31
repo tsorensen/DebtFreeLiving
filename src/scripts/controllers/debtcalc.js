@@ -112,6 +112,8 @@ angular
 
             recalculatePayments();
             function recalculatePayments(){
+            var newMonthContainer = 0;
+
               //Determine the default payment amount for every item in the current month
               for(i=0; i < loanList.length; i++){
                 //If the payment is higher than the balance, this months payment is only equal to the balance.
@@ -121,15 +123,11 @@ angular
                 }
               }
 
-              var newMonthContainer = 0;
-
               //Determine what is left of the monthly total BEFORE snowball payments are applied
               for(i=0; i < loanList.length; i++){
                 //Now that the initial monthly payments have been calculated, find the difference between
                 //the "new total" and the original monthly total.
-                console.log(loanList[i].calcPayment);
                 newMonthContainer += loanList[i].calcPayment;
-                console.log(newMonthContainer);
               }
 
               finalPayment = true;
@@ -142,11 +140,10 @@ angular
               }
               //The total snowball payment equals whatever is left over
               totalSnowball = monthlyTotal - newMonthContainer;
-              console.log("Monthly Total: " + monthlyTotal + " newMonthContainer: " + newMonthContainer + " totalSnowball: " + totalSnowball);
-
+              console.log("Hit");
               if(totalSnowball > 0 && !finalPayment){
                 for(i=0; i < loanList.length; i++){
-                  if(!paidOff){
+                  if(!loanList[i].paidOff){
                     loanList[i].calcPayment += totalSnowball;
                     recalculatePayments();
                   }
