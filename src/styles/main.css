@@ -291,14 +291,16 @@ img.rounded {
 #register-form input,
 #forgot-form input,
 #contact-form input,
-#contact-form textarea {
+#contact-form textarea,
+#loan-form input {
   padding-left:30px;
 }
 
 #login-form .icons,
 #register-form .icons,
 #forgot-form .icons,
-#contact-form .icons {
+#contact-form .icons,
+#loan-form .icons {
   left:0;
 }
 
@@ -388,6 +390,9 @@ img.rounded {
     padding-top: 0;
 }
 
+.form-control-feedback.icons.margin-left {
+  margin-left:14px;
+}
 
 /************************************/
 /************* ACCOUNT ************/
