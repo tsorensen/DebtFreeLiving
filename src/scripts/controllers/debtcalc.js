@@ -6,7 +6,6 @@ angular
     '$scope',
     'auth',
     function($scope, auth) {
-
       if(!auth.isLoggedIn()) {
         $location.url('/login')
       }
@@ -61,7 +60,11 @@ angular
               calcBalance: parseFloat($scope.initList[j].balance),
               calcIntRate: parseFloat($scope.initList[j].intRate),
               calcPayment: parseFloat($scope.initList[j].payment),
-              staticPayment: parseFloat($scope.initList[j].payment)
+              staticPayment: parseFloat($scope.initList[j].payment),
+              thisMonthsPayment: parseFloat($scope.initList[j].payment),
+              snowballPayment: 0,
+              currentSnowball: false,
+              paidOff: false
             })
 
           //Arrange all objects in loanList by interest rate by highest to lowest
@@ -88,88 +91,93 @@ angular
         function termCalc(loanList){
 
           var totalBalance = 0;
+          var totalSnowball = 0;
           var paidOff = false;
+          var monthlyTotal = 0;
 
-          for(k=0; k < loanList.length; k++){
-            totalBalance += loanList[k].calcBalance;
+          for(i=0; i < loanList.length; i++){
+            totalBalance += loanList[i].calcBalance;
           }
 
-          while(!paidOff){
-            //As long as the total balance is anything higher than 0, push a new object to the array that will contain
-            //an array of additional objects including the description and the payment owed.
+          for(i=0; i < loanList.length; i++){
+            monthlyTotal += $scope.loanList[i].staticPayment;
+          }
 
-            if(totalBalance <= 0){
-              paidOff = true;
-            }
+          while(totalBalance > 0){
 
+            //Adds month as the first item in the array
             $scope.finalOutput.push(
                 [$scope.finalOutput.length + 1]
             )
 
-            for(j=0; j < loanList.length; j++){
-
-              var monthInt = loanList[j].calcIntRate / 1200;
-              var monthlyIntPmt = loanList[j].calcBalance * monthInt;
-              $scope.loanList[j].principal = loanList[j].calcPayment - monthlyIntPmt;
-              var payment = loanList[j].calcPayment;
-              var snowballPayment = 0;
-              var tempSnowball = 0;
-
-
-              //Determine how much is owed for the month
-              if(loanList[j].calcBalance < $scope.loanList[j].principal && loanList[j].calcBalance > 0){
-                tempSnowball = loanList[j].calcPayment - loanList[j].calcBalance;
-                $scope.loanList[j].thisMonthsPayment = loanList[j].calcBalance;
-                if(tempSnowball < 0) {
-                  tempSnowball = 0;
-                }
-              } else if (loanList[j].calcBalance < $scope.loanList[j].principal && loanList[j].calcBalance <= 0) {
-                $scope.loanList[j].thisMonthsPayment = 0;
-                tempSnowball = payment;
-                console.log("Hit!!!!!");
-              } else {
-                $scope.loanList[j].thisMonthsPayment = payment;
-                tempSnowball = 0;
-              };
-
-              snowballPayment += tempSnowball;
-
-              loanList[j].alreadySnowballed = false;
-
-              for(n=0; n < loanList.length; n++){
-                if(!loanList[j].alreadySnowballed && loanList[n].calcBalance > 0){
-                  loanList[n].calcPayment = loanList[n].staticPayment + snowballPayment;
-                  loanList[j].alreadySnowballed = true;
-                  console.log(j + " Snowball: " + snowballPayment);
+            recalculatePayments();
+            function recalculatePayments(){
+              //Determine the default payment amount for every item in the current month
+              for(i=0; i < loanList.length; i++){
+                //If the payment is higher than the balance, this months payment is only equal to the balance.
+                if(loanList[i].calcPayment > loanList[i].calcBalance){
+                  loanList[i].calcPayment = loanList[i].calcBalance;
+                  loanList[i].paidOff = true;
                 }
               }
-            }
 
+              var newMonthContainer = 0;
 
-            for(m=0; m < loanList.length; m++){
+              //Determine what is left of the monthly total BEFORE snowball payments are applied
+              for(i=0; i < loanList.length; i++){
+                //Now that the initial monthly payments have been calculated, find the difference between
+                //the "new total" and the original monthly total.
+                console.log(loanList[i].calcPayment);
+                newMonthContainer += loanList[i].calcPayment;
+                console.log(newMonthContainer);
+              }
+
+              finalPayment = true;
+
+              //Determine if this is the final payments
+              for(i=0; i < loanList.length; i++){
+                if(!loanList[i].paidOff){
+                  finalPayment = false;
+                }
+              }
+              //The total snowball payment equals whatever is left over
+              totalSnowball = monthlyTotal - newMonthContainer;
+              console.log("Monthly Total: " + monthlyTotal + " newMonthContainer: " + newMonthContainer + " totalSnowball: " + totalSnowball);
+
+              if(totalSnowball > 0 && !finalPayment){
+                for(i=0; i < loanList.length; i++){
+                  if(!paidOff){
+                    loanList[i].calcPayment += totalSnowball;
+                    recalculatePayments();
+                  }
+                }
+              }
+            };
+
+            for(i=0; i < loanList.length; i++){
               //Make a payment
-              $scope.finalOutput[$scope.finalOutput.length - 1].push(
-                $scope.loanList[m].thisMonthsPayment
-              );
 
-              loanList[m].calcBalance -= $scope.loanList[m].principal;
-              totalBalance -= $scope.loanList[m].principal;
+              $scope.finalOutput[$scope.finalOutput.length - 1].push(
+                loanList[i].calcPayment
+              )
+
+              loanList[i].calcBalance -= $scope.loanList[i].calcPayment;
+              totalBalance -= $scope.loanList[i].calcPayment;
             }
           }
         };
+      function createColumns(loanList){
 
-        function createColumns(loanList){
+        $scope.columns.push(
+          { title: "MONTH" }
+        );
 
+        for(j=0; j < loanList.length; j++){
           $scope.columns.push(
-            { title: "MONTH" }
+            { title: loanList[j].calcDesc }
           );
-
-          for(j=0; j < loanList.length; j++){
-            $scope.columns.push(
-              { title: loanList[j].calcDesc }
-            );
-          }
-        };
+        }
       };
-    }
-  ]);
+    };
+  }
+]);
