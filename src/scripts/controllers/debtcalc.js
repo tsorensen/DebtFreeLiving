@@ -150,13 +150,17 @@ angular
                 }
               }
             };
-
+;
             for(i=0; i < loanList.length; i++){
               //Make a payment
 
               $scope.finalOutput[$scope.finalOutput.length - 1].push(
                 loanList[i].calcPayment
               )
+
+              var monthInt = loanList[i].calcIntRate / 1200;
+              var monthlyIntPmt = loanList[i].calcBalance * monthInt;
+              var principal = loanList[i].calcPayment - monthlyIntPmt;
 
               loanList[i].calcBalance -= $scope.loanList[i].calcPayment;
               totalBalance -= $scope.loanList[i].calcPayment;
