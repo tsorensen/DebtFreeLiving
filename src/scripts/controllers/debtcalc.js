@@ -13,21 +13,29 @@ angular
       var table;
       $scope.columns = [];
 
-      $scope.date = moment().month(3).format("MMMM YYYY");
+      $scope.date = moment().format("MMMM YYYY");
       //$scope.adjustedDate =
       //Hide table until values are entered
+
+      $scope.test = moment($scope.date, "MMMM YYYY").add(1, 'months').format("MMMM YYYY");
       var showTable = true;
 
       $scope.showRemoveBtn = false;
 
+      $scope.showForm = true;
+
+      $scope.showPlan = false;
+
       //Create an array to hold information from user inputs
-      $scope.initList = [[],[]];
+      $scope.initList = [{},{}];
 
       //Create an array for the final output
       $scope.finalOutput = [];
 
       //Create an array to hold information for each loan
       $scope.loanList = [];
+
+      $scope.userData = {};
 
       //A bucket for potential error messages
       $scope.errorMessage = null;
@@ -52,8 +60,47 @@ angular
         }
       };
 
+      $scope.editPlan = function(){
+        $scope.showForm = true;
+      }
+
+      $scope.resetPlan = function(){
+        BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_DANGER,
+            title: 'Reset Plan',
+            label: 'small',
+            message: 'Your Debt-Elimination Plan will be ERASED. This action cannot be undone.',
+            buttons: [{
+                label: 'Cancel',
+                action: function(dialogItself){
+                  dialogItself.close();
+                }
+            }, {
+                label: 'Clear Plan and Reset',
+                cssClass: 'btn-danger',
+                action: function(dialogItself){
+                  $scope.clearAll();
+                  dialogItself.close();
+                }
+            }]
+        });
+      }
+
+      $scope.clearAll = function(){
+        $scope.initList = [{},{}];
+        $scope.loanList = [];
+        $scope.finalOutput = [];
+        $scope.colums = [];
+        $scope.showForm = true;
+        if(table){ table.destroy(); }
+        table.draw();
+        $scope.showPlan = false;
+      };
+
       //Function to add loan objects to the loan list above
       $scope.calcLoans = function(){
+
+        $scope.showForm = false;
 
         //Clear the loanList array and the final output array
         $scope.loanList = [];
@@ -66,14 +113,12 @@ angular
           //Function takes form info and pushes it into the loanList array
           $scope.loanList.push(
             {
+              date: $scope.date = moment().format("MMMM YYYY"),
               calcDesc: $scope.initList[j].desc.toUpperCase(),
               calcBalance: parseFloat($scope.initList[j].balance),
               calcIntRate: parseFloat($scope.initList[j].intRate),
               calcPayment: parseFloat($scope.initList[j].payment),
               staticPayment: parseFloat($scope.initList[j].payment),
-              thisMonthsPayment: parseFloat($scope.initList[j].payment),
-              snowballPayment: 0,
-              currentSnowball: false,
               paidOff: false
             })
 
@@ -82,6 +127,9 @@ angular
           function sortInt(a, b) {
           return b.calcIntRate-a.calcIntRate;
           };
+
+          $scope.userData.date = $scope.date;
+          $scope.userData.debts = $scope.initList;
         }
 
         //Use the termCalc function to get the final output.
@@ -97,6 +145,8 @@ angular
             columns: $scope.columns
         } );
 
+        $scope.showPlan = true;
+
         //Calculate the term of every object.
         function termCalc(loanList){
 
@@ -104,6 +154,7 @@ angular
           var totalSnowball = 0;
           var paidOff = false;
           var monthlyTotal = 0;
+          var monthsToAdd = 1;
 
           for(i=0; i < loanList.length; i++){
             totalBalance += loanList[i].calcBalance;
@@ -114,15 +165,18 @@ angular
           }
 
           while(totalBalance > 0){
-
+            console.log(totalBalance);
             //Adds month as the first item in the array
             $scope.finalOutput.push(
-                [$scope.finalOutput.length + 1]
+              [moment($scope.date, "MMMM YYYY").add(monthsToAdd, 'months').format("YYYY MMM")]
             )
+
+            monthsToAdd++;
 
             recalculatePayments();
             function recalculatePayments(){
-            var newMonthContainer = 0;
+
+              var newMonthContainer = 0;
 
               //Determine the default payment amount for every item in the current month
               for(i=0; i < loanList.length; i++){
@@ -160,7 +214,7 @@ angular
                 }
               }
             };
-;
+
             for(i=0; i < loanList.length; i++){
               //Make a payment
 
@@ -174,6 +228,14 @@ angular
 
               loanList[i].calcBalance -= principal.toFixed(2);
               totalBalance -= principal.toFixed(2);
+
+              if (loanList[i].calcBalance < 0.01){
+                loanList[i].calcBalance = 0;
+              }
+
+              if (totalBalance < 0.01) {
+                totalBalance = 0;
+              }
             }
           }
         };
