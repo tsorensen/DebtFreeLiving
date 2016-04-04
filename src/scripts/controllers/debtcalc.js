@@ -11,8 +11,6 @@ angular
       }
 
       var table;
-
-      $scope.moneyTest = numeral(1000).format('0,0');
       $scope.columns = [];
 
       $scope.date = moment().month(3).format("MMMM YYYY");
@@ -21,7 +19,7 @@ angular
       var showTable = true;
 
       //Create an array to hold information from user inputs
-      $scope.initList = [[], []];
+      $scope.initList = [];
 
       //Create an array for the final output
       $scope.finalOutput = [];
@@ -157,15 +155,15 @@ angular
               //Make a payment
 
               $scope.finalOutput[$scope.finalOutput.length - 1].push(
-                loanList[i].calcPayment
+                loanList[i].calcPayment.toFixed(2)
               )
 
               var monthInt = loanList[i].calcIntRate / 1200;
               var monthlyIntPmt = loanList[i].calcBalance * monthInt;
               var principal = loanList[i].calcPayment - monthlyIntPmt;
 
-              loanList[i].calcBalance -= $scope.loanList[i].calcPayment;
-              totalBalance -= $scope.loanList[i].calcPayment;
+              loanList[i].calcBalance -= principal.toFixed(2);
+              totalBalance -= principal.toFixed(2);
             }
           }
         };

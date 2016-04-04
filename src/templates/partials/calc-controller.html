@@ -5,6 +5,7 @@
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
           <h1 class="mainHeader">My Plan</h1>
+
         <div class="panel panel-default">
           <div class="panel-body">
             <form ng-submit="calcLoans()">
@@ -21,7 +22,7 @@
                   <div class="form-group">
                     <div class="col-xs-4">
                       <label for="balance"></label>
-                      <input autoNum type="text" class="form-control autoNum" data-a-sign="$" ng-model="loan.balance" placeholder="Balance" />
+                      <input type="text" class="form-control" data-a-sign="$" ng-model="loan.balance" placeholder="Balance" />
                     </div>
                   </div>
                   <div class="form-group">
@@ -33,7 +34,7 @@
                   <div class="form-group">
                     <div class="col-xs-4">
                       <label for="payment"></label>
-                      <input autoNum type="text" name="payment autoNum" class="form-control" data-a-sign="$" ng-model="loan.payment" placeholder = "Monthly Payment" />
+                      <input type="text" name="payment autoNum" class="form-control" data-a-sign="$" ng-model="loan.payment" placeholder = "Monthly Payment" />
                     </div>
                   </div>
                 </fieldset>
@@ -64,7 +65,7 @@
 
       <table id="outputTable" class="table"></table>
 
-      <h2>{{ date }}</h2>
+      <h2>{{ loanList[0].calcBalance }}</h2>
       <h2>Money: {{moneyTest}}</h2>
       <h2>{{ finalOutput }}</h2>
 
