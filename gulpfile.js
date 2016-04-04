@@ -26,7 +26,7 @@ var lib = require('bower-files')({
         'dist/textAngularSetup.js',
         'dist/textAngular.js',
       ]
-    }
+    },
   }
 });
 

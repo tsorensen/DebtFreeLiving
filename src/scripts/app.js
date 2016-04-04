@@ -19,6 +19,7 @@ angular
     'logoutDirective',
     'adminLinkDirective',
     'firebase',
+    'autoNumericDirective'
   ])
   .config([
     '$routeProvider',

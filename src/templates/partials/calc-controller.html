@@ -13,7 +13,7 @@
                   <div class="form-group">
                     <div class="col-xs-12">
                     <h3>Debt #{{$index + 1}} <button type="button" ng-click="removeLoan($index)" class="btn btn-danger">Remove</button></h3>
-                    <input type="text" name="description" class="form-control" ng-model="loan.desc" placeholder="Description (ex. Home, Auto, Student)"/>
+                    <input type="text" name="description" class="form-control"  ng-model="loan.desc" placeholder="Description (ex. Home, Auto, Student)"/>
                   </div>
                 </div>
                 </fieldset>
@@ -21,7 +21,7 @@
                   <div class="form-group">
                     <div class="col-xs-4">
                       <label for="balance"></label>
-                      <input type="text" class="form-control" ng-model="loan.balance" placeholder="Balance" />
+                      <input autoNum type="text" class="form-control autoNum" data-a-sign="$" ng-model="loan.balance" placeholder="Balance" />
                     </div>
                   </div>
                   <div class="form-group">
@@ -33,7 +33,7 @@
                   <div class="form-group">
                     <div class="col-xs-4">
                       <label for="payment"></label>
-                      <input type="text" name="payment" class="form-control" ng-model="loan.payment" placeholder = "Monthly Payment" />
+                      <input autoNum type="text" name="payment autoNum" class="form-control" data-a-sign="$" ng-model="loan.payment" placeholder = "Monthly Payment" />
                     </div>
                   </div>
                 </fieldset>
@@ -65,7 +65,7 @@
       <table id="outputTable" class="table"></table>
 
       <h2>{{ date }}</h2>
-      <h2>{{moneyTest}}</h2>
+      <h2>Money: {{moneyTest}}</h2>
       <h2>{{ finalOutput }}</h2>
 
     </div>

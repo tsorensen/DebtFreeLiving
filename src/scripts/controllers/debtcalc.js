@@ -11,6 +11,8 @@ angular
       }
 
       var table;
+
+      $scope.moneyTest = numeral(1000).format('0,0');
       $scope.columns = [];
 
       $scope.date = moment().month(3).format("MMMM YYYY");
@@ -19,7 +21,7 @@ angular
       var showTable = true;
 
       //Create an array to hold information from user inputs
-      $scope.initList = [];
+      $scope.initList = [[], []];
 
       //Create an array for the final output
       $scope.finalOutput = [];
