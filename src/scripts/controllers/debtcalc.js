@@ -18,8 +18,10 @@ angular
       //Hide table until values are entered
       var showTable = true;
 
+      $scope.showRemoveBtn = false;
+
       //Create an array to hold information from user inputs
-      $scope.initList = [];
+      $scope.initList = [[],[]];
 
       //Create an array for the final output
       $scope.finalOutput = [];
@@ -36,10 +38,18 @@ angular
         $scope.initList.push(
           {}
         )
+
+        if($scope.initList.length > 2){
+          $scope.showRemoveBtn = true;
+        }
       };
 
       $scope.removeLoan = function(k){
         $scope.initList.splice(k, 1);
+
+        if($scope.initList.length < 3){
+          $scope.showRemoveBtn = false;
+        }
       };
 
       //Function to add loan objects to the loan list above
