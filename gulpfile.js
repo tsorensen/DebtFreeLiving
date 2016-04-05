@@ -27,6 +27,11 @@ var lib = require('bower-files')({
         'dist/textAngular.js',
       ]
     },
+    accounting: {
+      main: [
+        'accounting.js'
+      ]
+    }
   }
 });
 

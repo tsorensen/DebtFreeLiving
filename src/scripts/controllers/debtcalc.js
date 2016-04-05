@@ -5,19 +5,32 @@ angular
   .controller('DebtCalcController', [
     '$scope',
     'auth',
-    function($scope, auth) {
+    '$firebaseArray',
+    function($scope, auth, $firebaseArray) {
+
       if(!auth.isLoggedIn()) {
-        $location.url('/login')
-      }
+          $location.url('/login');
+        }
+
+      var ref = new Firebase("https://resplendent-fire-5282.firebaseio.com/");
+
+      auth.isLoggedIn()
+        .then(function(user) {
+            $scope.user = user;
+            $scope.initList = $firebaseArray(ref.child("plans").child($scope.user.uid));
+            console.log($scope.initList);
+        })
+        .catch(function(error) {
+          console.log('Error in retreiving logged in data: ', error);
+        });
 
       var table;
+
       $scope.columns = [];
 
-      $scope.date = moment().format("MMMM YYYY");
       //$scope.adjustedDate =
       //Hide table until values are entered
 
-      $scope.test = moment($scope.date, "MMMM YYYY").add(1, 'months').format("MMMM YYYY");
       var showTable = true;
 
       $scope.showRemoveBtn = false;
@@ -27,15 +40,13 @@ angular
       $scope.showPlan = false;
 
       //Create an array to hold information from user inputs
-      $scope.initList = [{},{}];
+
 
       //Create an array for the final output
       $scope.finalOutput = [];
 
       //Create an array to hold information for each loan
       $scope.loanList = [];
-
-      $scope.userData = {};
 
       //A bucket for potential error messages
       $scope.errorMessage = null;
@@ -113,7 +124,7 @@ angular
           //Function takes form info and pushes it into the loanList array
           $scope.loanList.push(
             {
-              date: $scope.date = moment().format("MMMM YYYY"),
+              date: moment().format("MMMM YYYY"),
               calcDesc: $scope.initList[j].desc.toUpperCase(),
               calcBalance: parseFloat($scope.initList[j].balance),
               calcIntRate: parseFloat($scope.initList[j].intRate),
@@ -127,9 +138,6 @@ angular
           function sortInt(a, b) {
           return b.calcIntRate-a.calcIntRate;
           };
-
-          $scope.userData.date = $scope.date;
-          $scope.userData.debts = $scope.initList;
         }
 
         //Use the termCalc function to get the final output.
@@ -168,7 +176,7 @@ angular
             console.log(totalBalance);
             //Adds month as the first item in the array
             $scope.finalOutput.push(
-              [moment($scope.date, "MMMM YYYY").add(monthsToAdd, 'months').format("YYYY MMM")]
+              [moment($scope.loanList[0].date, "MMMM YYYY").add(monthsToAdd, 'months').format("YYYY MMM")]
             )
 
             monthsToAdd++;
