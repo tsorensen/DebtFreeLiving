@@ -85,7 +85,8 @@ angular
                   lastName: currentUser[currentUser.provider].cachedUserProfile[names.last_name],
                   image: currentUser[currentUser.provider].profileImageURL,
                   provider: currentUser.provider,
-                  joined: timestamp
+                  joined: timestamp,
+                  uid: currentUser.uid
               }, function(error) {
                 if (error) {
                   console.log("Error saving user to database:", error.code);
@@ -197,7 +198,8 @@ angular
               email: user.email,
               image: 'default',
               provider: 'password',
-              joined: timestamp
+              joined: timestamp,
+              uid: currentUser.uid
           }, function(error) {
             if (error) {
               console.log("Error saving user to database:", error.code);
