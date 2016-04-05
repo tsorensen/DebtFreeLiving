@@ -6,11 +6,14 @@
  *   2. Navigation
  *   3. Home Page
  *   4. Blog
- *   5. Login
- *   6.
- *   7.
- *   8. Footer
- *   9. Media Queries
+ *   5. About
+ *   6. Contact
+ *   7. Login/Forgot Password
+ *   8. Admin
+ *   9. Dashboard
+ *  10. Account
+ *  11. Footer
+ *  12. Media Queries
  */
 
 /***********************************/
@@ -93,6 +96,12 @@ img.rounded {
   min-width:420px;
 }
 
+.slider-images {
+  margin:auto;
+  min-width:960px;
+  min-height:300px;
+}
+
 .slide-title {
   font-size:40px;
 }
@@ -147,7 +156,7 @@ img.rounded {
 }
 
 .testimonial-text {
-  font-size:18px;
+  font-size:16px;
   font-style:italic;
 }
 
@@ -197,6 +206,24 @@ img.rounded {
   margin-left:5px;
 }
 
+.side-widgets {
+  margin-top: 80px;
+}
+
+.clear-search {
+  font-size:75%;
+}
+
+.comment-img {
+  width:40px;
+  height:40px;
+}
+
+.default {
+  border:1px solid lightgrey;
+  background:#ccc;
+}
+
 
 /***********************************/
 /************* ABOUT *************/
@@ -213,6 +240,19 @@ img.rounded {
 #dflTeam img {
   margin: 20px auto;
 }
+
+/********************************/
+/*********** CONTACT **********/
+/****************************/
+.contact-icons {
+  margin: 30px 0;
+}
+
+#contact .captcha,
+#login .captcha {
+  display:inline-block;
+}
+
 
 
 /************************************/
@@ -239,7 +279,7 @@ img.rounded {
   border-right: 1px solid #ccc;
   position: absolute;
   top: 30px;
-  bottom: 30px;
+  bottom: 0px;
   right: 0;
 }
 
@@ -249,13 +289,18 @@ img.rounded {
 
 #login-form input,
 #register-form input,
-#forgot-form input {
+#forgot-form input,
+#contact-form input,
+#contact-form textarea,
+#loan-form input {
   padding-left:30px;
 }
 
 #login-form .icons,
 #register-form .icons,
-#forgot-form .icons {
+#forgot-form .icons,
+#contact-form .icons,
+#loan-form .icons {
   left:0;
 }
 
@@ -278,7 +323,7 @@ img.rounded {
 
 .hr-ed {
   margin:0;padding:0 10px;
-  background:#F5F4F4;
+  background: #F7F7F7;
   display:inline-block;
 }
 
@@ -302,6 +347,10 @@ img.rounded {
 .oauth .oauth-google, .oauth .oauth-google:hover, .oauth .oauth-google:active, .oauth .oauth-google:focus {
   background:#DC4E41;
   color:#fff;
+}
+
+#register-form .has-error .checkbox-inline {
+    color: #333;
 }
 
 /*****************************/
@@ -341,22 +390,9 @@ img.rounded {
     padding-top: 0;
 }
 
-.chart, .chart-container {
-    position: relative;
-    width: 100%;
+.form-control-feedback.icons.margin-left {
+  margin-left:14px;
 }
-
-.chart {
-    display: block;
-}
-.chart, .chart-container {
-    position: relative;
-    width: 100%;
-}
-.chart-pie, .has-fixed-height {
-    height: 400px;
-}
-
 
 /************************************/
 /************* ACCOUNT ************/
@@ -403,6 +439,12 @@ footer {
 /********* MEDIA QUERIES *********/
 /*******************************/
 
+@media (min-width: 1008px) {
+  .blog-spinner {
+    margin-top:150px;
+  }
+}
+
 @media (min-width: 991px) {
   #about .founder-photo {
     float:right;
@@ -428,6 +470,23 @@ footer {
 
   .testimonial-name {
     font-size: 14px;
+  }
+
+  .carousel-caption .faded {
+    min-width:420px;
+  }
+
+  .slide-title {
+    font-size:36px;
+  }
+
+  .slide-caption {
+    font-size:22px;
+  }
+
+  .slide-button {
+    font-size:14px;
+    padding: 10px;
   }
 }
 
@@ -455,6 +514,31 @@ footer {
 
   .heading-elements-toggle {
     display: none;
+  }
+
+  .carousel-caption .faded {
+    min-width:0;
+  }
+
+  #hero .off-center {
+    margin-left:-200px;
+  }
+
+  .slide-title {
+    font-size:30px;
+  }
+
+  .slide-caption {
+    font-size:16px;
+  }
+
+  .slide-button {
+    font-size:12px;
+    padding: 5px;
+  }
+
+  .hr-ed {
+    background: #FBFBFB;
   }
 
 }

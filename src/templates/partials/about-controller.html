@@ -31,10 +31,10 @@
 <section id="testimonials">
   <div class="container">
       <uib-carousel interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
-          <uib-slide ng-repeat="testimonial in testimonials" active="testimonial.active" index="testimonial.id">
+          <uib-slide ng-repeat="testimonial in testimonialsSlides" active="testimonial.active" index="testimonial.id">
             <!-- ng-swipe-x for mobile -->
             <img ng-src="">
-            <div class="testimonials" ng-swipe-right="showPrev()" ng-swipe-left="showNext()">
+            <div class="testimonials" ng-swipe-right="showPrev('testimonials')" ng-swipe-left="showNext('testimonials')">
               <div class="row">
                 <div class="col-md-4">
                   <img class="img-circle testimonial-image" ng-src="{{testimonial.image}}">
@@ -42,7 +42,7 @@
                 <div class="col-md-8">
                   <div class="text-wrapper">
                     <p class="testimonial-text">"{{testimonial.text}}"</p>
-                    <p class="testimonial-name">~ {{testimonial.name}}</p>
+                    <!-- <p class="testimonial-name">~ {{testimonial.name}}</p> -->
                   </div>
                 </div>
               </div>

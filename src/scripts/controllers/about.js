@@ -10,35 +10,36 @@ angular
       $scope.noWrapSlides = false;
       var currIndex = 0;
 
-      $scope.testimonials = [];
+      $scope.testimonialsSlides = [];
       //this data could be made dynamic
-      $scope.testimonials.push(
+      $scope.testimonialsSlides.push(
         {
-          text: 'Ut auctor et lacinia. Nam felis lorem, ex nec, viverra malesuada ligula. Aenean lorem metus, ullamcorper ac magna at, luctus pulvinar ante. Vestibulum sit amet pharetra diam, nec placerat magna. Nullam pretium feugiat ex, id scelerisque quam rutrum ut. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris sodales gravida libero feugiat iaculis.',
-          name: 'John Doe',
+          text: 'You need a financial plan for your debt obligations!  Our secure self-help debt elimination calculator can help you create a plan for all of your debt related accounts.  This will assist you in creating an effective budget and make your debt installments and payments as efficient as possible.  Would you like to get ahead of your outstanding debts and pay them off early, including your mortgage? There is no better time to get started than right now! Create a free, secure account to manage all of your debts and pay them off early. Debtfreeliving.com provides excellent debt management tools and education.',
+          // name: 'John Doe',
           image: '/images/person2.jpg',
         },
         {
-          text: 'Ut auctor imperdiet erat et lacinia. Nam felis lorem, euismod laoreet ex nec, viverra malesuada ligula. Mauris sodales gravida libero feugiat iaculis.',
-          name: 'Jane Doe',
+          text: 'Would you like to live providently? To us, this includes using common sense strategies to become completely debt free. We want to help you completely eliminate your mortgage payments, personal loans and other debt obligations. Find useful and effective debt elimination tips and solutions by reading our Debt Free Living Blog, and signing up for the Debt Elimination Calculator today!  It’s secure, free and customizable.',
+          // name: 'Jane Doe',
           image: '/images/person3.jpg',
         },
         {
-          text: 'Aenean lorem metus, ullamcorper ac magna at, luctus pulvinar ante. Vestibulum sit amet pharetra diam, nec placerat magna. Nullam pretium feugiat ex, id scelerisque quam rutrum ut. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris sodales gravida libero feugiat iaculis.',
-          name: 'John Doe',
+          text: 'There is nothing that secures your financial future more than being completely debt free.  Say goodbye to all of your debt related liabilities by eliminating your debts early. You have a guaranteed “return on investment” when you pay off your debts, equal to the interest rate being charged. Don’t be a slave to the banks any more.  Protect your cash, assets and lifestyle by becoming completely debt free. Eliminating debt will help you manage your income so that you can save and invest in your future. Our expert professional advice and tools will assist you in living within your means and protect your future.',
+          // name: 'John Doe',
           image: '/images/person1.jpg',
         }
       );
 
-      $scope.showNext = function(){
-          var index = ($('#myCarousel .active').index()+1)%(slides.length);
-          var modIndex = (((index)%(slides.length))+(slides.length))%(slides.length);
-          $scope.slides[modIndex].active=true;
+      $scope.showNext = function(name){
+          var index = ($('#' + name + '-carousel .active').index()+1)%($scope[name + 'Slides'].length);
+          var modIndex = (((index)%($scope[name + 'Slides'].length))+($scope[name + 'Slides'].length))%($scope[name + 'Slides'].length);
+          $scope[name + 'Slides'][modIndex].active=true;
       };
-      $scope.showPrev = function(){
-          var index = ($('#myCarousel .active').index()-1)%(slides.length);
-          var modIndex = (((index)%(slides.length))+(slides.length))%(slides.length);
-          $scope.slides[modIndex].active=true;
+
+      $scope.showPrev = function(name){
+          var index = ($('#' + name + '-carousel .active').index()-1)%($scope[name + 'Slides'].length);
+          var modIndex = (((index)%($scope[name + 'Slides'].length))+($scope[name + 'Slides'].length))%($scope[name + 'Slides'].length);
+          $scope[name + 'Slides'][modIndex].active=true;
       };
     },
   ]);

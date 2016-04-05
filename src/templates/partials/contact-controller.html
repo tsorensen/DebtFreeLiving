@@ -1,0 +1,135 @@
+<section id="contact">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+
+        <h1 class="page-header text-center">Contact Us</h1>
+
+        <div class="row contact-icons">
+          <div class="col-lg-6 col-lg-offset-3 text-center">
+            <div class="col-xs-3">
+              <a href="/#/" class="social-icons"><i class="fa fa-facebook-square fa-3x"></i></a>
+            </div>
+            <div class="col-xs-3">
+              <a href="/#/" class="social-icons"><i class="fa fa-twitter-square fa-3x"></i></a>
+            </div>
+            <div class="col-xs-3">
+              <a href="/#/" class="social-icons"><i class="fa fa-pinterest-square fa-3x"></i></a>
+            </div>
+            <div class="col-xs-3">
+              <a href="mailto:" class="social-icons"><i class="fa fa-envelope fa-3x"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <form id="contact-form" name="contactForm" ng-submit="contact.submitForm(contact.contactInputs)" novalidate>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error': (contactForm.name.$touched || submitted) && contactForm.name.$invalid }">
+              <input
+                type="text"
+                placeholder="Name"
+                name="name"
+                class="form-control"
+                ng-model="contact.contactInputs.name"
+                ng-maxlength="60"
+                ng-required="true">
+                <div class="help-block" ng-messages="contactForm.name.$error" ng-show="contactForm.name.$touched || submitted">
+                  <p ng-message="maxlength">Name is limited to 60 characters.</p>
+                  <p ng-message="required">Name is required.</p>
+              </div>
+              <div class="form-control-feedback icons">
+                <i class="fa fa-user text-muted"></i>
+              </div>
+          </div>
+
+          <!-- EMAIL -->
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : (contactForm.email.$touched || submitted) && contactForm.email.$invalid }">
+              <input
+                type="email"
+                placeholder="Email"
+                name="email"
+                class="form-control"
+                ng-model="contact.contactInputs.email"
+                ng-required='true'>
+              <div class="help-block" ng-messages="contactForm.email.$error" ng-show="contactForm.email.$touched || submitted">
+                <p ng-message="required">Email is required.</p>
+              </div>
+              <div class="form-control-feedback icons">
+                <i class="fa fa-envelope text-muted"></i>
+              </div>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : (contactForm.subject.$touched || submitted) && contactForm.subject.$invalid }">
+              <input
+                type="text"
+                placeholder="Subject"
+                name="subject"
+                class="form-control"
+                ng-model="contact.contactInputs.subject"
+                ng-maxlength="60"
+                ng-required='true'>
+              <div class="help-block" ng-messages="contactForm.subject.$error" ng-show="contactForm.subject.$touched || submitted">
+                <p ng-message="maxlength">Subject is limited to 60 characters.</p>
+                <p ng-message="required">Subject is required.</p>
+              </div>
+              <div class="form-control-feedback icons">
+                <i class="fa fa-sticky-note text-muted"></i>
+              </div>
+          </div>
+
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : (contactForm.message.$touched || submitted) && contactForm.message.$invalid }">
+              <textarea
+                rows="7"
+                placeholder="Message"
+                name="message"
+                class="form-control"
+                ng-model="contact.contactInputs.message"
+                ng-maxlength="1000"
+                ng-required='true'>
+              </textarea>
+              <div class="help-block" ng-messages="contactForm.message.$error" ng-show="contactForm.message.$touched || submitted">
+                <p ng-message="maxlength">Message is limited to 1,000 characters.  If you require a longer message, please send us an email using the envelope link above.</p>
+                <p ng-message="required">Message is required.</p>
+              </div>
+              <div class="form-control-feedback icons">
+                <i class="fa fa-commenting text-muted"></i>
+              </div>
+          </div>
+
+          <div class="form-group has-feedback text-center" ng-class="{ 'has-error' : submitted && contactForm.captcha.$invalid }">
+              <div
+                class="captcha"
+                vc-recaptcha
+                theme="'light'"
+                name="captcha"
+                ng-model="contact.contactInputs.captcha"
+                ng-required="true"
+                key="'6LfR6xsTAAAAAH7nsoMdVZ66dAKGk5TTq94oOavv'"
+                on-create="setWidgetId(widgetId)"
+                on-success="setResponse(response)"
+                on-expire="cbExpiration()">
+              </div>
+              <div class="help-block" ng-messages="contactForm.captcha.$error" ng-show="contactForm.captcha.$invalid && submitted">
+                <p ng-message="required">Captcha is required.</p>
+              </div>
+          </div>
+
+          <div class="alert alert-danger" ng-show="contact.sendRequestError">
+            <p>{{ contact.sendRequestError }}</p>
+          </div>
+
+          <div class="alert alert-success" ng-show="contact.sendRequestSuccess">
+            <p>{{ contact.sendRequestSuccess }}</p>
+          </div>
+
+          <div class="form-group text-center">
+            <span ng-show="contact.sending === true" class="spinner text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+            <button ng-show="contact.sending === false" type="submit" class="btn btn-success">Send Contact Request</button>
+          </div>
+        </form>
+
+      </div><!-- col-sm-8 -->
+    </div><!-- /.row -->
+  </div><!-- /.container -->
+</section><!-- /#section -->

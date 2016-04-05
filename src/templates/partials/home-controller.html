@@ -1,15 +1,15 @@
 <section id="hero">
   <!-- Carousel - don't wrap within a container
   ================================================== -->
-  <uib-carousel interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
-      <uib-slide ng-repeat="slide in slides" active="slide.active" index="slide.id">
+  <uib-carousel id="home-carousel" interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
+      <uib-slide ng-repeat="slide in homeSlides" active="slide.active" index="slide.id">
         <!-- ng-swipe-x for mobile -->
-        <img ng-src="{{slide.image}}" style="margin:auto;" ng-swipe-right="showPrev()" ng-swipe-left="showNext()">
+        <img ng-src="{{slide.image}}" class="slider-images {{ slide.class }}" ng-swipe-right="showPrev('home')" ng-swipe-left="showNext('home')">
         <div class="carousel-caption">
           <div class="faded">
             <h1 class="slide-title">{{slide.title}}</h1>
             <p class="slide-caption">{{slide.text}}</p>
-            <a href="#" class="slide-button btn btn-primary">{{slide.button}}</a>
+            <a href="{{ slide.link }}" class="slide-button btn btn-primary">{{slide.button}}</a>
           </div>
         </div>
       </uib-slide>
@@ -49,11 +49,11 @@
 
 <section id="testimonials">
   <div class="container">
-      <uib-carousel interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
-          <uib-slide ng-repeat="testimonial in testimonials" active="testimonial.active" index="testimonial.id">
+      <uib-carousel id="testimonials-carousel" interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
+          <uib-slide ng-repeat="testimonial in testimonialsSlides" active="testimonial.active" index="testimonial.id">
             <!-- ng-swipe-x for mobile -->
             <img ng-src="">
-            <div class="testimonials" ng-swipe-right="showPrev()" ng-swipe-left="showNext()">
+            <div class="testimonials" ng-swipe-right="showPrev('testimonials')" ng-swipe-left="showNext('testimonials')">
               <div class="row">
                 <div class="col-md-4">
                   <img class="img-circle testimonial-image" ng-src="{{testimonial.image}}">
@@ -61,7 +61,7 @@
                 <div class="col-md-8">
                   <div class="text-wrapper">
                     <p class="testimonial-text">"{{testimonial.text}}"</p>
-                    <p class="testimonial-name">~ {{testimonial.name}}</p>
+                    <!-- <p class="testimonial-name">~ {{testimonial.name}}</p> -->
                   </div>
                 </div>
               </div>

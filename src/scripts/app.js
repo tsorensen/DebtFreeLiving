@@ -1,25 +1,31 @@
 angular
   .module('BlogApp', [
+    'firebase',
     'ngRoute',
+    'ngAnimate',
+    'ngTouch',
+    'HomeController',
+    'MenuController',
     'BlogController',
     'ArticleController',
-    'HomeController',
+    'ezfb',
     'LoginController',
     'ForgotController',
     'DashboardController',
     'DebtCalcController',
-    'MenuController',
-    'AboutController',
     'AccountController',
     'AdminController',
     'AddController',
     'EditController',
-    'ezfb',
-    'ngAnimate',
+    'CommentsController',
+    'AboutController',
+    'ContactController',
+    'vcRecaptcha',
     'logoutDirective',
     'adminLinkDirective',
     'firebase',
-    'autoNumericDirective'
+    'autoNumericDirective',
+    'blogApp.protector',
   ])
   .config([
     '$routeProvider',
@@ -59,13 +65,32 @@ angular
           controller: 'AboutController',
           controllerAs: 'about',
         })
+        .when('/contact', {
+          templateUrl: '/partials/contact-controller.html',
+          controller: 'ContactController',
+          controllerAs: 'contact',
+        })
         .when('/privacy_policy', {
           templateUrl: '/partials/privacy-policy-controller.html',
         })
         .when('/my_plan', {
           templateUrl: '/partials/dashboard-controller.html',
           controller: 'DashboardController',
-          controllerAs: 'dashboard'
+          controllerAs: 'dashboard',
+          resolve: {
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.accountRoute();
+            }]
+          }
+        })
+        .when('/my_plan/calculator', {
+          templateUrl: '/partials/calc-controller.html',
+          controller: 'DebtCalcController',
+          resolve: {
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.accountRoute();
+            }]
+          }
         })
         .when('/my_plan/calculator', {
           templateUrl: '/partials/calc-controller.html',
@@ -74,7 +99,12 @@ angular
         .when('/account', {
           templateUrl: '/partials/account-controller.html',
           controller: 'AccountController',
-          controllerAs: 'account'
+          controllerAs: 'account',
+          resolve: {
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.accountRoute();
+            }]
+          }
         })
         .when('/forgot', {
           templateUrl: '/partials/forgot-controller.html',
@@ -84,18 +114,58 @@ angular
         .when('/admin', {
           templateUrl: '/partials/admin-controller.html',
           controller: 'AdminController',
-          controllerAs: 'admin'
+          controllerAs: 'admin',
+          resolve: {
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.adminRoute();
+            }]
+          },
         })
         .when('/admin/add', {
           templateUrl: '/partials/add-article-controller.html',
           controller: 'AddController',
           controllerAs: 'adder',
+          resolve: {
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.adminRoute();
+            }]
+          }
         })
         .when('/admin/edit/:id', {
           templateUrl: '/partials/edit-article-controller.html',
           controller: 'EditController',
           controllerAs: 'adder',
+          resolve: {
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.adminRoute();
+            }]
+          }
+        })
+        .when('/admin/comments/:id', {
+          templateUrl: '/partials/comments-controller.html',
+          controller: 'CommentsController',
+          controllerAs: 'comments',
+          resolve: {
+            "currentAuth": ["routeProtector", function(routeProtector) {
+              return routeProtector.adminRoute();
+            }]
+          }
         })
         .otherwise('/');
+    }
+  ])
+  .run([
+    '$rootScope',
+    '$location',
+    function ($rootScope, $location, auth, $firebaseAuth) {
+      $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
+        if (error === "AUTH_REQUIRED") {
+          $location.path("/login");
+        } else if(error === 'ADMIN_AUTH_REQUIRED') {
+          $location.url("/login?page=admin");
+        } else if(error === 'NOT_ADMIN') {
+          $location.path("/");
+        }
+      });
     }
   ]);

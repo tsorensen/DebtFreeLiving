@@ -2,16 +2,18 @@ angular
   .module('LoginController', [
     'blogApp.auth',
     'blogApp.users',
+    'compareToDirective',
   ])
   .controller('LoginController', [
     'auth',
     'users',
+    '$scope',
     '$location',
     '$route',
     '$window',
     '$timeout',
     '$rootScope',
-    function(auth, users, $location, $route, $window, $timeout, $rootScope) {
+    function(auth, users, $scope, $location, $route, $window, $timeout, $rootScope) {
       //auth check
       if(auth.isLoggedIn()) {
         if($location.search().page) {
@@ -22,13 +24,21 @@ angular
       }
 
       var self = this;
+      $scope.submitted = false;
+      $scope.clickedLogin = false;
       self.submitting = false;
       self.loggingIn = false;
 
       self.login = function(data) {
+        $scope.clickedLogin = true;
         self.loggingIn = true;
         self.loginError = null;
         self.loginSuccess = null;
+
+        if($scope.loginForm.$invalid) {
+          self.loggingIn = false;
+          return;
+        }
 
         self.loginUser(data.email, data.password, data.remember)
           .then(function(res) {
@@ -55,6 +65,7 @@ angular
         self.loginSuccess = null;
         self.oauthUser(provider)
           .then(function(res) {
+            self.loggingIn = true;
             $rootScope.$broadcast('auth-userLoginChange');
             $timeout(function(){ $route.reload() }, 3000);
           })
@@ -73,17 +84,12 @@ angular
       };
 
       self.register = function(data) {
+        $scope.submitted = true;
         self.submitting = true;
         self.registerError = null;
         self.registerSuccess = null;
 
-        //validate register form
-        if(data.password !== data.confirmPassword) {
-          self.registerError = 'Passwords must match';
-          self.submitting = false;
-          return;
-        } else if (data.terms !== true) {
-          self.registerError = 'You must agree to the Terms of Service before registering.';
+        if($scope.registerForm.$invalid) {
           self.submitting = false;
           return;
         }
@@ -106,6 +112,33 @@ angular
 
           });
       };
+
+      //captcha variables and functions
+      $scope.response = null;
+      $scope.widgetId = null;
+      $scope.setResponse = function (response) {
+          console.info('Response available');
+          console.log(response);
+        // contacts.captchaCheck(response)
+        //   .then(function(res) {
+        //     $scope.response = response;
+        //   })
+        //   .catch(function(error) {
+        //
+        //   });
+      };
+
+      $scope.setWidgetId = function (widgetId) {
+          console.info('Created widget ID: %s', widgetId);
+          console.log(widgetId);
+          $scope.widgetId = widgetId;
+      };
+
+      $scope.cbExpiration = function() {
+          console.info('Captcha expired. Resetting response object');
+          grecaptcha.reset();
+          $scope.response = null;
+       };
 
 
       /**

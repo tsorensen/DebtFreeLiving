@@ -4,13 +4,14 @@ angular
 ])
 .factory('auth', [
   '$http',
-  'blogAppHost',
+  'firebaseHost',
   '$q',
   '$location',
   '$rootScope',
   '$firebaseAuth',
-  function($http, host, $q, $location, $rootScope, $firebaseAuth) {
-    var ref = new Firebase('https://resplendent-fire-5282.firebaseio.com/');
+  '$firebaseObject',
+  function($http, host, $q, $location, $rootScope, $firebaseAuth, $firebaseObject) {
+    var ref = new Firebase(host);
     var fireAuth = $firebaseAuth(ref);
 
     var currentUser;
@@ -82,8 +83,10 @@ angular
               return ref.child('users').child(currentUser.uid).set({
                   firstName: currentUser[currentUser.provider].cachedUserProfile[names.first_name],
                   lastName: currentUser[currentUser.provider].cachedUserProfile[names.last_name],
+                  image: currentUser[currentUser.provider].profileImageURL,
                   provider: currentUser.provider,
-                  joined: timestamp
+                  joined: timestamp,
+                  uid: currentUser.uid
               }, function(error) {
                 if (error) {
                   console.log("Error saving user to database:", error.code);
@@ -110,8 +113,6 @@ angular
 
       getCurrentUser: function() {
           if(userData !== undefined && userData !== null) {
-            console.log('User data is set already');
-            console.log(userData);
             return $q.resolve(userData);
           } else if(!currentUser || !currentUser.uid) {
             console.log("currentUser not available.  No one is logged in");
@@ -120,8 +121,6 @@ angular
           return ref.child('users/' + currentUser.uid).once('value')
             .then(function(snapshot) {
               userData = snapshot.val();
-              console.log('Retrieved user data');
-              console.log(userData);
               return userData;
             })
             .catch(function(error) {
@@ -133,8 +132,6 @@ angular
 
       isLoggedIn: function() {
         if (currentUser !== undefined && currentUser !== null) {
-          console.log('current user data is set already');
-          console.log(currentUser);
           return $q.resolve(currentUser);
         }
 
@@ -147,6 +144,15 @@ angular
         }
 
         return currentUser;
+      },
+
+      isAdmin: function(uid) {
+        var user = $firebaseObject(ref.child('users').child(uid));
+
+        return user.$loaded()
+          .then(function() {
+            return user;
+          })
       },
 
       isOAuth: function() {
@@ -190,8 +196,10 @@ angular
               firstName: user.firstName,
               lastName: user.lastName,
               email: user.email,
+              image: 'default',
               provider: 'password',
-              joined: timestamp
+              joined: timestamp,
+              uid: currentUser.uid
           }, function(error) {
             if (error) {
               console.log("Error saving user to database:", error.code);

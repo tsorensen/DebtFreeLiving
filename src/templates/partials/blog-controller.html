@@ -5,7 +5,7 @@
 
     <!-- Blog Entries Column -->
     <div class="col-md-8 search-results">
-
+      <p ng-show="blog.loadingArticles === true" class="blog-spinner spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p>
       <!-- Blog Posts -->
       <div class="articles" ng-repeat="article in blog.articles | filter:blog.query">
         <h2>
@@ -52,7 +52,7 @@
 
         <!-- Blog Search Well -->
         <div class="well">
-            <h4>Blog Search</h4>
+            <h4>Blog Search <a href="" class="clear-search" ng-click="blog.clearSearch(true)">clear</a></h4>
             <div class="input-group">
                 <input id="searchbox" type="text" class="form-control" ng-model="blog.query[blog.queryBy]">
                 <span class="input-group-btn">
@@ -63,7 +63,7 @@
             </div>
             <!-- /.input-group -->
             <h4>Search By:</h4>
-            <select class="form-control" ng-change="blog.clearSearch()" ng-model="blog.queryBy">
+            <select class="form-control" ng-change="blog.clearSearch(false)" ng-model="blog.queryBy">
               <option value="$"></option>
               <option value="title">Title</option>
               <option value="category">Category</option>

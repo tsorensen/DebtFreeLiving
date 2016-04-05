@@ -3,6 +3,7 @@ angular
     'blogApp.auth',
     'blogApp.users',
     'modalDirective',
+    'compareToDirective',
   ])
   .controller('AccountController', [
     'auth',
@@ -13,15 +14,10 @@ angular
     '$window',
     '$route',
     function(auth, users, $scope, $location, $timeout, $window, $route) {
-
-      //if no one is logged in, redirect to login page
-      if(!auth.isLoggedIn()) {
-          $location.url('/login');
-      } else if(auth.isOAuth()) {
-          $location.url('/my_plan');
-      }
-
       var self = this;
+      $scope.nameSubmitted = false;
+      $scope.emailSubmitted = false;
+      $scope.passwordSubmitted = false;
 
       //triggers button spinner if set to true
       self.updatingName = false;
@@ -65,18 +61,21 @@ angular
 
 
       self.updateName = function(name) {
+        $scope.nameSubmitted = true;
         self.updatingName = true;
         self.updateNameError = null;
         self.updateNameSuccess = null;
+
+        //make sure form is valid
+        if($scope.nameForm.$invalid) {
+          self.updatingName = false;
+          return;
+        }
 
         if(self.user.firstName === name.firstName && self.user.lastName === name.lastName) {
           console.log('Name not updating');
           self.updatingName = false;
           self.updateNameError = "Name is not different.  No changes to make.";
-          return;
-        } else if(!name.firstName || !name.lastName) {
-          self.updatingName = false;
-          self.updateNameError = "First Name and Last Name fields are required.";
           return;
         }
 
@@ -101,18 +100,21 @@ angular
       };
 
       self.updateEmail = function(newEmail, password) {
+        $scope.emailSubmitted = true;
         self.updatingEmail = true;
         self.updateEmailError = null;
         self.updateEmailSuccess = null;
+
+        //make sure form is valid
+        if($scope.emailForm.$invalid) {
+          self.updatingEmail = false;
+          return;
+        }
 
         if(self.user.email === newEmail) {
           console.log('Email not updating');
           self.updatingEmail = false;
           self.updateEmailError = "Email is not different.  No changes to make.";
-          return;
-        } else if(!newEmail || !password) {
-          self.updatingEmail = false;
-          self.updateEmailError = "Email and Password are required fields.";
           return;
         }
 
@@ -138,23 +140,20 @@ angular
       };
 
       self.updatePassword = function(data) {
-        console.log(data);
+        $scope.passwordSubmitted = false;
         self.updatingPassword = true;
         self.updatePasswordError = null;
         self.updatePasswordSuccess = null;
 
-        if(data.newPassword !== data.confirmNewPassword) {
-          console.log("New password fields don't match");
+        //make sure form is valid
+        if($scope.passwordForm.$invalid) {
           self.updatingPassword = false;
-          self.updatePasswordError = "New Password and Confirm New Password fields must match.";
           return;
-        } else if(data.password === data.newPassword) {
+        }
+
+        if(data.password === data.newPassword) {
           self.updatingPassword = false;
           self.updatePasswordError = "The new password you entered is the same as your current one.  No changes to make.";
-          return;
-        } else if(!data.password || !data.newPassword || !data.confirmNewPassword) {
-          self.updatingPassword = false;
-          self.updatePasswordError = "Old Password, New Password, and Confirm New Password fields are required.";
           return;
         }
 
@@ -207,7 +206,7 @@ angular
             console.log(error);
             console.log(error.code);
             if(error.code === 'INVALID_PASSWORD') {
-              self.deleteError = 'The old password you entered is not correct.  Please check your password and try again.';
+              self.deleteError = 'The password you entered is not correct.  Please check your password and try again.';
             } else {
               self.deleteError = 'There was an error updating deleting your account.  Please try again.  If you are unable to delete your account, please contact us.';
             }

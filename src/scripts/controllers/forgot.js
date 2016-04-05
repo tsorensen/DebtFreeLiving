@@ -6,8 +6,9 @@ angular
   .controller('ForgotController', [
     'users',
     'auth',
+    '$scope',
     '$location',
-    function(users, auth, $location) {
+    function(users, auth, $scope, $location) {
       //auth check
       if(auth.isLoggedIn()) {
           $location.url('/account');
@@ -16,13 +17,21 @@ angular
       var self = this;
       self.forgotError;
       self.forgotSuccess;
+      $scope.submitted = false;
       self.sending = false;
       self.emailSent = false;
 
       self.reset = function(email) {
+        $scope.submitted = true;
         self.sending = true;
         self.forgotError = null;
         self.forgotSuccess = null;
+
+        //validate the form
+        if($scope.forgotForm.$invalid) {
+          self.sending = false;
+          return;
+        }
 
         users.resetPassword(email)
           .then(function(res) {

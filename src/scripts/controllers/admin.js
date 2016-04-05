@@ -1,26 +1,24 @@
 angular
   .module('AdminController', [
-    'blogApp.auth',
     'blogApp.articles',
+    'blogApp.contacts',
     'modalDirective',
   ])
   .controller('AdminController', [
-    'auth',
     'articles',
-    '$location',
+    'contacts',
     '$scope',
-    '$route',
     '$timeout',
-    function(auth, articles, $location, $scope, $route, $timeout) {
-
-      //if no one is logged in, redirect to login page
-      if(!auth.isLoggedIn()) {
-          $location.url('/login?page=admin');
-      }
-
+    function(articles, contacts, $scope, $timeout) {
       var self = this;
       self.loadingArticles = true;
+      self.loadingContacts = true;
       self.articles = [];
+      self.contacts = [];
+      self.readContacts = [];
+      self.readSpinner = false;
+      self.contactCount = null;
+      self.showRead = false;
 
       self.deletingArticle = false;
       self.articleDeleteId = null;
@@ -33,8 +31,6 @@ angular
             title: title,
             id: id
           };
-          console.log("id: " + id);
-          console.log("title: " + title);
           $scope.deleteArticleModal = !$scope.deleteArticleModal;
       };
 
@@ -45,7 +41,6 @@ angular
         self.deleteArticleSuccess = null;
 
         if(!deleteText || deleteText.toLowerCase() !== "delete") {
-          console.log("Typing delete is required to confirm and delete article.");
           self.deleteArticleError = 'You must type "Delete" in the field above to delete this article.';
           self.deletingArticle = false;
           return;
@@ -59,8 +54,6 @@ angular
             $timeout(function(){
               self.deletingArticle = false;
               $scope.deleteArticleModal = false;
-              // $route.reload();
-              //$window.location.reload();
             }, 3000);
           })
           .catch(function(error) {
@@ -74,22 +67,64 @@ angular
       function getArticles() {
         articles.readAll()
           .then(function(items) {
-            self.articles = items;
-            console.log('hey');
-            console.log(self.articles);
-            for(var i = 0; i < self.articles.length; i++) {
-              if(Object.keys(self.articles[i].comments).length > 0) {
-                self.articles[i].commentCount = Object.keys(self.articles[i].comments).length;
-              } else {
-                self.articles[i].commentCount = 0;
+            for(var i = 0; i < items.length; i++) {
+              items[i].commentCount = 0;
+              var commentsObj = Object.keys(items[i].comments);
+              if(commentsObj.length > 0) {
+                for(var comment in items[i].comments) {
+                  if(items[i].comments[comment].approved === false) {
+                    items[i].commentCount++;
+                  }
+                }
               }
             }
-
+            self.articles = items;
             self.loadingArticles = false;
           });
       }
 
+      function getContacts() {
+        //get unread contact requests (pass in false)
+        contacts.getRequests(false)
+          .then(function(contactRequests) {
+            self.contacts = contactRequests;
+            self.contactCount = contactRequests.length;
+            self.loadingContacts = false;
+          });
+      }
+
+      self.getReadContacts = function() {
+        self.readSpinner = true;
+        //get read contact requests (pass in true)
+        contacts.getRequests(true)
+          .then(function(contactRequests) {
+            self.readContacts = contactRequests;
+            self.readSpinner = false;
+          });
+      };
+
+      self.markContactAsRead = function(id) {
+        contacts.markAsRead(id)
+          .catch(function(error) {
+            console.log("Error marking contact request as read: ", error);
+            console.log(error.code);
+          });
+      };
+
+      self.deleteContact = function(id) {
+        contacts.delete(id)
+          .catch(function(error) {
+            console.log("Error deleting contact request: ", error);
+            console.log(error.code);
+          });
+      };
+
+      self.contactCounter = function() {
+        self.contactCount -= 1;
+      };
+
       getArticles();
+      getContacts();
     },
 
   ]);

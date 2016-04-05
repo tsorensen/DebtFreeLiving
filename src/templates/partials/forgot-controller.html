@@ -8,16 +8,19 @@
         <p>After logging in, please update your password in your account settings.</p>
         <br>
 
-        <form id="forgot-form" ng-submit="forgot.reset(forgot.email)">
-              <div ng-show="forgot.emailSent === false" class="form-group has-feedback has-feedback-left">
+        <form id="forgot-form" name="forgotForm" ng-submit="forgot.reset(forgot.email)" novalidate>
+              <div ng-show="forgot.emailSent === false" class="form-group has-feedback has-feedback-left" ng-class="{ 'has-error': (forgotForm.email.$touched || forgot.submitted) && forgotForm.email.$invalid }">
                 <input
                   type="email"
                   class="form-control"
                   placeholder="Email"
                   name="email"
-                  value=""
                   ng-model="forgot.email"
-                  required autofocus>
+                  ng-required="true"
+                  autofocus>
+                <div class="help-block" ng-messages="forgotForm.email.$error" ng-show="forgotForm.email.$touched || forgot.submitted">
+                  <p ng-message="required">Email is required.</p>
+                </div>
                 <div class="form-control-feedback icons">
                   <i class="fa fa-envelope text-muted"></i>
                 </div>

@@ -15,6 +15,7 @@ angular
       var self = this;
       self.id = $routeParams.id;
       self.content = [];
+      self.contentLoading = true;
       self.articles = [];
       self.categories = [];
       self.comments = [];
@@ -27,6 +28,7 @@ angular
         articles.read(self.id)
           .then(function(article) {
             self.content = article;
+            self.contentLoading = false;
           })
           .then(function() {
             articles.getComments(self.id)
@@ -80,6 +82,7 @@ angular
             auth.getCurrentUser()
               .then(function(userData) {
                   self.inputs.name = userData.firstName + ' ' + userData.lastName;
+                  self.inputs.userImage = userData.image;
               })
               .catch(function(error) {
                 console.log('Error in retreiving user data: ', error);
@@ -104,10 +107,9 @@ angular
       }
 
       function resetCommentForm() {
-        self.create = {
-          name: '',
-          comment: ''
-        };
+        self.inputs.comment =  '';
+        self.saveCommentError = null;
+        self.saveCommentSuccess = null;
       }
 
       resetCommentForm();
@@ -128,18 +130,20 @@ angular
           name: data.name,
           content: data.comment,
           articleName: self.content.title,
+          userImage: data.userImage,
+          uid: self.user.uid
         };
 
         return articles.createComment(comment)
           .then(function(res) {
             $timeout(function() {
-              self.saveCommentSuccess = "Your comment has been submitted successfully.";
+              self.saveCommentSuccess = "Your comment has been submitted successfully.  It will appear here once approved by our moderators.";
             });
 
             $timeout(function() {
               self.savingComment = false;
-              $route.reload()
-            }, 3000);
+              resetCommentForm();
+            }, 5000);
             console.log('success');
           })
           .catch(function(error) {

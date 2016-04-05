@@ -14,6 +14,7 @@ angular
     function(articles, $scope, $filter, $location) {
       var self = this;
       self.articles = [];
+      self.loadingArticles = true;
       self.categories = [];
 
       //blog search variables for filter
@@ -21,13 +22,16 @@ angular
       self.queryBy = '$';
 
       //check for query string params - search params from article page
-      if($location.search()) {
+      if($location.search().search) {
         self.queryBy = 'category';
         self.query[self.queryBy] = $location.search().search;
       }
 
-      self.clearSearch = function() {
+      self.clearSearch = function(all) {
         self.query = {}
+        if(all) {
+          self.queryBy = '$';
+        }
       };
 
       self.categorySearch = function(category) {
@@ -59,6 +63,7 @@ angular
             if(self.categories) {
               formatCategories();
             }
+            self.loadingArticles = false;
           });
       }
 
