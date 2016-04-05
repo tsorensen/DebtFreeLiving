@@ -232,7 +232,7 @@ angular
             articleName: comment.articleName,
             commentId: newCommentRef.key(),
             approved: false,
-            nestedId: ''
+            uid: comment.uid
           },
           priority,
           function(error) {

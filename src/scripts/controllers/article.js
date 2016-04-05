@@ -131,6 +131,7 @@ angular
           content: data.comment,
           articleName: self.content.title,
           userImage: data.userImage,
+          uid: self.user.uid
         };
 
         return articles.createComment(comment)
