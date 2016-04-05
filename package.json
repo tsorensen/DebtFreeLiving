@@ -2,7 +2,7 @@
   "name": "debtfreeliving",
   "version": "1.0.0",
   "description": "Senior Project for Debt Free Living, a free online resource for debt management and elimination.",
-  "main": "index.js",
+  "main": "build/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -34,8 +34,6 @@
   },
   "dependencies": {
     "express": "^4.13.3",
-    "firebase": "^2.4.0",
-    "mongoose": "^4.2.4",
-    "multer": "^1.1.0"
+    "firebase": "^2.4.0"
   }
 }
