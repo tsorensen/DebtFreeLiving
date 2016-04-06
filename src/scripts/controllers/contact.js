@@ -15,12 +15,10 @@ angular
       $scope.submitted = false;
       self.sending = false;
 
-      console.log("this is your app's controller");
       $scope.response = null;
       $scope.widgetId = null;
       $scope.setResponse = function (response) {
-          console.info('Response available');
-          console.log(response);
+        //will implement later
         // contacts.captchaCheck(response)
         //   .then(function(res) {
         //     $scope.response = response;
@@ -31,13 +29,10 @@ angular
       };
 
       $scope.setWidgetId = function (widgetId) {
-          console.info('Created widget ID: %s', widgetId);
-          console.log(widgetId);
           $scope.widgetId = widgetId;
       };
 
       $scope.cbExpiration = function() {
-          console.info('Captcha expired. Resetting response object');
           grecaptcha.reset();
           $scope.response = null;
        };
@@ -59,9 +54,6 @@ angular
           subject: self.contactInputs.subject,
           message: self.contactInputs.message
         };
-
-        console.log('here it is:');
-        console.log($scope.contactForm);
 
         return contacts.saveRequest(formData)
           .then(function(res) {
