@@ -17,7 +17,7 @@ angular
           email: email
         })
         .then(function() {
-          console.log("Password reset email sent successfully!");
+          //
         })
         .catch(function(error) {
           console.error("Error: ", error);
@@ -39,7 +39,7 @@ angular
             console.log("Error changing account name:", error.code);
             return $q.reject(error);
           } else {
-            console.log('Successfully changed account name');
+            //
           }
         }); //end update
       },
@@ -55,7 +55,6 @@ angular
           oldEmail: oldEmail,
           newEmail: newEmail
         }).then(function() {
-          console.log("Email changed successfully!");
           //now update email in the DB
           return ref.child('users/' + uid).update({
               "email": newEmail
@@ -64,7 +63,7 @@ angular
               console.log("Error changing account email:", error.code);
               return $q.reject(error);
             } else {
-              console.log('Successfully changed account email');
+              //
             }
           }); //end update
 
@@ -80,7 +79,7 @@ angular
           oldPassword: oldPassword,
           newPassword: newPassword
         }).then(function() {
-          console.log("Password changed successfully!");
+          //
         }).catch(function(error) {
           console.error("Error changing password: ", error);
           return $q.reject(error);
@@ -97,7 +96,6 @@ angular
           email: email,
           password: password
         }).then(function() {
-          console.log("User removed successfully!");
           //removes the users data from the DB
           ref.child('users/' + uid).remove();
         }).catch(function(error) {

@@ -17,7 +17,6 @@ angular
       return {
 
         create: function(article, image) {
-          console.log(image);
           //saves new article + image to Firebase
           var deferred = $q.defer();
 
@@ -25,7 +24,6 @@ angular
             var FR = new FileReader();
 
             FR.onload = function(e) {
-              console.log('in onload');
               var imageString = e.target.result;
               //have to do it this way to return a promise
               deferred.resolve(saveArticle(imageString, article));
@@ -55,7 +53,6 @@ angular
                 $priority: priority
       	    })
             .then(function(article) {
-                console.log('Article and image have been uploaded successfully.');
                 return $q.resolve();
             })
             .catch(function(error) {
@@ -136,7 +133,6 @@ angular
                   var comments = $firebaseArray(commentsRef.child(article.$id).orderByChild('approved').equalTo(false));
                   comments.$loaded()
                     .then(function() {
-                      console.log(comments);
                       article.commentCount = typeof comments === undefined ? 0 : comments.length;
                     });
                 });
@@ -177,7 +173,6 @@ angular
                 console.log('Error with updating article.', error);
                 return $q.reject(error);
               } else {
-                console.log('Article has been edited and updated successfully.');
                 return $q.resolve();
               }
             });
@@ -207,7 +202,6 @@ angular
               if(commentsExist) {
                 commentsRef.$remove()
                   .then(function(ref) {
-                    console.log('Article and comments deleted successfully.');
                   })
                   .catch(function(error) {
                     console.log("Article was deleted but error deleting comments:", error);
@@ -215,7 +209,6 @@ angular
                   });
               }
 
-              console.log('Article has been deleted successfully.');
             }, function(error) {
               console.log("Error deleting article:", error);
               return $q.reject(error);
@@ -251,7 +244,6 @@ angular
               console.log('Error saving new comment:', error);
               return $q.reject(error);
             } else {
-              console.log('Comment saved successfully!');
               return $q.resolve();
             }
           });
@@ -285,8 +277,6 @@ angular
                   //format dates using moment
                   comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
                 });
-                console.log('here are the comments');
-                console.log(comments);
                 return comments;
             })
             .catch(function(error) {
@@ -305,7 +295,6 @@ angular
               console.log('Error with approving comment on article ref:', error);
               return $q.reject(error);
             } else {
-              console.log('Comment approved on article ref successfully.');
               return $q.resolve();
             }
           });
@@ -319,7 +308,6 @@ angular
               console.log('Error with deleting comment:', error);
               return $q.reject(error);
             } else {
-              console.log('Removed second comment ref under article successfully.');
               return $q.resolve();
             }
           });

@@ -21,21 +21,17 @@ angular
 
       login: function(user) {
         var remember;
-        console.log("remember: ");
-        console.log(remember);
         if(user.remember === true) {
           //default uses value defined as default within firebase account settings
           remember = 'default';
         } else {
           remember = 'sessionOnly';
         }
-        console.log(remember);
         return fireAuth.$authWithPassword({
           email    : user.email,
           password : user.password
         }, {remember: user.remember})
         .then(function(authData) {
-            console.log("Authenticated successfully with payload:", authData);
             currentUser = authData;
         })
         .catch(function(error) {
@@ -45,11 +41,8 @@ angular
       },
 
       oauth: function(provider) {
-        console.log('in oauth');
-        console.log('here is provider: ' + provider);
         return fireAuth.$authWithOAuthPopup(provider, {remember: "default"})
           .then(function(authData) {
-            console.log("OAuth successful with payload:", authData);
             currentUser = authData;
             currentUser.exists = false;
           })
@@ -92,7 +85,7 @@ angular
                   console.log("Error saving user to database:", error.code);
                   return $q.reject(error);
                 } else {
-                  console.log('Successfully saved user data');
+                  //
                 }
               }); //end set
             }//end if
@@ -108,14 +101,12 @@ angular
         currentUser = null;
         userData = null;
         $rootScope.$broadcast('auth-userLoginChange');
-        return 'Successfully logged out';
       },
 
       getCurrentUser: function() {
           if(userData !== undefined && userData !== null) {
             return $q.resolve(userData);
           } else if(!currentUser || !currentUser.uid) {
-            console.log("currentUser not available.  No one is logged in");
             return $q.resolve();
           } else {
           return ref.child('users/' + currentUser.uid).once('value')
@@ -137,10 +128,9 @@ angular
 
         var authData = fireAuth.$getAuth();
         if(authData) {
-          console.log("Logged in as:", authData.uid);
           currentUser = authData;
         } else {
-          console.log("Logged out");
+          //
         }
 
         return currentUser;
@@ -148,13 +138,11 @@ angular
 
       isOAuth: function() {
         if (currentUser.provider === 'password') {
-          console.log('not an ouath user');
           return false;
         }
 
         var authData = fireAuth.$getAuth();
         if(authData.provider === 'facebook' || authData.provider === 'google') {
-          console.log('yes oauth');
           return true;
         } else {
           return false;
@@ -169,7 +157,6 @@ angular
         })
         .then(function(userData) {
           //log in newly registered user
-          console.log("User " + userData.uid + " created successfully!");
           return fireAuth.$authWithPassword({
             email: user.email,
             password: user.password
@@ -177,7 +164,6 @@ angular
         })
         .then(function(authData) {
           //set currentUser
-          console.log("Logged in as:", authData.uid);
           currentUser = authData;
         })
         .then(function(res) {
@@ -196,13 +182,12 @@ angular
               console.log("Error saving user to database:", error.code);
               return $q.reject(error);
             } else {
-              console.log('Successfully saved user data');
+              //
             }
           }); //end set
         })
         .catch(function(error) {
-          console.log('in catch');
-          console.error("Error: unable to register account");
+          console.error("Error: unable to register account: ", error);
           return $q.reject(error);
         });
       },
