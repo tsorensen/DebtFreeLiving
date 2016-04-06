@@ -26,6 +26,7 @@ angular
     'firebase',
     'autoNumericDirective',
     'blogApp.protector',
+    'bckrueger.angular-currency',
   ])
   .config([
     '$routeProvider',

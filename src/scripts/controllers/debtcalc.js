@@ -8,21 +8,30 @@ angular
     '$firebaseArray',
     function($scope, auth, $firebaseArray) {
 
-      if(!auth.isLoggedIn()) {
-          $location.url('/login');
-        }
-
       var ref = new Firebase("https://resplendent-fire-5282.firebaseio.com/");
+
+      $scope.initList = [{},{}];
 
       auth.isLoggedIn()
         .then(function(user) {
             $scope.user = user;
-            $scope.initList = $firebaseArray(ref.child("plans").child($scope.user.uid));
-            console.log($scope.initList);
+            $scope.userData = $firebaseArray(ref.child("plans").child($scope.user.uid));
+
+            $scope.userData.$loaded()
+            .then(function(){
+              if($scope.userData.length > 0){
+                  $scope.initList = $scope.userData;
+                  console.log($scope.initList);
+              }
+            });
+
+
         })
         .catch(function(error) {
           console.log('Error in retreiving logged in data: ', error);
         });
+
+      //console.log($scope.initList[0].desc);
 
       var table;
 
@@ -110,6 +119,12 @@ angular
 
       //Function to add loan objects to the loan list above
       $scope.calcLoans = function(){
+
+        for(i = 0; i < $scope.initList.length; i++){
+          $scope.userData.$add($scope.initList[i]);
+        }
+
+        //$scope.userData.$add($scope.initList);
 
         $scope.showForm = false;
 

@@ -5,7 +5,7 @@
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
           <h1 class="mainHeader">My Plan</h1>
-
+          
         <div class="panel panel-default" ng-show="showForm">
           <div class="panel-body">
             <form ng-submit="calcLoans()">
@@ -14,7 +14,7 @@
                   <div class="form-group">
                     <div class="col-xs-12">
                     <h3>Debt #{{$index + 1}} <button type="button" ng-click="removeLoan($index)" class="btn btn-danger" ng-show="showRemoveBtn">Remove</button></h3>
-                    <input type="text" name="description" class="form-control"  ng-model="loan.desc" placeholder="Description (ex. Home, Auto, Student)"/>
+                    <input type="text" name="description" class="form-control"  ng-model="initList[$index].desc" placeholder="Description (ex. Home, Auto, Student)"/>
                   </div>
                 </div>
                 </fieldset>

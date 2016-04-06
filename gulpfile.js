@@ -31,6 +31,11 @@ var lib = require('bower-files')({
       main: [
         'accounting.js'
       ]
+    },
+    'jquery-maskmoney': {
+      main: [
+        'dist/jquery.maskMoney.js'
+      ]
     }
   }
 });
