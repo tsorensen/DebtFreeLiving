@@ -6,29 +6,28 @@ angular
   '$http',
   'firebaseHost',
   'verifierUrl',
-  'verifierKey',
   '$q',
   '$firebaseArray',
-  function($http, host, verifierUrl, verifierKey, $q, $firebaseArray) {
+  function($http, host, verifierUrl, $q, $firebaseArray) {
     var ref = new Firebase(host);
 
     var contacts = {
-      captchaCheck: function(response) {
-        var data = {
-          secret: verifierKey,
-          response: response
-        }
-        return $http({
-            method: 'POST',
-            url: verifierUrl,
-            data: data,
-            headers: {'Access-Control-Allow-Origin': '*'}
-        })
-          .then(function (res) {
-            console.log('res: ');
-            console.log(res);
-          });
-      },
+      // captchaCheck: function(response) {
+      //   var data = {
+      //     secret: verifierKey,
+      //     response: response
+      //   }
+      //   return $http({
+      //       method: 'POST',
+      //       url: verifierUrl,
+      //       data: data,
+      //       headers: {'Access-Control-Allow-Origin': '*'}
+      //   })
+      //     .then(function (res) {
+      //       console.log('res: ');
+      //       console.log(res);
+      //     });
+      // },
 
       saveRequest: function(contactData) {
         var newContactRef = ref.child('contacts').push();
