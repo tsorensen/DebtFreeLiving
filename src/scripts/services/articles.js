@@ -52,7 +52,6 @@ angular
                 category: article.category,
                 body:     article.content,
                 image:    imageString,
-                comments: "",
                 $priority: priority
       	    })
             .then(function(article) {
@@ -119,6 +118,27 @@ angular
 
                   //format dates using moment
                   article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+                });
+
+                return articles;
+            });
+        },
+
+        readAllForAdmin: function() {
+          //get all articles + their comments
+          var articles = $firebaseArray(articlesRef);
+
+          return articles.$loaded()
+            .then(function(){
+                angular.forEach(articles, function(article) {
+                  //format dates using moment
+                  article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+                  var comments = $firebaseArray(commentsRef.child(article.$id).orderByChild('approved').equalTo(false));
+                  comments.$loaded()
+                    .then(function() {
+                      console.log(comments);
+                      article.commentCount = typeof comments === undefined ? 0 : comments.length;
+                    });
                 });
 
                 return articles;
@@ -212,15 +232,6 @@ angular
           //create reference to comments object and article comments by id
           var comments = commentsRef.child(articleId);
           var newCommentRef = comments.push();
-          var userCommentsRef = ref.child('articles/' + articleId + '/comments/' + newCommentRef.key());
-
-
-          //creates id reference in article document to comment by id
-          var newUserCommentRef = userCommentsRef.set({
-            commentRefId: newCommentRef.key(),
-            approved: false,
-            date: timestamp,
-          });
 
           //set with priority lets us prioritize comments based on date
           return newCommentRef.setWithPriority({

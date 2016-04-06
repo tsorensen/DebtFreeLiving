@@ -27,6 +27,8 @@ angular
       //code for the confirm and delete modal windows
       $scope.deleteArticleModal = false;
       $scope.toggleDeleteModal = function(id, title){
+          self.deleteArticleError = null;
+          self.deleteArticleSuccess = null;
           self.deleteArticleInputs = {
             title: title,
             id: id
@@ -65,19 +67,8 @@ angular
       };
 
       function getArticles() {
-        articles.readAll()
+        articles.readAllForAdmin()
           .then(function(items) {
-            for(var i = 0; i < items.length; i++) {
-              items[i].commentCount = 0;
-              var commentsObj = Object.keys(items[i].comments);
-              if(commentsObj.length > 0) {
-                for(var comment in items[i].comments) {
-                  if(items[i].comments[comment].approved === false) {
-                    items[i].commentCount++;
-                  }
-                }
-              }
-            }
             self.articles = items;
             self.loadingArticles = false;
           });
