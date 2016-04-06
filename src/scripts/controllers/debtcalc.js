@@ -178,6 +178,7 @@ angular
           var paidOff = false;
           var monthlyTotal = 0;
           var monthsToAdd = 1;
+          var lastMonthsTotalBalance;
 
           for(i=0; i < loanList.length; i++){
             totalBalance += loanList[i].calcBalance;
@@ -188,6 +189,12 @@ angular
           }
 
           while(totalBalance > 0){
+
+            if(totalBalance == lastMonthsTotalBalance){
+              totalBalance = 0;
+              console.log("Hit!");
+            }
+
             console.log(totalBalance);
             //Adds month as the first item in the array
             $scope.finalOutput.push(
@@ -227,7 +234,6 @@ angular
               }
               //The total snowball payment equals whatever is left over
               totalSnowball = monthlyTotal - newMonthContainer;
-              console.log("Hit");
               if(totalSnowball > 0 && !finalPayment){
                 for(i=0; i < loanList.length; i++){
                   if(!loanList[i].paidOff){
@@ -238,16 +244,32 @@ angular
               }
             };
 
+            var placeholderArray = [];
+
             for(i=0; i < loanList.length; i++){
               //Make a payment
 
-              $scope.finalOutput[$scope.finalOutput.length - 1].push(
-                loanList[i].calcPayment.toFixed(2)
-              )
+              lastMonthsTotalBalance = totalBalance;
 
               var monthInt = loanList[i].calcIntRate / 1200;
               var monthlyIntPmt = loanList[i].calcBalance * monthInt;
               var principal = loanList[i].calcPayment - monthlyIntPmt;
+
+              if(loanList[i].calcPayment > loanList[i].calcBalance){
+                loanList.calcBalance = 0;
+              }
+
+              if(loanList[i].calcPayment > totalBalance){
+                totalBalance = 0;
+              }
+
+              $scope.finalOutput[$scope.finalOutput.length - 1].push(
+                "$" + loanList[i].calcPayment.toFixed(2)
+              )
+
+              placeholderArray.push(
+                "$" + loanList[i].calcPayment.toFixed(2)
+              )
 
               loanList[i].calcBalance -= principal.toFixed(2);
               totalBalance -= principal.toFixed(2);
@@ -259,6 +281,18 @@ angular
               if (totalBalance < 0.01) {
                 totalBalance = 0;
               }
+            }
+
+            for (i=0; i < placeholderArray.length; i++){
+
+              var isCompleted = true;
+
+              if(placeholderArray[i] != "$0.00"){
+                isCompleted = false;
+              }
+            }            
+            if(isCompleted){
+              totalBalance = 0;
             }
           }
         };
