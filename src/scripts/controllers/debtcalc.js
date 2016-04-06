@@ -24,44 +24,25 @@ angular
                   console.log($scope.initList);
               }
             });
-
-
         })
         .catch(function(error) {
           console.log('Error in retreiving logged in data: ', error);
         });
 
-      //console.log($scope.initList[0].desc);
-
       var table;
 
       $scope.columns = [];
 
-      //$scope.adjustedDate =
-      //Hide table until values are entered
-
       var showTable = true;
 
       $scope.showRemoveBtn = false;
-
       $scope.showForm = true;
-
       $scope.showPlan = false;
-
-      //Create an array to hold information from user inputs
-
-
-      //Create an array for the final output
       $scope.finalOutput = [];
-
-      //Create an array to hold information for each loan
       $scope.loanList = [];
-
-      //A bucket for potential error messages
       $scope.errorMessage = null;
       $scope.errorAmount = null;
 
-      //Function to add a loan to the list when the "add loan" button is clicked.
       $scope.addLoans = function(){
         $scope.initList.push(
           {}
@@ -113,18 +94,16 @@ angular
         $scope.colums = [];
         $scope.showForm = true;
         if(table){ table.destroy(); }
-        table.draw();
+        //table.draw();
         $scope.showPlan = false;
       };
 
-      //Function to add loan objects to the loan list above
       $scope.calcLoans = function(){
+        $scope.errorMessage = null;
 
         for(i = 0; i < $scope.initList.length; i++){
           $scope.userData.$add($scope.initList[i]);
         }
-
-        //$scope.userData.$add($scope.initList);
 
         $scope.showForm = false;
 
@@ -133,10 +112,7 @@ angular
         $scope.finalOutput = [];
         $scope.columns = [];
 
-        //Loop through the initList array
         for(j=0; j < $scope.initList.length; j++){
-
-          //Function takes form info and pushes it into the loanList array
           $scope.loanList.push(
             {
               date: moment().format("MMMM YYYY"),
@@ -155,7 +131,6 @@ angular
           };
         }
 
-        //Use the termCalc function to get the final output.
         termCalc($scope.loanList);
         createColumns($scope.loanList);
 
@@ -170,7 +145,6 @@ angular
 
         $scope.showPlan = true;
 
-        //Calculate the term of every object.
         function termCalc(loanList){
 
           var totalBalance = 0;
@@ -192,11 +166,8 @@ angular
 
             if(totalBalance == lastMonthsTotalBalance){
               totalBalance = 0;
-              console.log("Hit!");
             }
 
-            console.log(totalBalance);
-            //Adds month as the first item in the array
             $scope.finalOutput.push(
               [moment($scope.loanList[0].date, "MMMM YYYY").add(monthsToAdd, 'months').format("YYYY MMM")]
             )
@@ -290,9 +261,18 @@ angular
               if(placeholderArray[i] != "$0.00"){
                 isCompleted = false;
               }
-            }            
+            }
             if(isCompleted){
               totalBalance = 0;
+            }
+
+            if(monthsToAdd > 600){
+              $scope.errorMessage = "With the current debt information provided, the number of months required to pay off " +
+              "this debt has exceeded 600. Please consider increasing payments."
+              totalBalance = 0;
+              $scope.clearAll();
+              $scope.showForm = true;
+              console.log("show form here.");
             }
           }
         };
