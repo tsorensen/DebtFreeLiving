@@ -146,15 +146,6 @@ angular
         return currentUser;
       },
 
-      isAdmin: function(uid) {
-        var user = $firebaseObject(ref.child('users').child(uid));
-
-        return user.$loaded()
-          .then(function() {
-            return user;
-          })
-      },
-
       isOAuth: function() {
         if (currentUser.provider === 'password') {
           console.log('not an ouath user');
