@@ -15,7 +15,7 @@ angular
         return $firebaseAuth(ref).$waitForAuth()
           .then(function(authData) {
             if (authData) {
-              return auth.isAdmin(authData.uid)
+              return auth.getCurrentUser()
                 .then(function(user) {
                   if(user.administrator !== undefined && user.administrator === true) {
                     return $q.resolve();
