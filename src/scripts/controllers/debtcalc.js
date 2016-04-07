@@ -8,7 +8,7 @@ angular
     '$firebaseArray',
     function($scope, auth, $firebaseArray) {
 
-      var ref = new Firebase("https://debtfreeliving.firebaseio.com/");
+      var ref = new Firebase("https://resplendent-fire-5282.firebaseio.com/");
 
       $scope.initList = [{},{}];
 
