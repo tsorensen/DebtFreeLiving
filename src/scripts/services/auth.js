@@ -3,14 +3,13 @@ angular
   'blogApp'
 ])
 .factory('auth', [
-  '$http',
   'firebaseHost',
   '$q',
   '$location',
   '$rootScope',
   '$firebaseAuth',
   '$firebaseObject',
-  function($http, host, $q, $location, $rootScope, $firebaseAuth, $firebaseObject) {
+  function(host, $q, $location, $rootScope, $firebaseAuth, $firebaseObject) {
     var ref = new Firebase(host);
     var fireAuth = $firebaseAuth(ref);
 

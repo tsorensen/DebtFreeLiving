@@ -3,13 +3,12 @@ angular
     'blogApp'
   ])
   .factory('articles', [
-    '$http',
     'firebaseHost',
     '$filter',
     '$q',
     '$firebaseArray',
     '$firebaseObject',
-    function($http, host, $filter, $q, $firebaseArray, $firebaseObject) {
+    function(host, $filter, $q, $firebaseArray, $firebaseObject) {
       var ref = new Firebase(host);
       var articlesRef = ref.child('articles');
       var commentsRef = ref.child('comments');

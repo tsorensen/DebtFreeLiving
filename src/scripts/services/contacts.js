@@ -3,12 +3,11 @@ angular
   'blogApp'
 ])
 .factory('contacts', [
-  '$http',
   'firebaseHost',
   'verifierUrl',
   '$q',
   '$firebaseArray',
-  function($http, host, verifierUrl, $q, $firebaseArray) {
+  function(host, verifierUrl, $q, $firebaseArray) {
     var ref = new Firebase(host);
 
     var contacts = {
