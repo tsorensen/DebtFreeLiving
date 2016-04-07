@@ -3,17 +3,42 @@
 
     <div class="row">
       <h1 class="page-header text-center">My Debt Elimination Plan</h1>
-      <div class="col-md-10 col-md-offset-1">
 
-        <div class="panel panel-flat">
-
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading text-center">Payments for Next 6 Months</div>
           <div class="panel-body">
-            <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels"
-              chart-legend="true" chart-series="series" chart-click="onClick"></canvas>
+            <canvas id="line" class="chart chart-bar" chart-data="data" chart-labels="labels"
+              chart-legend="true" chart-series="series" chart-click="onClick" colours="barColors">
+            </canvas>
           </div>
         </div>
 
       </div><!-- /.col-md-8 -->
+
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading text-center">Interest Amount Paid Yearly</div>
+          <div class="panel-body">
+            <canvas id="doughnut" class="chart chart-doughnut" chart-legend="true"
+              chart-data="pieData" chart-labels="pieLabels" colours="barColors">
+            </canvas>
+          </div>
+        </div>
+
+      </div><!-- /.col-md-4 -->
+
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading text-center">Debt Totals</div>
+          <div class="panel-body">
+            <canvas id="pie" class="chart chart-pie" chart-legend="true"
+              chart-data="pieData" chart-labels="pieLabels" colours="barColors">
+            </canvas>
+          </div>
+        </div>
+
+      </div><!-- /.col-md-4 -->
     </div><!-- /.row -->
 
     <div class="row">
@@ -25,36 +50,24 @@
           <table class="table table-hover table-bordered">
             <thead>
               <tr>
-                <th class="col-md-4">Creditor</th>
-                <th class="col-md-2 text-center">Length</th>
-                <th class="col-md-1 text-center">Rate</th>
-                <th class="col-md-1 text-center">Payment</th>
-                <th class="col-md-1 text-center">Balance</th>
-                <th class="col-md-3 text-center">Actions</th>
+                <th class="col-md-4">Debt Description</th>
+                <th class="col-md-2 text-center">Balance</th>
+                <th class="col-md-2 text-center">Rate</th>
+                <th class="col-md-2 text-center">Payment</th>
               </tr>
             </thead>
             <tbody>
               <tr class="debt-rows">
                 <td>Credit Card</td>
-                <td class="text-center">6 months</td>
+                <td class="text-center">$678.93</td>
                 <td class="text-center">9.7%</td>
                 <td class="text-center">$35</td>
-                <td class="text-center">$678.93</td>
-                <td class="text-center">
-                  <a href="" class="btn btn-primary btn-xs">Edit</a>
-                  <button class="btn btn-danger btn-xs" ng-click="toggleDeleteModal(article.$id, article.title)">Delete</button>
-                </td>
               </tr>
               <tr class="debt-rows">
                 <td>Credit Card</td>
-                <td class="text-center">6 months</td>
+                <td class="text-center">$678.93</td>
                 <td class="text-center">9.7%</td>
                 <td class="text-center">$35</td>
-                <td class="text-center">$678.93</td>
-                <td class="text-center">
-                  <a href="" class="btn btn-primary btn-xs">Edit</a>
-                  <button class="btn btn-danger btn-xs" ng-click="toggleDeleteModal(article.$id, article.title)">Delete</button>
-                </td>
               </tr>
             </tbody>
           </table>

@@ -410,6 +410,7 @@ img.rounded {
   margin-bottom: 20px;
   border-color: #ddd;
   color: #333;
+  background:none;
 }
 
 .panel-flat>.panel-heading {
