@@ -21,7 +21,6 @@ angular
             .then(function(){
               if($scope.userData.length > 0){
                   $scope.initList = $scope.userData;
-                  console.log($scope.initList);
               }
             });
         })
@@ -99,7 +98,14 @@ angular
       };
 
       $scope.calcLoans = function(){
+
         $scope.errorMessage = null;
+
+        console.log($scope.userData);
+        for(i = 0; i < $scope.userData.length; i++){
+          $scope.userData.$remove($scope.userData[i]);
+        }
+        console.log($scope.userData);
 
         for(i = 0; i < $scope.initList.length; i++){
           $scope.userData.$add($scope.initList[i]);
