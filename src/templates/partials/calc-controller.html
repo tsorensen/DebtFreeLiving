@@ -1,178 +1,126 @@
 <section id="calc">
-  <div class='container'>
-
-    <div class="row">
-      <h1 class="page-header text-center">My Plan Manager</h1>
-      <div class="col-md-8 col-md-offset-2">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <form id="loan-form" name="loanForm" ng-submit="calcLoans()" novalidate>
-
-              <div class="clearfix" ng-repeat="loan in initList">
-                <h3>Debt #{{$index + 1}} <button type="button" ng-click="removeLoan($index)" class="btn btn-danger">Remove</button></h3>
-
-                <div class="form-group has-feedback col-sm-12" ng-class="{ 'has-error': (loanForm.desc.$touched || submitted) && loanForm.desc.$invalid }">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Description of Debt (ex. Home Mortgage, Auto Loan, Student Loans)"
-                    name="desc"
-                    ng-model="loan.desc"
-                    ng-maxlength="30"
-                    ng-pattern="/^[a-zA-Z ]*$/"
-                    ng-required="true">
-                  <div class="help-block" ng-messages="loanForm.desc.$error" ng-show="loanForm.desc.$touched || submitted">
-                    <p ng-message="maxlength">Description is limited to 30 characters.</p>
-                    <p ng-message="required">Description is required.</p>
-                    <p ng-message="pattern">Only letters and spaces allowed.</p>
-                  </div>
-                  <div class="form-control-feedback icons margin-left">
-                    <i class="fa fa-bank text-muted"></i>
-                  </div>
-                </div><!-- /.form-group -->
-
-                <div class="form-group has-feedback col-sm-4" ng-class="{ 'has-error': (loanForm.balance.$touched || submitted) && loanForm.balance.$invalid }">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Balance"
-                    name="balance"
-                    ng-model="loan.balance"
-                    ng-pattern="/(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+)?(\.[0-9]{1,2})?$/"
-                    ng-required="true">
-                  <div class="help-block" ng-messages="loanForm.balance.$error" ng-show="loanForm.balance.$touched || submitted">
-                    <p ng-message="required">Balance is required.</p>
-                    <p ng-message="pattern">Not a valid currency (ex. 1,000 or 1000 or 1000.00).</p>
-                  </div>
-                  <div class="form-control-feedback icons margin-left">
-                    <i class="fa fa-usd text-muted"></i>
-                  </div>
-                </div><!-- /.form-group -->
-
-                <div class="form-group has-feedback col-sm-4" ng-class="{ 'has-error': (loanForm.intRate.$touched || submitted) && loanForm.intRate.$invalid }">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Interest Rate"
-                    name="intRate"
-                    ng-model="loan.intRate"
-                    ng-pattern="/^\d{1,2}(\.\d{1,2})?$/"
-                    ng-required="true">
-                  <div class="help-block" ng-messages="loanForm.intRate.$error" ng-show="loanForm.intRate.$touched || submitted">
-                    <p ng-message="required">Interest Rate is required.</p>
-                    <p ng-message="pattern">Not a valid interest rate (ex. 5 or 5.5 or 5.55)</p>
-                  </div>
-                  <div class="form-control-feedback icons margin-left">
-                    <i class="fa fa-percent text-muted"></i>
-                  </div>
-                </div><!-- /.form-group -->
-
-                <div class="form-group has-feedback col-sm-4" ng-class="{ 'has-error': (loanForm.payment.$touched || submitted) && loanForm.payment.$invalid }">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Monthly Payment"
-                    name="payment"
-                    ng-model="loan.payment"
-                    ng-pattern="/(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+)?(\.[0-9]{1,2})?$/"
-                    ng-required="true">
-                  <div class="help-block" ng-messages="loanForm.payment.$error" ng-show="loanForm.payment.$touched || submitted">
-                    <p ng-message="required">Monthly Payment is required.</p>
-                    <p ng-message="pattern">Not a valid currency (ex. 1,000 or 1000 or 1000.00).</p>
-                  </div>
-                  <div class="form-control-feedback icons margin-left">
-                    <i class="fa fa-usd text-muted"></i>
-                  </div>
-                </div><!-- /.form-group -->
-
-              </div><!-- end ng-repeat -->
-
-              <!-- buttons, error message -->
-              <div class="col-xs-12">
-                <button type="button" ng-click="addLoans()" class="btn btn-primary">Add Debt</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <br ng-show="errorMessage" />
-                <br ng-show="errorMessage" />
-                <div class="alert alert-danger" ng-show="errorMessage" role="alert">
-                  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                    {{ errorMessage }}
-                </div>
-              </div>
-
-            </form>
-          </div><!-- ./panel-body -->
-        </div><!-- /.panel -->
-      </div><!-- /.col-md-10 -->
-    </div><!-- /.row -->
-
-
-    <!-- html for calc -->
-    <!-- <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <h1 class="mainHeader">My Plan</h1>
+  <div class="row">
+        <h1 class="page-header text-center">My Plan Manager</h1>
+        <div class="col-md-8 col-md-offset-2">
           <div class="panel panel-default">
             <div class="panel-body">
-              <form ng-submit="calcLoans()">
-                <div ng-repeat="loan in initList">
-                  <fieldset>
-                    <div class="form-group">
-                      <div class="col-xs-12">
-                      <h3>Debt #{{$index + 1}} <button type="button" ng-click="removeLoan($index)" class="btn btn-danger">Remove</button></h3>
-                      <input type="text" name="description" class="form-control" ng-model="loan.desc" placeholder="Description (ex. Home, Auto, Student)"/>
+              <form id="loan-form" name="loanForm" ng-submit="calcLoans()" novalidate ng-show="showForm">
+  ​
+                <div class="clearfix" ng-repeat="loan in initList">
+                  <h3 class="debtLabel">Debt #{{$index + 1}} <button type="button" ng-click="removeLoan($index)" class="btn btn-danger" ng-show="showRemoveBtn">Remove</button></h3>
+  ​
+                  <div class="form-group has-feedback col-sm-12" ng-class="{ 'has-error': (loanForm.desc.$touched || submitted) && loanForm.desc.$invalid }">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Description of Debt (ex. Home Mortgage, Auto Loan, Student Loans)"
+                      name="desc"
+                      ng-model="loan.desc"
+                      ng-maxlength="30"
+                      ng-pattern="/^[a-zA-Z ]*$/"
+                      ng-required="true">
+                    <div class="help-block" ng-messages="loanForm.desc.$error" ng-show="loanForm.desc.$touched || submitted">
+                      <p ng-message="maxlength">Description is limited to 30 characters.</p>
+                      <p ng-message="required">Description is required.</p>
+                      <p ng-message="pattern">Only letters and spaces allowed.</p>
                     </div>
+                    <div class="form-control-feedback icons margin-left">
+                      <i class="fa fa-bank text-muted"></i>
+                    </div>
+                  </div><!-- /.form-group -->
+  ​
+                  <div class="form-group has-feedback col-sm-4" ng-class="{ 'has-error': (loanForm.balance.$touched || submitted) && loanForm.balance.$invalid }">
+                    <input
+                      autonum
+                      type="text"
+                      class="form-control"
+                      placeholder="Balance"
+                      name="balance"
+                      ng-model="loan.balance"
+                      ng-pattern="/(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+)?(\.[0-9]{1,2})?$/"
+                      ng-required="true">
+                    <div class="help-block" ng-messages="loanForm.balance.$error" ng-show="loanForm.balance.$touched || submitted">
+                      <p ng-message="required">Balance is required.</p>
+                      <p ng-message="pattern">Not a valid currency (ex. 1,000 or 1000 or 1000.00).</p>
+                    </div>
+                    <div class="form-control-feedback icons margin-left">
+                      <i class="fa fa-usd text-muted"></i>
+                    </div>
+                  </div><!-- /.form-group -->
+  ​
+                  <div class="form-group has-feedback col-sm-4" ng-class="{ 'has-error': (loanForm.intRate.$touched || submitted) && loanForm.intRate.$invalid }">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Interest Rate"
+                      name="intRate"
+                      ng-model="loan.intRate"
+                      ng-pattern="/^\d{1,2}(\.\d{1,2})?$/"
+                      ng-required="true">
+                    <div class="help-block" ng-messages="loanForm.intRate.$error" ng-show="loanForm.intRate.$touched || submitted">
+                      <p ng-message="required">Interest Rate is required.</p>
+                      <p ng-message="pattern">Not a valid interest rate (ex. 5 or 5.5 or 5.55)</p>
+                    </div>
+                    <div class="form-control-feedback icons margin-left">
+                      <i class="fa fa-percent text-muted"></i>
+                    </div>
+                  </div><!-- /.form-group -->
+  ​
+                  <div class="form-group has-feedback col-sm-4" ng-class="{ 'has-error': (loanForm.payment.$touched || submitted) && loanForm.payment.$invalid }">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Monthly Payment"
+                      name="payment"
+                      autonum
+                      ng-model="loan.payment"
+                      ng-pattern="/(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+)?(\.[0-9]{1,2})?$/"
+                      ng-required="true">
+                    <div class="help-block" ng-messages="loanForm.payment.$error" ng-show="loanForm.payment.$touched || submitted">
+                      <p ng-message="required">Monthly Payment is required.</p>
+                      <p ng-message="pattern">Not a valid currency (ex. 1,000 or 1000 or 1000.00).</p>
+                    </div>
+                    <div class="form-control-feedback icons margin-left">
+                      <i class="fa fa-usd text-muted"></i>
+                    </div>
+                  </div><!-- /.form-group -->
+  ​
+                </div><!-- end ng-repeat -->
+  ​
+                <!-- buttons, error message -->
+                <div class="col-xs-12">
+                  <button type="button" ng-click="resetPlan()" class="btn btn-primary">Reset Plan</button>
+                  <button type="button" ng-click="addLoans()" class="btn btn-primary">Add Debt</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <br ng-show="errorMessage" />
+                  <br ng-show="errorMessage" />
+                  <div class="alert alert-danger" ng-show="isError" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span>Your plan could not be processed. Please address the following error(s):</span>
+                    <br />
+                    <br />
+                      <ul>
+                        <li ng-repeat="error in errorMessage">{{ error }}</li>
+                      </ul>
                   </div>
-                  </fieldset>
-                  <fieldset class="form-inline">
-                    <div class="form-group">
-                      <div class="col-xs-4">
-                        <label for="balance"></label>
-                        <input type="text" class="form-control" ng-model="loan.balance" placeholder="Balance" />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="col-xs-4">
-                        <label for="intRate"></label>
-                        <input type="text" name="intRate" class="form-control" ng-model="loan.intRate" placeholder = "Interest Rate" />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="col-xs-4">
-                        <label for="payment"></label>
-                        <input type="text" name="payment" class="form-control" ng-model="loan.payment" placeholder = "Monthly Payment" />
-                      </div>
-                    </div>
-                  </fieldset>
-              </div>
-              <br />
-              <div class="col-xs-12">
-                <button type="button" ng-click="addLoans()" class="btn btn-primary">Add Debt</button>
-                <input type="submit" class="btn btn-primary">
-                <br ng-show="errorMessage" />
-                <br ng-show="errorMessage" />
-                <div class="alert alert-danger" ng-show="errorMessage" role="alert">
-                  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                    {{ errorMessage }}
                 </div>
-              </div>
-
+  ​
               </form>
-            </div>
-          </div>
-        </div>
-      </div> -->
+              <div ng-show="!showForm" class = "text-center">
+                <h4>Your Debt-Elimination Plan has been calculated. Click the button below to make changes.</h4>
+                <button type="button" ng-click="editPlan()" class="btn btn-primary center" >Edit Plan</button>
+              </div>
+            </div><!-- ./panel-body -->
+          </div><!-- /.panel -->
+        </div><!-- /.col-md-10 -->
+      </div><!-- /.row -->
 
-      <div class="container">
+  <div class="container" ng-show="showPlan">
 
-        <!--<h2 ng-repeat="loans in loanList">{{ loans.calcDesc + ": " + loans.thisIndex }}</h2>-->
+        <br />
+        <br />
 
-        <h2>Debt-Elimination Plan</h2>
+        <table id="outputTable" class="table stripe"></table>
 
-        <table id="outputTable" class="table"></table>
-
-
-        <h2>{{ finalOutput }}</h2>
-
-      </div>
-  </div>
+    </div>
 </section>

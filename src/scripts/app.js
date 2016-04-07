@@ -24,6 +24,7 @@ angular
     'logoutDirective',
     'adminLinkDirective',
     'blogApp.protector',
+    'autoNumericDirective',
   ])
   .config([
     '$routeProvider',
