@@ -6,7 +6,7 @@ angular
   .controller('AboutController', [
     '$scope',
     function($scope) {
-      $scope.myInterval = 5000;
+      $scope.myInterval = 8000;
       $scope.noWrapSlides = false;
       var currIndex = 0;
 

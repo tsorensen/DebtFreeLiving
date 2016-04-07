@@ -7,6 +7,7 @@ angular
     '$scope',
     function($scope) {
       $scope.myInterval = 5000;
+      $scope.testimonialsInterval = 8000;
       $scope.noWrapSlides = false;
       var currIndex = 0;
 
