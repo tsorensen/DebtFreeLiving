@@ -4,7 +4,7 @@
         <div class="col-md-8 col-md-offset-2">
           <div class="panel panel-default">
             <div class="panel-body">
-              <form id="loan-form" name="loanForm" ng-submit="calcLoans()" novalidate>
+              <form id="loan-form" name="loanForm" ng-submit="calcLoans()" novalidate ng-show="showForm">
   ​
                 <div class="clearfix" ng-repeat="loan in initList">
                   <h3 class="debtLabel">Debt #{{$index + 1}} <button type="button" ng-click="removeLoan($index)" class="btn btn-danger" ng-show="showRemoveBtn">Remove</button></h3>
@@ -31,6 +31,7 @@
   ​
                   <div class="form-group has-feedback col-sm-4" ng-class="{ 'has-error': (loanForm.balance.$touched || submitted) && loanForm.balance.$invalid }">
                     <input
+                      autonum
                       type="text"
                       class="form-control"
                       placeholder="Balance"
@@ -71,6 +72,7 @@
                       class="form-control"
                       placeholder="Monthly Payment"
                       name="payment"
+                      autonum
                       ng-model="loan.payment"
                       ng-pattern="/(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+)?(\.[0-9]{1,2})?$/"
                       ng-required="true">
@@ -91,21 +93,28 @@
                   <button type="submit" class="btn btn-primary">Submit</button>
                   <br ng-show="errorMessage" />
                   <br ng-show="errorMessage" />
-                  <div class="alert alert-danger" ng-show="errorMessage" role="alert">
+                  <div class="alert alert-danger" ng-show="isError" role="alert">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                      {{ errorMessage }}
+                    <span>Your plan could not be processed. Please address the following error(s):</span>
+                    <br />
+                    <br />
+                      <ul>
+                        <li ng-repeat="error in errorMessage">{{ error }}</li>
+                      </ul>
                   </div>
                 </div>
   ​
               </form>
+              <div ng-show="!showForm" class = "text-center">
+                <h4>Your Debt-Elimination Plan has been calculated. Click the button below to make changes.</h4>
+                <button type="button" ng-click="editPlan()" class="btn btn-primary center" >Edit Plan</button>
+              </div>
             </div><!-- ./panel-body -->
           </div><!-- /.panel -->
         </div><!-- /.col-md-10 -->
       </div><!-- /.row -->
 
   <div class="container" ng-show="showPlan">
-
-        <button type="button" ng-click="editPlan()" class="btn btn-primary">Edit Plan</button>
 
         <br />
         <br />

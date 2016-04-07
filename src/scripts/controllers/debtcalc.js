@@ -21,6 +21,11 @@ angular
             .then(function(){
               if($scope.userData.length > 0){
                   $scope.initList = $scope.userData;
+                  $scope.calcLoans();
+              }
+
+              if($scope.userData.length > 2){
+                $scope.showRemoveBtn = true;
               }
             });
         })
@@ -47,7 +52,7 @@ angular
           {}
         )
 
-        if($scope.initList.length > 2){
+        if($scope.initList.length > 2 || $scope.userData > 2){
           $scope.showRemoveBtn = true;
         }
       };
@@ -99,10 +104,11 @@ angular
 
       $scope.calcLoans = function(){
 
-        $scope.errorMessage = null;
+        $scope.isError = false;
+        $scope.errorMessage = [];
 
         console.log($scope.userData);
-        for(i = 0; i < $scope.userData.length; i++){
+        for(i = 2; i < $scope.userData.length; i++){
           $scope.userData.$remove($scope.userData[i]);
         }
         console.log($scope.userData);
@@ -121,9 +127,9 @@ angular
             {
               date: moment().format("MMMM YYYY"),
               calcDesc: $scope.initList[j].desc.toUpperCase(),
-              calcBalance: parseFloat($scope.initList[j].balance),
+              calcBalance: parseFloat(numeral().unformat($scope.initList[j].balance)),
               calcIntRate: parseFloat($scope.initList[j].intRate),
-              calcPayment: parseFloat($scope.initList[j].payment),
+              calcPayment: parseFloat(numeral().unformat($scope.initList[j].payment)),
               staticPayment: parseFloat($scope.initList[j].payment),
               paidOff: false
             })
@@ -274,8 +280,9 @@ angular
             }
 
             if(monthsToAdd > 600){
-              $scope.errorMessage = "With the current debt information provided, the number of months required to pay off " +
-              "this debt has exceeded 600. Please consider increasing payments."
+              $scope.errorMessage.push("With the current debt information provided, the number of months required to pay off " +
+              "this debt has exceeded 600. Please consider increasing payments.");
+              $scope.isError = true;
               totalBalance = 0;
               $scope.clearAll();
               $scope.showForm = true;
