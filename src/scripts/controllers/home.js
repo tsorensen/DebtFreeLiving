@@ -13,7 +13,7 @@ angular
       $scope.homeSlides = [];
       $scope.homeSlides.push(
         {
-          title: 'Custom Planner',
+          title: 'Create Your Plan',
           class: 'off-center',
           text: 'Are you ready to live debt free?',
           image: '/images/planner.jpg',
@@ -33,7 +33,7 @@ angular
           class: '',
           text: 'Learn more about us',
           image: '/images/macbook-tea-1.jpg',
-          button: 'Learn More',
+          button: 'About Us',
           link: '/#/about'
         }
       );
