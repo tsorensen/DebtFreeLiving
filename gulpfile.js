@@ -26,6 +26,16 @@ var lib = require('bower-files')({
         'dist/textAngularSetup.js',
         'dist/textAngular.js',
       ]
+    },
+    accounting: {
+      main: [
+        'accounting.js'
+      ]
+    },
+    'jquery-maskmoney': {
+      main: [
+        'dist/jquery.maskMoney.js'
+      ]
     }
   }
 });

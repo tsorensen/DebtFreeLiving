@@ -34,9 +34,19 @@
     "angularfire": "^1.1.4",
     "datatables.net": "^1.10.11",
     "datatables.net-bs": "^1.10.11",
+    "numeral": "^1.5.3",
+    "accounting.js": "^0.4.1",
+    "autoNumeric": "^1.9.43",
+    "accounting": "^0.3.2",
+    "bootstrap3-dialog": "bootstrap-dialog#^1.35.1",
     "angular-messages": "~1.5.4",
     "angular-recaptcha": "^3.0.0",
-    "angular-chart.js": "~0.9.0"
+    "angular-chart.js": "~0.9.0",
+    "angular-currency": "^1.0.6",
+    "currency.js": "^0.4.4",
+    "jquery-maskmoney": "^3.0.2",
+    "datatables.net-responsive": "^2.0.2",
+    "datatables.net-responsive-bs": "^2.0.2"
   },
   "resolutions": {
     "angular": "~1.5.0"

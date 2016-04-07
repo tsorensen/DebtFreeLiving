@@ -8,12 +8,13 @@
  *   4. Blog
  *   5. About
  *   6. Contact
- *   7. Login/Forgot Password
- *   8. Admin
- *   9. Dashboard
- *  10. Account
- *  11. Footer
- *  12. Media Queries
+ *   7. Calculator
+ *   8. Login/Forgot Password
+ *   9. Admin
+ *  10. Dashboard
+ *  11. Account
+ *  12. Footer
+ *  13. Media Queries
  */
 
 /***********************************/
@@ -253,7 +254,23 @@ img.rounded {
   display:inline-block;
 }
 
+/********************************/
+/*********** CALCULATOR **********/
+/****************************/
 
+#outputTable {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.debtLabel {
+  margin-left: 15px;
+}
 
 /************************************/
 /***** LOGIN/FORGOT PASSWORD ******/

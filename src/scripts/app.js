@@ -23,7 +23,10 @@ angular
     'vcRecaptcha',
     'logoutDirective',
     'adminLinkDirective',
+    'firebase',
+    'autoNumericDirective',
     'blogApp.protector',
+    'bckrueger.angular-currency',
   ])
   .config([
     '$routeProvider',
@@ -89,6 +92,10 @@ angular
               return routeProtector.accountRoute();
             }]
           }
+        })
+        .when('/my_plan/calculator', {
+          templateUrl: '/partials/calc-controller.html',
+          controller: 'DebtCalcController',
         })
         .when('/account', {
           templateUrl: '/partials/account-controller.html',
