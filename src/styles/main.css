@@ -136,6 +136,14 @@ img.rounded {
   margin-right: 10px;
 }
 
+.feature-icons {
+  color: #418841;
+}
+
+.feature-blurb {
+  min-height:65px;
+}
+
 /* Testimonials */
 #testimonials {
   background: #efefef;
@@ -247,6 +255,22 @@ img.rounded {
 /****************************/
 .contact-icons {
   margin: 30px 0;
+}
+
+#contact a.facebook:hover {
+  color: #3b5998;
+}
+
+#contact a.twitter:hover {
+  color: #55acee;
+}
+
+#contact a.pinterest:hover {
+  color: #bd081c;
+}
+
+#contact a.envelope:hover {
+  color: #C5A528;
 }
 
 #contact .captcha,
@@ -436,6 +460,18 @@ footer {
 
 .social-icons {
   color: #444;
+}
+
+footer a.facebook:hover {
+  color: #3b5998;
+}
+
+footer a.twitter:hover {
+  color: #55acee;
+}
+
+footer a.pinterest:hover {
+  color: #bd081c;
 }
 
 .footer-nav {
