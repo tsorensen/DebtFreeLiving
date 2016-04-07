@@ -111,8 +111,6 @@ angular
           $scope.userData.$add($scope.initList[i]);
         }
 
-        $scope.showForm = false;
-
         //Clear the loanList array and the final output array
         $scope.loanList = [];
         $scope.finalOutput = [];
@@ -145,11 +143,14 @@ angular
         table = $('#outputTable').DataTable( {
             "searching": false,
             "ordering": false,
+            responsive: true,
+            "stripeClasses": [ 'strip1', 'strip2', 'strip3' ],
             data: $scope.finalOutput,
             columns: $scope.columns
         } );
 
         $scope.showPlan = true;
+        $scope.showForm = false;
 
         function termCalc(loanList){
 
