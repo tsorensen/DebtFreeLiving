@@ -44,7 +44,9 @@ angular
           .then(function(){
               angular.forEach(contacts, function(contact) {
                 //format dates using moment
-                contact.date = moment(contact.date).format('MMM DD, YYYY hh:mm a');
+                if(typeof contact.date === 'number') {
+                  contact.date = moment(contact.date).format('MMM DD, YYYY hh:mm a');
+                }
               });
               return contacts;
           })

@@ -72,17 +72,8 @@ angular
               article.body = $filter('renderHtml')(article.body);
 
               //format dates
-              article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
-
-              //if there are comments, format comment dates as well
-              if(article.comments) {
-                //loop through object of comments objects
-                Object.keys(article.comments).map(function(id, index) {
-                  var comment = article.comments[id];
-                  //set comment id
-                  comment._id = id;
-                  comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
-                });
+              if(typeof article.date === "number") {
+                article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
               }
 
               return article;
@@ -112,7 +103,9 @@ angular
                   }
 
                   //format dates using moment
-                  article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+                  if(typeof article.date === "number") {
+                    article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+                  }
                 });
 
                 return articles;
@@ -127,7 +120,9 @@ angular
             .then(function(){
                 angular.forEach(articles, function(article) {
                   //format dates using moment
-                  article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+                  if(typeof article.date === "number") {
+                    article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+                  }
                   var comments = $firebaseArray(commentsRef.child(article.$id).orderByChild('approved').equalTo(false));
                   comments.$loaded()
                     .then(function() {
@@ -251,7 +246,9 @@ angular
             .then(function(){
                 angular.forEach(comments, function(comment) {
                   //format dates using moment
-                  comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
+                  if(typeof comment.date === "number") {
+                    comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
+                  }
                 });
 
                 return comments;
@@ -268,7 +265,9 @@ angular
             .then(function(){
                 angular.forEach(comments, function(comment) {
                   //format dates using moment
-                  comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
+                  if(typeof comment.date === "number") {
+                    comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
+                  }
                 });
                 return comments;
             })
