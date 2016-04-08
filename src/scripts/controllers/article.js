@@ -19,6 +19,7 @@ angular
       self.articles = [];
       self.categories = [];
       self.comments = [];
+      self.submitted = false;
       self.savingComment = false;
       self.isLoggedIn = false;
       self.user = {};
@@ -109,19 +110,18 @@ angular
       function resetCommentForm() {
         self.inputs.comment =  '';
         self.saveCommentError = null;
-        self.saveCommentSuccess = null;
+        self.commentingForm.$setUntouched();
+        self.submitted = false;
       }
 
-      resetCommentForm();
-
       self.submit = function (data) {
+        self.submitted = true;
         self.savingComment = true;
         self.saveCommentError = null;
         self.saveCommentSuccess = null;
 
-        if(!data.comment) {
+        if(self.commentingForm.$invalid) {
           self.savingComment = false;
-          self.saveCommentError = 'Please fill in the comment field.';
           return;
         }
 
@@ -144,7 +144,6 @@ angular
               self.savingComment = false;
               resetCommentForm();
             }, 5000);
-            console.log('success');
           })
           .catch(function(error) {
             self.saveCommentError = 'There was an error submitting your comment.  Please try again.';

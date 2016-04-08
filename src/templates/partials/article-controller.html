@@ -39,18 +39,26 @@
           <hr>
 
           <!-- Blog Comments -->
-          <div class="well">
-              <form ng-if="article.isLoggedIn === true" id="comment-form" role="form" enctype="multipart/form-data" ng-submit="article.submit(article.inputs)">
+          <div class="well" ng-if="article.isLoggedIn === true">
+              <form id="comment-form" name="article.commentingForm" ng-submit="article.submit(article.inputs)" novalidate>
                 <h4>Leave a Comment:</h4>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : (article.commentingForm.comment.$touched || article.submitted) && article.commentingForm.comment.$invalid }">
                     <textarea
                       class="form-control"
                       rows="3"
                       ng-model="article.inputs.comment"
                       id="comment"
                       name="comment"
-                      rqeuired>
+                      ng-maxlength="1000"
+                      ng-required='true'>
                     </textarea>
+                    <div class="help-block" ng-messages="article.commentingForm.comment.$error" ng-show="article.commentingForm.comment.$touched || article.submitted">
+                      <p ng-message="maxlength">Comment is limited to 1,000 characters.</p>
+                      <p ng-message="required">Comment is required.</p>
+                    </div>
+                    <div class="form-control-feedback icons">
+                      <i class="fa fa-commenting text-muted"></i>
+                    </div>
                 </div>
 
                 <div class="alert alert-danger" ng-show="article.saveCommentError">
