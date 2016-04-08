@@ -89,12 +89,14 @@ img.rounded {
 .carousel-caption {
   text-shadow:none;
 }
+
 .carousel-caption .faded {
   background: rgba(0,0,0,.5);
   padding: 15px;
   border-radius: 8px;
   display: inline-block;
   min-width:420px;
+  margin-bottom: 50px;
 }
 
 .carousel.fade {
@@ -154,6 +156,10 @@ img.rounded {
   padding-right: 15px;
 }
 
+#featurette p {
+  font-size:16px;
+}
+
 #featurette .col-sm-4 {
   text-align: center;
   margin-bottom: 20px;
@@ -161,6 +167,7 @@ img.rounded {
 
 #featurette h3 {
   font-weight: normal;
+  margin-top:10px;
 }
 
 #featurette .col-sm-4 p {
@@ -169,11 +176,16 @@ img.rounded {
 }
 
 .feature-icons {
-  color: #449d44;
+  color: #5cb85c;
 }
 
 .feature-blurb {
-  min-height:65px;
+  min-height:68px;
+}
+
+.feature-btn {
+  margin-top:10px;
+  margin-bottom:20px;
 }
 
 /* Testimonials */
@@ -217,6 +229,10 @@ img.rounded {
 
 #testimonials .carousel-indicators {
   display:none;
+}
+
+#bio p {
+  font-size:16px;
 }
 
 #bio a.btn {
@@ -526,6 +542,25 @@ footer a.pinterest:hover {
 /********* MEDIA QUERIES *********/
 /*******************************/
 
+@media (max-width: 1200px) {
+  .slide-title {
+    font-size:36px;
+  }
+
+  .slide-caption {
+    font-size:22px;
+  }
+
+  .slide-button {
+    font-size:14px;
+    padding: 10px;
+  }
+
+  .carousel-caption .faded {
+    margin-bottom: 20px;
+  }
+}
+
 @media (min-width: 1008px) {
   .blog-spinner {
     margin-top:150px;
@@ -561,19 +596,6 @@ footer a.pinterest:hover {
 
   .carousel-caption .faded {
     min-width:420px;
-  }
-
-  .slide-title {
-    font-size:36px;
-  }
-
-  .slide-caption {
-    font-size:22px;
-  }
-
-  .slide-button {
-    font-size:14px;
-    padding: 10px;
   }
 }
 
