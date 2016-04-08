@@ -25,22 +25,22 @@
 
             <!-- article image -->
             <div ng-if="article.content.image" class="article-img">
-              <img class="img-responsive" src="{{article.content.image}}" alt="Article image">
+              <img class="img-responsive" ng-src="{{article.content.image}}" alt="Article image">
               <hr>
             </div>
 
             <!-- Post Content -->
             <div class="article-content" ng-bind-html="article.content.body"></div>
 
-            <div class="text-center">
+            <div class="back-blog text-center">
               <a href="/#/blog" class="btn btn-lg btn-primary"><i class="fa fa-arrow-left"></i> Back to Blog</a>
             </div>
           </div><!-- /post -->
           <hr>
 
           <!-- Blog Comments -->
-          <div class="well" ng-if="article.isLoggedIn === true">
-              <form id="comment-form" name="article.commentingForm" ng-submit="article.submit(article.inputs)" novalidate>
+          <div class="well">
+              <form ng-if="article.isLoggedIn === true" id="comment-form" name="article.commentingForm" ng-submit="article.submit(article.inputs)" novalidate>
                 <h4>Leave a Comment:</h4>
                 <div class="form-group" ng-class="{ 'has-error' : (article.commentingForm.comment.$touched || article.submitted) && article.commentingForm.comment.$invalid }">
                     <textarea
@@ -89,7 +89,7 @@
                 <i class="fa fa-user fa-3x"></i>
               </div> -->
               <div class="pull-left">
-                  <img class="comment-img media-object" ng-class="{ default: comment.image === 'default' }" src="{{ comment.image === 'default' ? '/images/user.png' : comment.image }}" alt="User profile image">
+                  <img class="comment-img media-object" ng-class="{ default: comment.image === 'default' }" ng-src="{{ comment.image === 'default' ? '/images/user.png' : comment.image }}" alt="User profile image">
               </div>
               <div class="media-body">
                   <h4 class="media-heading">{{ comment.name }}
