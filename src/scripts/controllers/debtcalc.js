@@ -7,7 +7,7 @@ angular
     'auth',
     '$firebaseArray',
     function($scope, auth, $firebaseArray) {
-​
+      console.log("Umm");
       var ref = new Firebase("https://resplendent-fire-5282.firebaseio.com/");
 ​
       $scope.initList = [{},{}];
@@ -21,7 +21,7 @@ angular
             .then(function(){
               if($scope.userData.length > 0){
                   $scope.initList = $scope.userData;
-                  $scope.calcLoans();
+                  $scope.displayLoans();
               }
 ​
               if($scope.userData.length > 2){
@@ -102,25 +102,7 @@ angular
         $scope.showPlan = false;
       };
 ​
-      $scope.calcLoans = function(){
-​
-        $scope.isError = false;
-        $scope.errorMessage = [];
-​
-        console.log($scope.userData);
-        for(i = 2; i < $scope.userData.length; i++){
-          $scope.userData.$remove($scope.userData[i]);
-        }
-        console.log($scope.userData);
-​
-        for(i = 0; i < $scope.initList.length; i++){
-          $scope.userData.$add($scope.initList[i]);
-        }
-​
-        //Clear the loanList array and the final output array
-        $scope.loanList = [];
-        $scope.finalOutput = [];
-        $scope.columns = [];
+      $scope.displayLoans = function(){
 ​
         for(j=0; j < $scope.initList.length; j++){
           $scope.loanList.push(
@@ -304,3 +286,4 @@ angular
       };
     };
   }
+]);
