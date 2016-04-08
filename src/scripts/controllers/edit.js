@@ -23,7 +23,6 @@ angular
         articles.read(self.id)
           .then(function(article) {
             self.content = article;
-            console.log(article);
             self.content = article;
             self.inputs = {
               title: article.title,
@@ -32,7 +31,6 @@ angular
               image: article.image,
               content: article.body
             };
-            console.log(self.inputs);
           })
           .then(function() {
             articles.getComments(self.id)

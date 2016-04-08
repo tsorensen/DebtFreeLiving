@@ -47,8 +47,6 @@ angular
           })
           .catch(function(error) {
             //there was an error logging the user in
-            console.log('there was an error with login');
-            console.log(error);
             if(error.code === 'INVALID_PASSWORD') {
               self.loginError = 'Invalid email and password combination. Please try again.';
             } else if(error.code === 'INVALID_USER' || error.code === 'INVALID_EMAIL') {
@@ -70,9 +68,6 @@ angular
             $timeout(function(){ $route.reload() }, 3000);
           })
           .catch(function(error) {
-            console.log('there was an error with oauth login');
-            console.log(error);
-            console.log(error.code);
             if(error.code === 'INVALID_CREDENTIALS') {
               self.loginError = "We couldn't log you in with the credentials you provided for " + provider + '.';
             } else if(error.code === 'USER_CANCELLED') {
@@ -150,8 +145,6 @@ angular
 
         return auth.login(user)
           .then(function(res) {
-            console.log('User has been successfully logged in');
-            console.log(res);
             //successful login
             self.loginSuccess = 'Login successful...';
           });
@@ -160,8 +153,6 @@ angular
       self.oauthUser = function(provider) {
         return auth.oauth(provider)
           .then(function(res) {
-            console.log('User has been successfully logged in');
-            console.log(res);
             //successful login
             self.loginSuccess = 'Login with ' + provider + ' successful...';
           });
@@ -176,7 +167,6 @@ angular
         };
         return auth.register(user)
           .then(function(res) {
-            console.log('Account has been created successfully');
             //account has been created successfully, user has also been logged in
             self.registerSuccess = 'Your account has been created successfully, you are now being logged in...';
           });

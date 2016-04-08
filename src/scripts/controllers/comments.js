@@ -23,7 +23,6 @@ angular
       function getArticle() {
         articles.read(self.id)
           .then(function(article) {
-            console.log(article);
             self.article = article;
           })
           .catch(function(error) {
@@ -45,7 +44,6 @@ angular
       }
 
       self.approveComment = function(comment, commentId) {
-        console.log(comment);
         comment.approved = true;
         self.commentsArr.$save(comment);
 

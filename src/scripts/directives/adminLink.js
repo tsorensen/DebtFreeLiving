@@ -21,8 +21,6 @@ angular
           if(loggedIn) {
             auth.getCurrentUser()
               .then(function(user) {
-                console.log('current user data: ');
-                console.log(user);
                 if(typeof user.administrator !== undefined && user.administrator === true) {
                   elem.html('<a href="/#/admin">Admin</a>');
                 } else {
