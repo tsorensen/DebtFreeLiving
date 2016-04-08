@@ -312,19 +312,19 @@ img.rounded {
   margin: 30px 0;
 }
 
-#contact a.facebook:hover {
+#contact a.facebook:hover, #contact a.facebook:focus {
   color: #3b5998;
 }
 
-#contact a.twitter:hover {
+#contact a.twitter:hover, #contact a.twitter:focus {
   color: #55acee;
 }
 
-#contact a.pinterest:hover {
+#contact a.pinterest:hover, #contact a.pinterest:focus {
   color: #bd081c;
 }
 
-#contact a.envelope:hover {
+#contact a.envelope:hover, #contact a.envelope:focus {
   color: #C5A528;
 }
 
@@ -520,15 +520,15 @@ footer {
   color: #444;
 }
 
-footer a.facebook:hover {
+footer a.facebook:hover, footer a.facebook:focus {
   color: #3b5998;
 }
 
-footer a.twitter:hover {
+footer a.twitter:hover, footer a.twitter:focus {
   color: #55acee;
 }
 
-footer a.pinterest:hover {
+footer a.pinterest:hover, footer a.pinterest:focus {
   color: #bd081c;
 }
 
