@@ -97,6 +97,38 @@ img.rounded {
   min-width:420px;
 }
 
+.carousel.fade {
+  opacity: 1;
+}
+
+.carousel.fade .item {
+  -moz-transition: opacity ease-in-out .7s;
+  -o-transition: opacity ease-in-out .7s;
+  -webkit-transition: opacity ease-in-out .7s;
+  transition: opacity ease-in-out .7s;
+  left: 0 !important;
+  opacity: 0;
+  top:0;
+  position:absolute;
+  width: 100%;
+  display:block !important;
+  z-index:1;
+}
+
+.carousel.fade .item:first-child {
+  top:auto;
+  position:relative;
+}
+
+.carousel.fade .item.active {
+  opacity: 1;
+  -moz-transition: opacity ease-in-out .7s;
+  -o-transition: opacity ease-in-out .7s;
+  -webkit-transition: opacity ease-in-out .7s;
+  transition: opacity ease-in-out .7s;
+  z-index:2;
+}
+
 .slider-images {
   margin:auto;
   min-width:960px;
@@ -576,7 +608,8 @@ footer a.pinterest:hover {
   }
 
   #hero .off-center {
-    margin-left:-200px;
+    width:100%;
+    margin-left:-220px;
   }
 
   .slide-title {

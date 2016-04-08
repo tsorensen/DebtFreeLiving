@@ -1,7 +1,7 @@
 <section id="hero">
   <!-- Carousel - don't wrap within a container
   ================================================== -->
-  <uib-carousel id="home-carousel" interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
+  <uib-carousel id="home-carousel" class="fade" interval="myInterval" no-wrap="noWrapSlides" no-transition="true">
       <uib-slide ng-repeat="slide in homeSlides" active="slide.active" index="slide.id">
         <!-- ng-swipe-x for mobile -->
         <img ng-src="{{slide.image}}" class="slider-images {{ slide.class }}" ng-swipe-right="showPrev('home')" ng-swipe-left="showNext('home')">
