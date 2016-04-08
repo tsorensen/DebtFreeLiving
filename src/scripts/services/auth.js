@@ -26,10 +26,11 @@ angular
         } else {
           remember = 'sessionOnly';
         }
+
         return fireAuth.$authWithPassword({
           email    : user.email,
           password : user.password
-        }, {remember: user.remember})
+        }, {remember: remember})
         .then(function(authData) {
             currentUser = authData;
         })
