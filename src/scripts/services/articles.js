@@ -55,7 +55,6 @@ angular
                 return $q.resolve();
             })
             .catch(function(error) {
-              console.log('Error with uploading article.', error);
               return $q.reject(error);
             });
           }
@@ -169,7 +168,6 @@ angular
 
             return oldArticle.update(article, function(error) {
               if(error) {
-                console.log('Error with updating article.', error);
                 return $q.reject(error);
               } else {
                 return $q.resolve();
@@ -203,13 +201,11 @@ angular
                   .then(function(ref) {
                   })
                   .catch(function(error) {
-                    console.log("Article was deleted but error deleting comments:", error);
                     return $q.reject(error);
                   });
               }
 
             }, function(error) {
-              console.log("Error deleting article:", error);
               return $q.reject(error);
           });
         }, //end delete
@@ -240,7 +236,6 @@ angular
           priority,
           function(error) {
             if(error) {
-              console.log('Error saving new comment:', error);
               return $q.reject(error);
             } else {
               return $q.resolve();
@@ -262,7 +257,6 @@ angular
                 return comments;
             })
             .catch(function(error) {
-              console.log('There was an error getting comments.');
               return $q.reject(error);
             });
         },
@@ -279,7 +273,6 @@ angular
                 return comments;
             })
             .catch(function(error) {
-              console.log('There was an error getting comments.');
               return $q.reject(error);
             });
         },
@@ -291,7 +284,6 @@ angular
             approved: true
           }, function(error) {
             if(error) {
-              console.log('Error with approving comment on article ref:', error);
               return $q.reject(error);
             } else {
               return $q.resolve();
@@ -304,7 +296,6 @@ angular
 
           return articleCommentRef.remove(function(error) {
             if (error) {
-              console.log('Error with deleting comment:', error);
               return $q.reject(error);
             } else {
               return $q.resolve();

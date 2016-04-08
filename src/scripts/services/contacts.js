@@ -30,7 +30,6 @@ angular
         priority,
         function(error) {
           if(error) {
-            console.log('Error saving new contact request:', error);
             return $q.reject(error);
           } else {
             return $q.resolve();
@@ -50,7 +49,6 @@ angular
               return contacts;
           })
           .catch(function(error) {
-            console.log('There was an error getting contacts.');
             return $q.reject(error);
           });
       },
@@ -62,7 +60,6 @@ angular
           read: true
         }, function(error) {
           if(error) {
-            console.log('Error with marking contact as read:', error);
             return $q.reject(error);
           } else {
             return $q.resolve();
@@ -75,7 +72,6 @@ angular
 
         return contactRef.remove(function(error) {
           if (error) {
-            console.log('Error with deleting contact request:', error);
             return $q.reject(error);
           } else {
             return $q.resolve();

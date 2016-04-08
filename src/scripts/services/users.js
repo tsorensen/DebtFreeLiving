@@ -19,7 +19,6 @@ angular
           //
         })
         .catch(function(error) {
-          console.error("Error: ", error);
           return $q.reject(error);
         });
       },
@@ -35,7 +34,6 @@ angular
             "lastName": lastName
         }, function(error) {
           if (error) {
-            console.log("Error changing account name:", error.code);
             return $q.reject(error);
           } else {
             //
@@ -59,7 +57,6 @@ angular
               "email": newEmail
           }, function(error) {
             if (error) {
-              console.log("Error changing account email:", error.code);
               return $q.reject(error);
             } else {
               //
@@ -67,7 +64,6 @@ angular
           }); //end update
 
         }).catch(function(error) {
-          console.error("Error changing email: ", error);
           return $q.reject(error);
         });
       },
@@ -80,7 +76,6 @@ angular
         }).then(function() {
           //
         }).catch(function(error) {
-          console.error("Error changing password: ", error);
           return $q.reject(error);
         });
       },
@@ -98,7 +93,6 @@ angular
           //removes the users data from the DB
           ref.child('users/' + uid).remove();
         }).catch(function(error) {
-          console.error("Error removing user: ", error);
           return $q.reject(error);
         });
       },

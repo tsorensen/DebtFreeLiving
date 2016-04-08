@@ -34,7 +34,6 @@ angular
             currentUser = authData;
         })
         .catch(function(error) {
-          console.log("Login Failed!", error);
           return $q.reject(error);
         });
       },
@@ -81,7 +80,6 @@ angular
                   uid: currentUser.uid
               }, function(error) {
                 if (error) {
-                  console.log("Error saving user to database:", error.code);
                   return $q.reject(error);
                 } else {
                   //
@@ -114,7 +112,6 @@ angular
               return userData;
             })
             .catch(function(error) {
-              console.log("Couldn't get user data!", error);
               return userData;
             });
           }
@@ -178,7 +175,6 @@ angular
               uid: currentUser.uid
           }, function(error) {
             if (error) {
-              console.log("Error saving user to database:", error.code);
               return $q.reject(error);
             } else {
               //
