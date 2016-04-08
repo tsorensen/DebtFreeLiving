@@ -23,7 +23,7 @@
 
         <div ng-if="article.image" class="article-img">
           <hr>
-          <a href="#/articles/{{ article._id }}"><img class="img-responsive" src="{{article.image}}" alt="Article image"></a>
+          <a href="#/articles/{{ article._id }}"><img class="img-responsive" ng-src="{{article.image}}" alt="Article image"></a>
           <hr>
         </div>
 
