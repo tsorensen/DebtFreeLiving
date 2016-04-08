@@ -281,6 +281,9 @@ img.rounded {
   background:#ccc;
 }
 
+#comment-form .form-group {
+  position:relative;
+}
 
 /***********************************/
 /************* ABOUT *************/
@@ -382,6 +385,7 @@ img.rounded {
 #forgot-form input,
 #contact-form input,
 #contact-form textarea,
+#comment-form textarea,
 #loan-form input {
   padding-left:30px;
 }
@@ -390,6 +394,7 @@ img.rounded {
 #register-form .icons,
 #forgot-form .icons,
 #contact-form .icons,
+#comment-form .icons,
 #loan-form .icons {
   left:0;
 }
