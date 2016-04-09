@@ -35,7 +35,7 @@
             </thead>
             <tbody>
               <tr ng-repeat="debt in initList" class="debt-rows">
-                <td>{{debt.desc}}</td>
+                <td>{{debt.desc.toUpperCase();}}</td>
                 <td class="text-center">{{debt.intRate}}%</td>
                 <td class="text-center">${{debt.payment}}</td>
                 <td class="text-center">${{debt.balance}}</td>
@@ -45,14 +45,14 @@
         </div>
         <h3>Payment Schedule</h3>
 
-        <div class="text-center">
+        <div>
 
           <div class="container" ng-show="showPlan">
         ​
                 <br />
                 <br />
         ​
-                <table id="outputTable" class="table stripe"></table>
+                <table id="outputTable" class="table stripe" style="width: 100%"></table>
         ​
           </div>
 

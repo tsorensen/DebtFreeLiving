@@ -258,10 +258,6 @@ img.rounded {
 /*********** CALCULATOR **********/
 /****************************/
 
-#outputTable {
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .center {
   margin-left: auto;
@@ -270,6 +266,20 @@ img.rounded {
 
 .debtLabel {
   margin-left: 15px;
+}
+
+#outputTable {
+  width: 100%;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.strip1{
+  background-color: #F8F8F8;
+}
+
+.strip2{
+	background-color: #E8E8E8
 }
 
 /************************************/

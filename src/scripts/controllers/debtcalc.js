@@ -131,8 +131,7 @@ angular
         table = $('#outputTable').DataTable( {
             "searching": false,
             "ordering": false,
-            responsive: true,
-            "stripeClasses": [ 'strip1', 'strip2', 'strip3' ],
+            "stripeClasses": [ 'strip1', 'strip2' ],
             data: $scope.finalOutput,
             columns: $scope.columns
         } );
