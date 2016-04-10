@@ -40,7 +40,12 @@
     "numeral": "^1.5.3",
     "accounting.js": "^0.4.1",
     "autoNumeric": "^1.9.43",
-    "bootstrap3-dialog": "bootstrap-dialog#^1.35.1"
+    "bootstrap3-dialog": "bootstrap-dialog#^1.35.1",
+    "angular-currency": "^1.0.6",
+    "currency.js": "^0.4.4",
+    "jquery-maskmoney": "^3.0.2",
+    "datatables.net-responsive": "^2.0.2",
+    "datatables.net-responsive-bs": "^2.0.2"
   },
   "resolutions": {
     "angular": "~1.5.0"
