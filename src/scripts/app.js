@@ -15,6 +15,7 @@ angular
     'DebtCalcController',
     'AccountController',
     'AdminController',
+    'DebtManageController',
     'AddController',
     'EditController',
     'CommentsController',
@@ -74,7 +75,7 @@ angular
         })
         .when('/my_plan', {
           templateUrl: '/partials/dashboard-controller.html',
-          controller: 'DashboardController',
+          controller: 'DebtCalcController',
           controllerAs: 'dashboard',
           resolve: {
             "currentAuth": ["routeProtector", function(routeProtector) {
@@ -84,7 +85,7 @@ angular
         })
         .when('/my_plan/calculator', {
           templateUrl: '/partials/calc-controller.html',
-          controller: 'DebtCalcController',
+          controller: 'DebtManageController',
           resolve: {
             "currentAuth": ["routeProtector", function(routeProtector) {
               return routeProtector.accountRoute();
