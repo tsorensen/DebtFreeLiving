@@ -18,12 +18,10 @@
                         name="desc"
                         ng-model="loan.desc"
                         ng-maxlength="30"
-                        ng-pattern="/^[a-zA-Z ]*$/"
                         ng-required="true">
                       <div class="help-block" ng-messages="loanForm.desc.$error" ng-show="loanForm.desc.$touched || submitted">
                         <p ng-message="maxlength">Description is limited to 30 characters.</p>
                         <p ng-message="required">Description is required.</p>
-                        <p ng-message="pattern">Only letters and spaces allowed.</p>
                       </div>
                       <div class="form-control-feedback icons margin-left">
                         <i class="fa fa-bank text-muted"></i>
@@ -90,7 +88,8 @@
   ​
                 <!-- buttons, error message -->
                 <div class="col-xs-12">
-                  <button type="button" ng-click="addLoans()" class="btn btn-primary">Add Debt</button>
+                  <button type="button" ng-show="showAddBtn" ng-click="addLoans()" class="btn btn-primary">Add Debt</button>
+                  <button type="button" ng-show="!showAddBtn" class="btn btn-primary" disabled>Add Debt</button>
                   <button type="submit" class="btn btn-primary">Submit</button>
                   <br ng-show="errorMessage" />
                   <br ng-show="errorMessage" />
@@ -108,7 +107,8 @@
               </form>
               <div ng-show="!showForm" class = "text-center">
                 <h4>Your Debt-Elimination Plan has been calculated. Click the button below to make changes.</h4>
-                <button type="button" ng-click="editPlan()" class="btn btn-primary center" >Edit Plan</button>
+                <button type="button" ng-click="editPlan()" class="btn btn-primary center" >Edit Debt Info</button>
+                <a href="/#/my_plan" class="btn btn-primary center" >Return to Plan</button>
               </div>
             </div><!-- ./panel-body -->
           </div><!-- /.panel -->
