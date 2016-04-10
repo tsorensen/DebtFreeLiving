@@ -1,6 +1,6 @@
 <section id="calc">
   <div class="row">
-        <h1 class="page-header text-center">My Plan Manager</h1>
+      <h1 class="page-header text-center">My Plan Manager</h1>
         <div class="col-md-8 col-md-offset-2">
           <div class="panel panel-default">
             <div class="panel-body">
@@ -90,7 +90,6 @@
   ​
                 <!-- buttons, error message -->
                 <div class="col-xs-12">
-                  <button type="button" ng-click="resetPlan()" class="btn btn-primary">Reset Plan</button>
                   <button type="button" ng-click="addLoans()" class="btn btn-primary">Add Debt</button>
                   <button type="submit" class="btn btn-primary">Submit</button>
                   <br ng-show="errorMessage" />
@@ -114,14 +113,10 @@
             </div><!-- ./panel-body -->
           </div><!-- /.panel -->
         </div><!-- /.col-md-10 -->
+
+        <div class="col-md-12 text-center">
+          <a href="/#/my_plan" class="btn btn-success btn-lg"><i class="fa fa-arrow-left"></i> Back to My Plan</a>
+        </div>
       </div><!-- /.row -->
 
-  <div class="container" ng-show="showPlan">
-
-        <br />
-        <br />
-
-        <table id="outputTable" class="table stripe"></table>
-
-    </div>
 </section>
