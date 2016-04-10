@@ -8,8 +8,8 @@
         <div class="panel panel-default">
           <div class="panel-heading text-center">Payments for Next 6 Months</div>
           <div class="panel-body">
-            <canvas id="line" class="chart chart-bar" chart-data="data" chart-labels="labels"
-              chart-legend="true" chart-series="series" chart-click="onClick" chart-colours="barColors">
+            <canvas id="line" class="chart chart-bar" chart-data="graphData" chart-labels="graphLabels"
+              chart-legend="true" chart-series="graphSeries" chart-click="onClick" chart-colours="barColors">
             </canvas>
           </div>
         </div>
@@ -21,7 +21,7 @@
           <div class="panel-heading text-center">Interest Amount Paid Yearly</div>
           <div class="panel-body">
             <canvas id="doughnut" class="chart chart-doughnut" chart-legend="true"
-              chart-data="pieData" chart-labels="pieLabels" chart-colours="barColors">
+              chart-data="pieData" chart-labels="graphSeries" chart-colours="barColors">
             </canvas>
           </div>
         </div>
@@ -33,7 +33,7 @@
           <div class="panel-heading text-center">Debt Totals</div>
           <div class="panel-body">
             <canvas id="pie" class="chart chart-pie" chart-legend="true"
-              chart-data="pieData" chart-labels="pieLabels" chart-colours="barColors">
+              chart-data="graphPie" chart-labels="graphSeries" chart-colours="barColors">
             </canvas>
           </div>
         </div>
@@ -44,36 +44,44 @@
     <div class="row">
       <!-- Plan Info Section -->
       <div class="col-lg-12">
+        <div class="text-center">
+          <a href="/#/my_plan/calculator" class="btn btn-success btn-lg">Manage Plan</a>
+        </div>
         <h3>Plan Information</h3>
         <!-- <p class="spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p> -->
         <div class="table-responsive">
           <table class="table table-hover table-bordered">
             <thead>
               <tr>
-                <th class="col-md-4">Debt Description</th>
-                <th class="col-md-2 text-center">Balance</th>
-                <th class="col-md-2 text-center">Rate</th>
-                <th class="col-md-2 text-center">Payment</th>
+                <th class="col-md-4">Description</th>
+                <th class="col-md-1 text-center">Rate</th>
+                <th class="col-md-1 text-center">Payment</th>
+                <th class="col-md-1 text-center">Balance</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="debt-rows">
-                <td>Credit Card</td>
-                <td class="text-center">$678.93</td>
-                <td class="text-center">9.7%</td>
-                <td class="text-center">$35</td>
-              </tr>
-              <tr class="debt-rows">
-                <td>Credit Card</td>
-                <td class="text-center">$678.93</td>
-                <td class="text-center">9.7%</td>
-                <td class="text-center">$35</td>
+              <tr ng-repeat="debt in initList" class="debt-rows">
+                <td>{{debt.desc.toUpperCase();}}</td>
+                <td class="text-center">{{debt.intRate}}%</td>
+                <td class="text-center">${{debt.payment}}</td>
+                <td class="text-center">${{debt.balance}}</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div class="text-center">
-          <a href="/#/my_plan/calculator" class="btn btn-success btn-lg">Manage Plan</a>
+        <h3>Payment Schedule</h3>
+
+        <div>
+
+          <div class="container" ng-show="showPlan">
+        ​
+                <br />
+                <br />
+        ​
+                <table id="outputTable" class="table stripe" style="width: 100%"></table>
+        ​
+          </div>
+
         </div>
       </div><!-- /col -->
     </div>
