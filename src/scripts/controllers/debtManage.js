@@ -11,7 +11,8 @@ angular
       var ref = new Firebase("https://resplendent-fire-5282.firebaseio.com/");
 ​
       $scope.initList = [{},{}];
-​
+​      var initCopy = [];
+
       auth.isLoggedIn()
         .then(function(user) {
             $scope.user = user;
@@ -19,7 +20,7 @@ angular
             $scope.userData.$loaded()
             .then(function(){
               if($scope.userData.length > 0){
-                  $scope.initList = $scope.userData;
+                  $scope.initList = $scope.userData.slice();
               }
 ​
               if($scope.userData.length > 2){
@@ -33,9 +34,6 @@ angular
 ​
 ​
       $scope.columns = [];
-
-​      var initCopy = $scope.initList.slice();
-      console.log(initCopy.length + " " + $scope.initList.length);
       $scope.showRemoveBtn = false;
       $scope.showForm = true;
       $scope.showPlan = false;
@@ -78,36 +76,25 @@ angular
       };
 
       $scope.updatePlan = function(){
-        console.log("Hit");
-        var tempHolder = $scope.initList.slice();
 
-        if($scope.userData){
-          for(i = 0; i < $scope.userData.length; i++){
+        for(i=0; i < $scope.initList.length; i++){
+          if($scope.initList[i] && !$scope.userData[i]){
+            $scope.userData.$add($scope.initList[i]);
+          } else if ($scope.initList[i] && $scope.userData[i]){
+            $scope.userData[i] = $scope.initList[i];
+            $scope.userData.$save(i);
+          }
+        }
+
+        for(i=0; i < $scope.userData.length; i++){
+          if($scope.userData[i] && !$scope.initList[i]){
             $scope.userData.$remove(i);
           }
         }
 
-        for(i=0; i < tempHolder.length; i++){
-          $scope.userData.$add(tempHolder[i]);
-        }
-
-      /*if($scope.userData.length == 0){
-          for(i=0; i < $scope.initList.length; i++){
-            $scope.userData.$add($scope.initList[i]);
-          }
-        }
-        //Remove extra stuff.
-        if(initCopy.length < $scope.initList.length){
-          for(i=initCopy.length; i < $scope.initList.length; i++){
-            $scope.userData.$add($scope.initList[i]);
-          }
-        }
-
-        for(i=0; i < $scope.initList.length; i++){
-          $scope.userData[i] = $scope.initList[i];
-          $scope.userData.$save(i);
-        }*/
       }
+
+
 ​
       $scope.calcLoans = function(){
 
