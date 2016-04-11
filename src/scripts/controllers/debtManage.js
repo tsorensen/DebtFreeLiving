@@ -6,7 +6,8 @@ angular
     '$scope',
     'auth',
     '$firebaseArray',
-    function($scope, auth, $firebaseArray) {
+    '$route',
+    function($scope, auth, $firebaseArray, $route) {
 
       var ref = new Firebase("https://resplendent-fire-5282.firebaseio.com/");
 ​
@@ -41,16 +42,27 @@ angular
       $scope.loanList = [];
       $scope.errorMessage = null;
       $scope.errorAmount = null;
+      $scope.showAddBtn = false;
+
+      if($scope.initList.length > 2){
+        $scope.showRemoveBtn = true;
+      }
+
+      if($scope.initList.length < 8){
+        $scope.showAddBtn = true;
+      }
 ​
       $scope.addLoans = function(){
         $scope.initList.push(
           {}
         )
-
-        console.log("Init: " + $scope.initList.length + " Fire: " + $scope.userData.length);
 ​
         if($scope.initList.length > 2 || $scope.userData > 2){
           $scope.showRemoveBtn = true;
+        }
+
+        if($scope.initList.length >= 8){
+          $scope.showAddBtn = false;
         }
       };
 ​
@@ -60,11 +72,37 @@ angular
         if($scope.initList.length < 3){
           $scope.showRemoveBtn = false;
         }
+
+        if($scope.initList.length < 8){
+          $scope.showAddBtn = true;
+        }
       };
 ​
       $scope.editPlan = function(){
         $scope.showForm = true;
       }
+
+      $scope.resetPlan = function(){
+        BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_DANGER,
+            title: 'Reset Plan',
+            label: 'small',
+            message: 'Your Debt Elimination Plan will be erased. This action cannot be undone. Are you sure you would like to continue?',
+            buttons: [{
+                label: 'Cancel',
+                action: function(dialogItself){
+                  dialogItself.close();
+                }
+            }, {
+                label: 'Clear Plan and Reset',
+                cssClass: 'btn-danger',
+                action: function(dialogItself){
+                  $scope.erasePlan();
+                  dialogItself.close();
+                }
+            }]
+        });
+      };
 ​
       $scope.clearAll = function(){
         $scope.initList = [{},{}];
@@ -73,6 +111,7 @@ angular
         $scope.colums = [];
         $scope.showForm = true;
         $scope.showPlan = false;
+        $scope.showRemoveBtn = false;
       };
 
       $scope.updatePlan = function(){
@@ -91,8 +130,17 @@ angular
             $scope.userData.$remove(i);
           }
         }
+      };
 
-      }
+      $scope.erasePlan = function(){
+        for(i=$scope.userData.length; i > -1 ; i--){
+          console.log($scope.userData.length + " and " + i);
+          $scope.userData.$remove(i);
+        }
+
+        $scope.clearAll();
+        $route.reload();
+      };
 
 
 ​
@@ -208,10 +256,11 @@ angular
             };
 ​
             var placeholderArray = [];
+            var newMonthlyTotal = 0;
 ​
             for(i=0; i < loanList.length; i++){
               //Make a payment
-​
+​              newMonthlyTotal += $scope.loanList[i].calcPayment;
               lastMonthsTotalBalance = totalBalance;
 ​
               var monthInt = loanList[i].calcIntRate / 1200;
@@ -245,6 +294,10 @@ angular
                 totalBalance = 0;
               }
             }
+
+            $scope.finalOutput[$scope.finalOutput.length - 1].push(
+              "$" + numeral(newMonthlyTotal).format('0,0.00')
+            );
 ​
             for (i=0; i < placeholderArray.length; i++){
 ​
@@ -278,6 +331,10 @@ angular
         for(j=0; j < loanList.length; j++){
           $scope.columns.push(
             { title: loanList[j].calcDesc }
+          );
+
+          $scope.columns.push(
+            { title: "TOTAL" }
           );
         }
       };
