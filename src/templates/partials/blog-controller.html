@@ -10,7 +10,7 @@
       <p ng-show="blog.loadingArticles === false && blog.articles.length === 0">No blog articles have been published yet.  Check back soon!</p>
       <div class="articles" ng-repeat="article in blog.articles | filter:blog.query">
         <h2>
-            <a href="#/articles/{{ article._id }}">{{ article.title }}</a>
+            <a href="#/articles/{{ article.linkTitle }}">{{ article.title }}</a>
         </h2>
         <p class="">
             by <span class="author">{{ article.author }}</span>
@@ -23,12 +23,12 @@
 
         <div ng-if="article.image" class="article-img">
           <hr>
-          <a href="#/articles/{{ article._id }}"><img class="img-responsive" ng-src="{{article.image}}" alt="Article image"></a>
+          <a href="#/articles/{{ article.linkTitle }}"><img class="img-responsive" ng-src="{{article.image}}" alt="Article image"></a>
           <hr>
         </div>
 
         <div class="excerpt" ng-bind-html="(article.body | limitHtml:300) + '...'"></div>
-        <a class="read-more btn btn-primary" href="#/articles/{{ article._id }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a class="read-more btn btn-primary" href="#/articles/{{ article.linkTitle }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
         <hr>
       </div>
@@ -81,7 +81,7 @@
                 <div class="col-lg-12">
                     <ul class="list-unstyled">
                         <li ng-repeat="article in blog.articles" ng-if="$index < 4">
-                          <a href="#/articles/{{ article._id }}">{{ article.title}}</a>
+                          <a href="#/articles/{{ article.linkTitle }}">{{ article.title}}</a>
                         </li>
                     </ul>
                 </div>

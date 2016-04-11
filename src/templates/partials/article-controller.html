@@ -78,7 +78,7 @@
               </form>
               <div ng-if="article.isLoggedIn === false">
                 <p>You must be logged in to comment</p>
-                <a href="/#/login?page=articles/{{ article.id }}" class="btn btn-success">Login</a>
+                <a href="/#/login?page=articles/{{ article.linkTitle }}" class="btn btn-success">Login</a>
               </div>
           </div>
 
@@ -115,7 +115,7 @@
                   <div class="col-lg-12">
                       <ul class="list-unstyled">
                           <li ng-repeat="article in article.articles" ng-if="$index < 4">
-                            <a href="#/articles/{{ article._id }}">{{ article.title}}</a>
+                            <a href="#/articles/{{ article.linkTitle }}">{{ article.title}}</a>
                           </li>
                       </ul>
                   </div>

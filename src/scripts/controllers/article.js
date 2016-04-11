@@ -13,7 +13,8 @@ angular
     '$timeout',
     function(articles, auth, $route, $routeParams, $filter, $timeout) {
       var self = this;
-      self.id = $routeParams.id;
+      self.id;
+      self.linkTitle = $routeParams.title.replace(/-/g, ' ');
       self.content = [];
       self.contentLoading = true;
       self.articles = [];
@@ -26,10 +27,11 @@ angular
       self.inputs = {};
 
       function getArticle() {
-        articles.read(self.id)
+        articles.readByTitle(self.linkTitle)
           .then(function(article) {
             self.content = article;
             self.contentLoading = false;
+            self.id = article.id;
           })
           .then(function() {
             articles.getComments(self.id)
