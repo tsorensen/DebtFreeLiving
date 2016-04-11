@@ -11,7 +11,7 @@
           <div class="panel-heading text-center">Payment Amounts for Next 6 Months</div>
           <div class="panel-body">
             <canvas id="line" class="chart chart-bar" chart-data="graphData" chart-labels="graphLabels"
-              chart-legend="true" chart-series="graphSeries" chart-click="onClick" chart-colours="barColors" chart-options='{multiTooltipTemplate: "<%=label%>: $<%=value%>",}'>
+              chart-legend="true" chart-series="graphSeries" chart-click="onClick" chart-colours="barColors" chart-options='graphOptions'>
             </canvas>
           </div>
         </div>
@@ -23,7 +23,7 @@
           <div class="panel-heading text-center">Interest Distribution (Paid this Month)</div>
           <div class="panel-body">
             <canvas id="doughnut" class="chart chart-doughnut" chart-legend="true"
-              chart-data="graphDonut" chart-labels="graphSeries" chart-colours="barColors" chart-options='{tooltipTemplate: "<%=label%>: $<%=value%>"}'>
+              chart-data="graphDonut" chart-labels="graphSeries" chart-colours="barColors" chart-options='graphOptions'>
             </canvas>
           </div>
         </div>
@@ -35,7 +35,7 @@
           <div class="panel-heading text-center">Debt Distribution</div>
           <div class="panel-body">
             <canvas id="pie" class="chart chart-pie" chart-legend="true"
-              chart-data="graphPie" chart-labels="graphSeries" chart-colours="barColors" chart-options='{tooltipTemplate: "<%=label%>: $<%=value%>"}'>
+              chart-data="graphPie" chart-labels="graphSeries" chart-colours="barColors" chart-options='graphOptions'>
             </canvas>
           </div>
         </div>

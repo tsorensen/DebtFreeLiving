@@ -331,7 +331,11 @@ angular
     };
 
 
-    //graph options - temp donut data
+    //graph options
+    $scope.graphOptions = {
+      tooltipTemplate: "<%=label%>: <%= '$' + value %>",
+      multiTooltipTemplate: "<%=label%>: <%= '$' + value %>",
+    };
     $scope.barColors = [
       { //1
         "fillColor": "#97BBCD",
