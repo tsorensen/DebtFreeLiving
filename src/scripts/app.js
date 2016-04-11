@@ -54,7 +54,7 @@ angular
           controllerAs: 'blog',
           title: 'Debt Free Living | Blog',
         })
-        .when('/articles/:id', {
+        .when('/articles/:title', {
           templateUrl: '/partials/article-controller.html',
           controller: 'ArticleController',
           controllerAs: 'article',
