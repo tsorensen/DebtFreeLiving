@@ -1,12 +1,14 @@
 <section id="dashboard">
   <div class="container">
 
-    <div class="row">
-      <h1 class="page-header text-center">My Debt Elimination Plan</h1>
+    <h1 class="page-header text-center">My Debt Elimination Plan</h1>
+    <p ng-show="loadingDash === true" class="blog-spinner spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p>
 
-      <div class="col-md-4">
+    <div ng-show="loadingDash === false && loanList.length > 0" class="row">
+
+      <div ng-class="{ loanList.length >= 5 ? 'col-md-4' : 'col-md-12' }">
         <div class="panel panel-default">
-          <div class="panel-heading text-center">Payments for Next 6 Months</div>
+          <div class="panel-heading text-center">Payment Amounts for Next 6 Months</div>
           <div class="panel-body">
             <canvas id="line" class="chart chart-bar" chart-data="graphData" chart-labels="graphLabels"
               chart-legend="true" chart-series="graphSeries" chart-click="onClick" chart-colours="barColors">
@@ -14,9 +16,9 @@
           </div>
         </div>
 
-      </div><!-- /.col-md-8 -->
+      </div><!-- /.col-md-4 -->
 
-      <div class="col-md-4">
+      <div ng-class="{ loanList.length >= 5 ? 'col-md-6' : 'col-md-4' }" class="col-sm-6">
         <div class="panel panel-default">
           <div class="panel-heading text-center">Interest Amount Paid Yearly</div>
           <div class="panel-body">
@@ -28,9 +30,9 @@
 
       </div><!-- /.col-md-4 -->
 
-      <div class="col-md-4">
+      <div ng-class="{ loanList.length >= 5 ? 'col-md-6' : 'col-md-4' }" class="col-sm-6">
         <div class="panel panel-default">
-          <div class="panel-heading text-center">Debt Totals</div>
+          <div class="panel-heading text-center">Debt Distribution</div>
           <div class="panel-body">
             <canvas id="pie" class="chart chart-pie" chart-legend="true"
               chart-data="graphPie" chart-labels="graphSeries" chart-colours="barColors">
@@ -41,12 +43,9 @@
       </div><!-- /.col-md-4 -->
     </div><!-- /.row -->
 
-    <div class="row">
+    <div ng-show="loadingDash === false && loanList.length > 0" class="row">
       <!-- Plan Info Section -->
       <div class="col-lg-12">
-        <div class="text-center">
-          <a href="/#/my_plan/calculator" class="btn btn-success btn-lg">Manage Plan</a>
-        </div>
         <h3>Plan Information</h3>
         <!-- <p class="spinner text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></p> -->
         <div class="table-responsive">
@@ -69,21 +68,27 @@
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div class="col-lg-12">
+
         <h3>Payment Schedule</h3>
-
-        <div>
-
-          <div class="container" ng-show="showPlan">
-        ​
-                <br />
-                <br />
-        ​
-                <table id="outputTable" class="table stripe" style="width: 100%"></table>
-        ​
-          </div>
-
+        <div class="table-responsive" ng-show="showPlan">        ​
+          <table id="outputTable" class="table table-bordered stripe" style="width: 100%"></table>    ​
         </div>
+
       </div><!-- /col -->
+
+      <div class="text-center">
+        <a href="/#/my_plan/calculator" class="btn btn-success btn-lg">Manage Plan</a>
+      </div>
+    </div>
+
+    <div ng-show="loadingDash === false && loanList.length === 0" class="row">
+      <div class="col-md-12 create-plan text-center">
+        <p class="text-center">Are you ready to become Debt Free?  Get started by creating your debt elimination plan today!</p>
+        <a href="/#/my_plan/calculator" class="btn btn-success btn-lg">Create Plan</a>
+      </div>
     </div>
 
   </div>
