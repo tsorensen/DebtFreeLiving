@@ -223,10 +223,11 @@ angular
             };
 ​
             var placeholderArray = [];
-​
+​            var newMonthlyTotal = 0;
+
             for(i=0; i < loanList.length; i++){
               //Make a payment
-​
+​              newMonthlyTotal += $scope.loanList[i].calcPayment;
               lastMonthsTotalBalance = totalBalance;
 ​
               var monthInt = loanList[i].calcIntRate / 1200;
@@ -260,6 +261,10 @@ angular
                 totalBalance = 0;
               }
             }
+
+            $scope.finalOutput[$scope.finalOutput.length - 1].push(
+              "$" + numeral(newMonthlyTotal).format('0,0.00')
+            )
 ​
             for (i=0; i < placeholderArray.length; i++){
 ​
@@ -294,6 +299,11 @@ angular
           $scope.columns.push(
             { title: loanList[j].calcDesc }
           );
+
+          $scope.columns.push(
+            { title: "TOTAL" }
+          );
+          console.log($scope.columns);
         }
       };
     };
