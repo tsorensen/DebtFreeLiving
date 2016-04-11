@@ -6,7 +6,7 @@
 
     <div ng-show="loadingDash === false && loanList.length > 0" class="row">
 
-      <div ng-class="{ loanList.length >= 5 ? 'col-md-4' : 'col-md-12' }">
+      <div class="col-md-4" ng-class="loanList.length >= 5 ? 'col-md-12' : 'col-md-4'">
         <div class="panel panel-default">
           <div class="panel-heading text-center">Payment Amounts for Next 6 Months</div>
           <div class="panel-body">
@@ -18,7 +18,7 @@
 
       </div><!-- /.col-md-4 -->
 
-      <div ng-class="{ loanList.length >= 5 ? 'col-md-6' : 'col-md-4' }" class="col-sm-6">
+      <div class="col-md-4 col-sm-6" ng-class="loanList.length >= 5 ? 'col-md-6' : 'col-md-4'">
         <div class="panel panel-default">
           <div class="panel-heading text-center">Interest Amount Paid Yearly</div>
           <div class="panel-body">
@@ -30,7 +30,7 @@
 
       </div><!-- /.col-md-4 -->
 
-      <div ng-class="{ loanList.length >= 5 ? 'col-md-6' : 'col-md-4' }" class="col-sm-6">
+      <div class="col-md-4 col-sm-6" ng-class="loanList.length >= 5 ? 'col-md-6' : 'col-md-4'">
         <div class="panel panel-default">
           <div class="panel-heading text-center">Debt Distribution</div>
           <div class="panel-body">
