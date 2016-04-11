@@ -11,7 +11,6 @@ angular
       var ref = new Firebase("https://resplendent-fire-5282.firebaseio.com/");
 ​
       $scope.initList = [{},{}];
-
 ​      var initCopy = [];
 
       auth.isLoggedIn()
@@ -33,9 +32,7 @@ angular
           console.log('Error in retreiving logged in data: ', error);
         });
 ​
-
 ​
-
       $scope.columns = [];
       $scope.showRemoveBtn = false;
       $scope.showForm = true;
@@ -53,34 +50,27 @@ angular
       if($scope.initList.length < 8){
         $scope.showAddBtn = true;
       }
-
+​
       $scope.addLoans = function(){
         $scope.initList.push(
           {}
         )
 ​
-        if($scope.initList.length > 2){
+        if($scope.initList.length > 2 || $scope.userData > 2){
           $scope.showRemoveBtn = true;
         }
 
         if($scope.initList.length >= 8){
           $scope.showAddBtn = false;
         }
-
-        console.log("Init: " + $scope.initList.length + " Fire: " + $scope.userData.length);
-​
-        if($scope.initList.length > 2 || $scope.userData > 2){
-          $scope.showRemoveBtn = true;
-        }
       };
 ​
       $scope.removeLoan = function(k){
         $scope.initList.splice(k, 1);
 ​
-        if($scope.initList.length < 2){
+        if($scope.initList.length < 3){
           $scope.showRemoveBtn = false;
         }
-
 
         if($scope.initList.length < 8){
           $scope.showAddBtn = true;

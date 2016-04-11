@@ -11,7 +11,6 @@ angular
     'ezfb',
     'LoginController',
     'ForgotController',
-    'DashboardController',
     'DebtCalcController',
     'AccountController',
     'AdminController',
@@ -24,8 +23,6 @@ angular
     'vcRecaptcha',
     'logoutDirective',
     'adminLinkDirective',
-    'firebase',
-    'autoNumericDirective',
     'blogApp.protector',
     'autoNumericDirective',
   ])
@@ -43,51 +40,51 @@ angular
           templateUrl: '/partials/home-controller.html',
           controller: 'HomeController',
           controllerAs: 'home',
+          title: 'Debt Free Living | Home',
         })
         .when('/login', {
           templateUrl: '/partials/login-controller.html',
           controller: 'LoginController',
           controllerAs: 'login',
+          title: 'Debt Free Living | Login',
         })
         .when('/blog', {
           templateUrl: '/partials/blog-controller.html',
           controller: 'BlogController',
           controllerAs: 'blog',
+          title: 'Debt Free Living | Blog',
         })
         .when('/articles/:id', {
           templateUrl: '/partials/article-controller.html',
           controller: 'ArticleController',
           controllerAs: 'article',
+          title: 'Debt Free Living | Blog',
         })
         .when('/terms_of_service', {
           templateUrl: '/partials/tos-controller.html',
+          title: 'Debt Free Living | Terms of Service',
         })
         .when('/about', {
           templateUrl: '/partials/about-controller.html',
           controller: 'AboutController',
           controllerAs: 'about',
+          title: 'Debt Free Living | About',
         })
         .when('/contact', {
           templateUrl: '/partials/contact-controller.html',
           controller: 'ContactController',
           controllerAs: 'contact',
+          title: 'Debt Free Living | Contact',
         })
         .when('/privacy_policy', {
           templateUrl: '/partials/privacy-policy-controller.html',
+          title: 'Debt Free Living | Privacy Policy',
         })
         .when('/my_plan', {
           templateUrl: '/partials/dashboard-controller.html',
           controller: 'DebtCalcController',
           controllerAs: 'dashboard',
-          resolve: {
-            "currentAuth": ["routeProtector", function(routeProtector) {
-              return routeProtector.accountRoute();
-            }]
-          }
-        })
-        .when('/my_plan', {
-          templateUrl: '/partials/dashboard-controller.html',
-          controller: 'DebtCalcController',
+          title: 'Debt Free Living | My Plan Dashboard',
           resolve: {
             "currentAuth": ["routeProtector", function(routeProtector) {
               return routeProtector.accountRoute();
@@ -97,6 +94,7 @@ angular
         .when('/my_plan/calculator', {
           templateUrl: '/partials/calc-controller.html',
           controller: 'DebtManageController',
+          title: 'Debt Free Living | My Plan Manager',
           resolve: {
             "currentAuth": ["routeProtector", function(routeProtector) {
               return routeProtector.accountRoute();
@@ -107,6 +105,7 @@ angular
           templateUrl: '/partials/account-controller.html',
           controller: 'AccountController',
           controllerAs: 'account',
+          title: 'Debt Free Living | Account',
           resolve: {
             "currentAuth": ["routeProtector", function(routeProtector) {
               return routeProtector.accountRoute();
@@ -116,12 +115,14 @@ angular
         .when('/forgot', {
           templateUrl: '/partials/forgot-controller.html',
           controller: 'ForgotController',
-          controllerAs: 'forgot'
+          controllerAs: 'forgot',
+          title: 'Debt Free Living | Forgot Password',
         })
         .when('/admin', {
           templateUrl: '/partials/admin-controller.html',
           controller: 'AdminController',
           controllerAs: 'admin',
+          title: 'Debt Free Living | Admin',
           resolve: {
             "currentAuth": ["routeProtector", function(routeProtector) {
               return routeProtector.adminRoute();
@@ -132,6 +133,7 @@ angular
           templateUrl: '/partials/add-article-controller.html',
           controller: 'AddController',
           controllerAs: 'adder',
+          title: 'Debt Free Living | Add Article',
           resolve: {
             "currentAuth": ["routeProtector", function(routeProtector) {
               return routeProtector.adminRoute();
@@ -142,6 +144,7 @@ angular
           templateUrl: '/partials/edit-article-controller.html',
           controller: 'EditController',
           controllerAs: 'adder',
+          title: 'Debt Free Living | Edit Article',
           resolve: {
             "currentAuth": ["routeProtector", function(routeProtector) {
               return routeProtector.adminRoute();
@@ -152,6 +155,7 @@ angular
           templateUrl: '/partials/comments-controller.html',
           controller: 'CommentsController',
           controllerAs: 'comments',
+          title: 'Debt Free Living | Comments',
           resolve: {
             "currentAuth": ["routeProtector", function(routeProtector) {
               return routeProtector.adminRoute();
@@ -173,6 +177,13 @@ angular
         } else if(error === 'NOT_ADMIN') {
           $location.path("/");
         }
+      });
+      $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+          // test for current route
+          if(current.$$route) {
+              // Set current page title
+              $rootScope.title = current.$$route.title;
+          }
       });
     }
   ]);

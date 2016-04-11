@@ -2,7 +2,6 @@
   <div class="container">
     <div class="col-sm-10 col-sm-offset-1 panel panel-default">
       <div class="row">
-
         <div class="col-sm-6 login-side">
           <div class="border-right"></div>
           <h2 class="text-center">Login</h2>
@@ -202,7 +201,7 @@
                             name="agreed"
                             ng-model="login.registerInputs.terms"
                             ng-required="true">
-                          I have read and agree to the <a href="/#/terms_of_service/#">Terms of Service</a>
+                          I have read and agree to the <a href="/#/terms_of_service/#" target="_blank">Terms of Service</a>
                         </label>
                         <div class="help-block" ng-messages="registerForm.agreed.$error" ng-show="submitted">
                           <p ng-message="required">You must agree to the Terms of Service.</p>
@@ -250,6 +249,12 @@
 
 
       </div><!-- /.row -->
-    </div><!-- /.col 10 -->
+      <div class="col-md-8 col-md-offset-2">
+        <p class="text-muted text-center">**Your data is secured and managed by <a href="https://www.firebase.com/about.html" target="_blank">Firebase</a>,
+          part of the <a href="https://cloud.google.com" target="_blank">Google Cloud Platform</a>.  Be confident knowing that your data is secured and protected by <a href="https://cloud.google.com/security/#google_security_model" target="_blank">Google's security standards</a>.
+        </p>
+      </div>
+    </div>
+
   </div><!-- /.container -->
 </section><!-- /#login -->

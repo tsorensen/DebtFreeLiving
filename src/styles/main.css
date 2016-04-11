@@ -11,11 +11,7 @@
  *   7. Calculator
  *   8. Login/Forgot Password
  *   9. Admin
-<<<<<<< HEAD
- *  10. Dashboard
-=======
  *   10. Dashboard
->>>>>>> upstream/master
  *  11. Account
  *  12. Footer
  *  13. Media Queries
@@ -337,25 +333,12 @@ img.rounded {
   display:inline-block;
 }
 
-/********************************/
-/*********** CALCULATOR **********/
-/****************************/
-
-
-.center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.debtLabel {
-  margin-left: 15px;
-}
 
 /**********************************/
 /*********** CALCULATOR **********/
 /********************************/
 
-.center {
+ .center {
    margin-left: auto;
    margin-right: auto;
  }
@@ -496,6 +479,23 @@ img.rounded {
   background:none;
 }
 
+#dashboard .create-plan {
+  margin: 96px 0;
+}
+
+#dashboard .create-plan p {
+  font-size: 18px;
+  margin: 40px 0;
+}
+
+#dashboard .create-plan a {
+  margin: 20px 0;
+}
+
+#dashboard .blog-spinner {
+  margin: 180px 0;
+}
+
 .panel-flat>.panel-heading {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -514,6 +514,10 @@ img.rounded {
 
 #dashboard .panel-flat>.panel-heading+.panel-body {
     padding-top: 0;
+}
+
+#dashboard .payment-schedule {
+  margin-bottom: -10px;
 }
 
 .form-control-feedback.icons.margin-left {
@@ -542,6 +546,10 @@ footer {
   margin-top: 30px;
 }
 
+footer .social-section {
+  padding: 10px 0;
+}
+
 .social-icons {
   color: #444;
 }
@@ -564,6 +572,10 @@ footer a.pinterest:hover, footer a.pinterest:focus {
 
 .footer-nav > li {
   display:inline-block;
+}
+
+.copyright {
+    margin-top:10px;
 }
 
 .copyright, .copyright a {

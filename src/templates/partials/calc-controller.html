@@ -1,4 +1,5 @@
 <section id="calc">
+  <div class="container">
   <div class="row">
       <h1 class="page-header text-center">My Plan Manager</h1>
         <div class="col-md-8 col-md-offset-2">
@@ -18,18 +19,12 @@
                         name="desc"
                         ng-model="loan.desc"
                         ng-maxlength="30"
-<<<<<<< HEAD
-=======
                         ng-pattern="/^[a-zA-Z ]*$/"
->>>>>>> upstream/master
                         ng-required="true">
                       <div class="help-block" ng-messages="loanForm.desc.$error" ng-show="loanForm.desc.$touched || submitted">
                         <p ng-message="maxlength">Description is limited to 30 characters.</p>
                         <p ng-message="required">Description is required.</p>
-<<<<<<< HEAD
-=======
                         <p ng-message="pattern">Only letters and spaces allowed.</p>
->>>>>>> upstream/master
                       </div>
                       <div class="form-control-feedback icons margin-left">
                         <i class="fa fa-bank text-muted"></i>
@@ -98,7 +93,6 @@
                 <div class="col-xs-12">
                   <button type="button" ng-show="showAddBtn" ng-click="addLoans()" class="btn btn-primary">Add Debt</button>
                   <button type="button" ng-show="!showAddBtn" class="btn btn-primary" disabled>Add Debt</button>
-
                   <button type="submit" class="btn btn-primary">Submit</button>
                   <br ng-show="errorMessage" />
                   <br ng-show="errorMessage" />
@@ -126,4 +120,5 @@
           <a href="/#/my_plan" class="btn btn-success btn-lg"><i class="fa fa-arrow-left"></i> Back to My Plan</a>
         </div>
       </div><!-- /.row -->
+  </div><!-- /.container -->
 </section>

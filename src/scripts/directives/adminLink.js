@@ -22,7 +22,6 @@ angular
             auth.getCurrentUser()
               .then(function(user) {
                 if(typeof user.administrator !== undefined && user.administrator === true) {
-
                   elem.html('<a href="/#/admin">Admin</a>');
                 } else {
                   elem.html('');

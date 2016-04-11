@@ -1,6 +1,7 @@
 angular
   .module('DebtCalcController', [
-    'blogApp.auth'
+    'blogApp.auth',
+    'chart.js',
   ])
   .controller('DebtCalcController', [
     '$scope',
@@ -8,10 +9,9 @@ angular
     '$firebaseArray',
     '$timeout',
     function($scope, auth, $firebaseArray, $timeout) {
-
       var ref = new Firebase("https://resplendent-fire-5282.firebaseio.com/");
-​
       $scope.initList = [{},{}];
+      $scope.loadingDash = true;
 ​
       auth.isLoggedIn()
         .then(function(user) {
@@ -23,6 +23,8 @@ angular
               if($scope.userData.length > 0){
                   $scope.initList = $scope.userData;
                   $scope.displayLoans();
+              } else {
+                $scope.loadingDash = false;
               }
 ​
               if($scope.userData.length > 2){
@@ -54,6 +56,7 @@ angular
       $scope.graphData = [];
       $scope.graphSeries = [];
       $scope.graphPie = [];
+      $scope.graphDonut = [];
 ​
       $scope.addLoans = function(){
         $scope.initList.push(
@@ -75,7 +78,7 @@ angular
 ​
       $scope.editPlan = function(){
         $scope.showForm = true;
-      }
+      };
 ​
       $scope.resetPlan = function(){
         BootstrapDialog.show({
@@ -97,7 +100,7 @@ angular
                 }
             }]
         });
-      }
+      };
 ​
       $scope.clearAll = function(){
         $scope.initList = [{},{}];
@@ -136,6 +139,7 @@ angular
 ​
         if(table){ table.destroy(); }
 ​
+        $.fn.dataTable.ext.errMode = 'none';
         table = $('#outputTable').DataTable( {
             "searching": false,
             "ordering": false,
@@ -143,6 +147,7 @@ angular
             data: $scope.finalOutput,
             columns: $scope.columns
         } );
+
 
         //get graph data from finalOutput, create data and labels arrays,
         //remove months from data array
@@ -158,11 +163,15 @@ angular
           }
         }
 
-        for(var i = 0; i < $scope.loanList.length; i++) {
+        for(var i = 0; i < $scope.initList.length; i++) {
           //fill in series data
-          $scope.graphSeries.push($scope.loanList[i].calcDesc);
+          $scope.graphSeries.push($scope.initList[i].desc);
           //get pie totals
           $scope.graphPie.push($scope.initList[i].balance);
+
+          //get donut totals (calc interest)
+          var monthlyRate = parseFloat($scope.initList[i].intRate) / 12;
+          $scope.graphDonut.push((parseFloat($scope.initList[i].balance) * monthlyRate / 100).toFixed(2));
 
           $scope.graphData.push([]);
           for(var j = 0; j < $scope.data.length; j++) {
@@ -170,7 +179,8 @@ angular
           }
         }
 
-​
+​         //done loading
+        $scope.loadingDash = false;
         $scope.showPlan = true;
         $scope.showForm = false;
 ​
@@ -302,10 +312,10 @@ angular
               totalBalance = 0;
               $scope.clearAll();
               $scope.showForm = true;
-              console.log("show form here.");
             }
           }
-        };
+      }
+
       function createColumns(loanList){
 ​
         $scope.columns.push(
@@ -317,7 +327,7 @@ angular
             { title: loanList[j].calcDesc }
           );
         }
-      };
+      }
     };
 
 
@@ -364,8 +374,6 @@ angular
         "strokeColor": "#5487D4",
       }];
 
-    $scope.pieLabels = ["Credit Card", "Auto Loan", "Student Loans", 'another', 'another', 'another', 'another', 'another', 'another', 'another'];
-    $scope.pieData = [300, 500, 100, 300, 500, 100, 300, 500, 100, 300];
 
   }
 ]);
