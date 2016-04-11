@@ -542,6 +542,10 @@ footer {
   margin-top: 30px;
 }
 
+footer .social-section {
+  padding: 10px 0;
+}
+
 .social-icons {
   color: #444;
 }
@@ -564,6 +568,10 @@ footer a.pinterest:hover, footer a.pinterest:focus {
 
 .footer-nav > li {
   display:inline-block;
+}
+
+.copyright {
+    margin-top:10px;
 }
 
 .copyright, .copyright a {
