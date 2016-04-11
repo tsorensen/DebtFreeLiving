@@ -479,6 +479,23 @@ img.rounded {
   background:none;
 }
 
+#dashboard .create-plan {
+  margin: 96px 0;
+}
+
+#dashboard .create-plan p {
+  font-size: 18px;
+  margin: 40px 0;
+}
+
+#dashboard .create-plan a {
+  margin: 20px 0;
+}
+
+#dashboard .blog-spinner {
+  margin: 180px 0;
+}
+
 .panel-flat>.panel-heading {
     padding-top: 20px;
     padding-bottom: 20px;
