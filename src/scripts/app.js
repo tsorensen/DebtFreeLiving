@@ -11,7 +11,6 @@ angular
     'ezfb',
     'LoginController',
     'ForgotController',
-    'DashboardController',
     'DebtCalcController',
     'AccountController',
     'AdminController',
