@@ -86,6 +86,32 @@ angular
 
         }, //end read
 
+        readByTitle: function(articleTitle) {
+          var articles = $firebaseObject(articlesRef.orderByChild("title").equalTo(articleTitle));
+
+          return articles.$loaded()
+            .then(function() {
+              var article;
+              angular.forEach(articles, function(art) {
+                article = art;
+                //render html
+                article.body = $filter('renderHtml')(article.body);
+
+                //format dates
+                if(typeof article.date === "number") {
+                  article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+                }
+
+              });
+              return article;
+            })
+            .catch(function(error) {
+              console.error("Error retrieving article by ID:", error);
+              return $q.reject(error);
+            });//end $loaded
+
+        }, //end readByTitle
+
         readAll: function() {
           var articles = $firebaseArray(articlesRef);
 
@@ -93,6 +119,10 @@ angular
             .then(function(){
                 angular.forEach(articles, function(article) {
                   article._id = article.$id;
+
+                  if(article.hasOwnProperty('title')) {
+                    article.linkTitle = article.title.replace(/ /g, '-');
+                  }
 
                   //render html using filter
                   article.body = $filter('renderHtml')(article.body);
