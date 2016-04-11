@@ -56,6 +56,7 @@ angular
       $scope.graphData = [];
       $scope.graphSeries = [];
       $scope.graphPie = [];
+      $scope.graphDonut = [];
 ​
       $scope.addLoans = function(){
         $scope.initList.push(
@@ -162,11 +163,15 @@ angular
           }
         }
 
-        for(var i = 0; i < $scope.loanList.length; i++) {
+        for(var i = 0; i < $scope.initList.length; i++) {
           //fill in series data
-          $scope.graphSeries.push($scope.loanList[i].calcDesc);
+          $scope.graphSeries.push($scope.initList[i].desc);
           //get pie totals
           $scope.graphPie.push($scope.initList[i].balance);
+
+          //get donut totals (calc interest)
+          var monthlyRate = parseFloat($scope.initList[i].intRate) / 12;
+          $scope.graphDonut.push((parseFloat($scope.initList[i].balance) * monthlyRate / 100).toFixed(2));
 
           $scope.graphData.push([]);
           for(var j = 0; j < $scope.data.length; j++) {
@@ -307,7 +312,6 @@ angular
               totalBalance = 0;
               $scope.clearAll();
               $scope.showForm = true;
-              console.log("show form here.");
             }
           }
       }
@@ -369,9 +373,6 @@ angular
         "fillColor": "#5487D4",
         "strokeColor": "#5487D4",
       }];
-
-    $scope.pieLabels = ["Credit Card", "Auto Loan", "Student Loans", 'another', 'another', 'another', 'another', 'another', 'another', 'another'];
-    $scope.pieData = [300, 500, 100, 300, 500, 100, 300, 500, 100, 300];
 
 
   }
