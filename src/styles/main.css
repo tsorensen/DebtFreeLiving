@@ -516,6 +516,10 @@ img.rounded {
     padding-top: 0;
 }
 
+#dashboard .payment-schedule {
+  margin-bottom: -10px;
+}
+
 .form-control-feedback.icons.margin-left {
   margin-left:14px;
 }
