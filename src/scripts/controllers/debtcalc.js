@@ -9,8 +9,8 @@ angular
     '$timeout',
     function($scope, auth, $firebaseArray, $timeout) {
       var ref = new Firebase("https://resplendent-fire-5282.firebaseio.com/");
-​
       $scope.initList = [{},{}];
+      $scope.loadingDash = true;
 ​
       auth.isLoggedIn()
         .then(function(user) {
@@ -22,6 +22,8 @@ angular
               if($scope.userData.length > 0){
                   $scope.initList = $scope.userData;
                   $scope.displayLoans();
+              } else {
+                $scope.loadingDash = false;
               }
 ​
               if($scope.userData.length > 2){
@@ -74,7 +76,7 @@ angular
 ​
       $scope.editPlan = function(){
         $scope.showForm = true;
-      }
+      };
 ​
       $scope.resetPlan = function(){
         BootstrapDialog.show({
@@ -96,7 +98,7 @@ angular
                 }
             }]
         });
-      }
+      };
 ​
       $scope.clearAll = function(){
         $scope.initList = [{},{}];
@@ -135,6 +137,7 @@ angular
 ​
         if(table){ table.destroy(); }
 ​
+        $.fn.dataTable.ext.errMode = 'none';
         table = $('#outputTable').DataTable( {
             "searching": false,
             "ordering": false,
@@ -170,7 +173,8 @@ angular
           }
         }
 
-​
+​         //done loading
+        $scope.loadingDash = false;
         $scope.showPlan = true;
         $scope.showForm = false;
 ​
@@ -305,7 +309,8 @@ angular
               console.log("show form here.");
             }
           }
-        };
+      }
+
       function createColumns(loanList){
 ​
         $scope.columns.push(
@@ -317,7 +322,7 @@ angular
             { title: loanList[j].calcDesc }
           );
         }
-      };
+      }
     };
 
 
