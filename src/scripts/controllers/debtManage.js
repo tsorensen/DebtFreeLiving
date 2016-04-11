@@ -6,7 +6,8 @@ angular
     '$scope',
     'auth',
     '$firebaseArray',
-    function($scope, auth, $firebaseArray) {
+    '$route',
+    function($scope, auth, $firebaseArray, $route) {
 
       var ref = new Firebase("https://resplendent-fire-5282.firebaseio.com/");
 ​
@@ -80,6 +81,28 @@ angular
       $scope.editPlan = function(){
         $scope.showForm = true;
       }
+
+      $scope.resetPlan = function(){
+        BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_DANGER,
+            title: 'Reset Plan',
+            label: 'small',
+            message: 'Your Debt Elimination Plan will be erased. This action cannot be undone. Are you sure you would like to continue?',
+            buttons: [{
+                label: 'Cancel',
+                action: function(dialogItself){
+                  dialogItself.close();
+                }
+            }, {
+                label: 'Clear Plan and Reset',
+                cssClass: 'btn-danger',
+                action: function(dialogItself){
+                  $scope.erasePlan();
+                  dialogItself.close();
+                }
+            }]
+        });
+      };
 ​
       $scope.clearAll = function(){
         $scope.initList = [{},{}];
@@ -88,6 +111,7 @@ angular
         $scope.colums = [];
         $scope.showForm = true;
         $scope.showPlan = false;
+        $scope.showRemoveBtn = false;
       };
 
       $scope.updatePlan = function(){
@@ -106,7 +130,16 @@ angular
             $scope.userData.$remove(i);
           }
         }
+      }
 
+      $scope.erasePlan = function(){
+        for(i=$scope.userData.length; i > -1 ; i--){
+          console.log($scope.userData.length + " and " + i);
+          $scope.userData.$remove(i);
+        }
+
+        $scope.clearAll();
+        $route.reload();
       }
 
 

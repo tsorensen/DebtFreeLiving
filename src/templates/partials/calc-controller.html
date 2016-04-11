@@ -91,7 +91,8 @@
                 <div class="col-xs-12">
                   <button type="button" ng-show="showAddBtn" ng-click="addLoans()" class="btn btn-primary">Add Debt</button>
                   <button type="button" ng-show="!showAddBtn" class="btn btn-primary" disabled>Add Debt</button>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Save Plan</button>
+                  <button type="button" ng-click="resetPlan()" class="btn btn-danger" style="float: right;">Reset Plan</button>
                   <br ng-show="errorMessage" />
                   <br ng-show="errorMessage" />
                   <div class="alert alert-danger" ng-show="isError" role="alert">
