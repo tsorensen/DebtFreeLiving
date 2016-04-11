@@ -6,8 +6,9 @@ angular
     '$scope',
     'auth',
     '$firebaseArray',
-    function($scope, auth, $firebaseArray) {
-      console.log("Umm");
+    '$timeout',
+    function($scope, auth, $firebaseArray, $timeout) {
+
       var ref = new Firebase("https://resplendent-fire-5282.firebaseio.com/");
 ​
       $scope.initList = [{},{}];
@@ -46,6 +47,13 @@ angular
       $scope.loanList = [];
       $scope.errorMessage = null;
       $scope.errorAmount = null;
+
+      //graph variables
+      $scope.graphLabels = [];
+      $scope.data = [];
+      $scope.graphData = [];
+      $scope.graphSeries = [];
+      $scope.graphPie = [];
 ​
       $scope.addLoans = function(){
         $scope.initList.push(
@@ -135,6 +143,33 @@ angular
             data: $scope.finalOutput,
             columns: $scope.columns
         } );
+
+        //get graph data from finalOutput, create data and labels arrays,
+        //remove months from data array
+        for(var i = 0; i < 6; i++) {
+          $scope.data[i] = $scope.finalOutput[i];
+          $scope.graphLabels.push($scope.data[i][0]);
+
+          //don't need month for data array
+          $scope.data[i].splice(0, 1);
+          for(var j = 0; j < $scope.data[i].length; j++) {
+            //remove $ sign
+            $scope.data[i][j] = parseFloat($scope.data[i][j].substring(1));
+          }
+        }
+
+        for(var i = 0; i < $scope.loanList.length; i++) {
+          //fill in series data
+          $scope.graphSeries.push($scope.loanList[i].calcDesc);
+          //get pie totals
+          $scope.graphPie.push($scope.initList[i].balance);
+
+          $scope.graphData.push([]);
+          for(var j = 0; j < $scope.data.length; j++) {
+            $scope.graphData[i].push($scope.data[j][i]);
+          }
+        }
+
 ​
         $scope.showPlan = true;
         $scope.showForm = false;
@@ -284,5 +319,53 @@ angular
         }
       };
     };
+
+
+    //graph options - temp donut data
+    $scope.barColors = [
+      { //1
+        "fillColor": "#97BBCD",
+        "strokeColor": "#97BBCD",
+      },
+      { //2
+        "fillColor": "#DCDCDC",
+        "strokeColor": "#DCDCDC",
+      },
+      { //3
+        "fillColor": "#F7464A",
+        "strokeColor": "#F7464A",
+      },
+      { //4
+        "fillColor": "#46BFBD",
+        "strokeColor": "#46BFBD",
+      },
+      { //5
+        "fillColor": "#FDB45C",
+        "strokeColor": "#FDB45C",
+      },
+      { //6
+        "fillColor": "#949FB1",
+        "strokeColor": "#949FB1",
+      },
+      { //7
+        "fillColor": "#4D5360",
+        "strokeColor": "#4D5360",
+      },
+      { //8
+        "fillColor": "#D4B89E",
+        "strokeColor": "#D4B89E",
+      },
+      { //9
+        "fillColor": "#E0B7D1",
+        "strokeColor": "#E0B7D1",
+      },
+      { //10
+        "fillColor": "#5487D4",
+        "strokeColor": "#5487D4",
+      }];
+
+    $scope.pieLabels = ["Credit Card", "Auto Loan", "Student Loans", 'another', 'another', 'another', 'another', 'another', 'another', 'another'];
+    $scope.pieData = [300, 500, 100, 300, 500, 100, 300, 500, 100, 300];
+
   }
 ]);

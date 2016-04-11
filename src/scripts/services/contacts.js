@@ -3,32 +3,14 @@ angular
   'blogApp'
 ])
 .factory('contacts', [
-  '$http',
   'firebaseHost',
   'verifierUrl',
-  'verifierKey',
   '$q',
   '$firebaseArray',
-  function($http, host, verifierUrl, verifierKey, $q, $firebaseArray) {
+  function(host, verifierUrl, $q, $firebaseArray) {
     var ref = new Firebase(host);
 
     var contacts = {
-      captchaCheck: function(response) {
-        var data = {
-          secret: verifierKey,
-          response: response
-        }
-        return $http({
-            method: 'POST',
-            url: verifierUrl,
-            data: data,
-            headers: {'Access-Control-Allow-Origin': '*'}
-        })
-          .then(function (res) {
-            console.log('res: ');
-            console.log(res);
-          });
-      },
 
       saveRequest: function(contactData) {
         var newContactRef = ref.child('contacts').push();
@@ -48,10 +30,8 @@ angular
         priority,
         function(error) {
           if(error) {
-            console.log('Error saving new contact request:', error);
             return $q.reject(error);
           } else {
-            console.log('Contact request saved successfully!');
             return $q.resolve();
           }
         });
@@ -64,12 +44,13 @@ angular
           .then(function(){
               angular.forEach(contacts, function(contact) {
                 //format dates using moment
-                contact.date = moment(contact.date).format('MMM DD, YYYY hh:mm a');
+                if(typeof contact.date === 'number') {
+                  contact.date = moment(contact.date).format('MMM DD, YYYY hh:mm a');
+                }
               });
               return contacts;
           })
           .catch(function(error) {
-            console.log('There was an error getting contacts.');
             return $q.reject(error);
           });
       },
@@ -81,10 +62,8 @@ angular
           read: true
         }, function(error) {
           if(error) {
-            console.log('Error with marking contact as read:', error);
             return $q.reject(error);
           } else {
-            console.log('Contact marked as read successfully.');
             return $q.resolve();
           }
         });
@@ -95,10 +74,8 @@ angular
 
         return contactRef.remove(function(error) {
           if (error) {
-            console.log('Error with deleting contact request:', error);
             return $q.reject(error);
           } else {
-            console.log('Deleted contact request successfully.');
             return $q.resolve();
           }
         });

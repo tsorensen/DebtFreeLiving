@@ -41,8 +41,7 @@ angular
           })
           .catch(function(error) {
             //there was an error logging the user in
-            console.log('there was an error resetting your password');
-            console.log(error);
+            console.log('there was an error resetting your password', error);
             console.log(error.code);
             if(error.code === 'INVALID_USER') {
               self.forgotError = "We couldn't find an account registered with that email address.";

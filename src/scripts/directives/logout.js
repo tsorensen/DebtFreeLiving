@@ -35,8 +35,6 @@ angular
           if(loggedIn) {
             auth.getCurrentUser()
               .then(function(user) {
-                console.log('current user data: ');
-                console.log(user);
                 if(user.provider === 'password') {
                   elem.html('<li class="border-right">'
                             +   '<a data-toggle="collapse" data-target=".navbar-collapse.in" href="/#/account">'

@@ -27,6 +27,7 @@ angular
     'firebase',
     'autoNumericDirective',
     'blogApp.protector',
+    'autoNumericDirective',
   ])
   .config([
     '$routeProvider',

@@ -3,13 +3,12 @@ angular
     'blogApp'
   ])
   .factory('articles', [
-    '$http',
     'firebaseHost',
     '$filter',
     '$q',
     '$firebaseArray',
     '$firebaseObject',
-    function($http, host, $filter, $q, $firebaseArray, $firebaseObject) {
+    function(host, $filter, $q, $firebaseArray, $firebaseObject) {
       var ref = new Firebase(host);
       var articlesRef = ref.child('articles');
       var commentsRef = ref.child('comments');
@@ -17,7 +16,6 @@ angular
       return {
 
         create: function(article, image) {
-          console.log(image);
           //saves new article + image to Firebase
           var deferred = $q.defer();
 
@@ -25,7 +23,6 @@ angular
             var FR = new FileReader();
 
             FR.onload = function(e) {
-              console.log('in onload');
               var imageString = e.target.result;
               //have to do it this way to return a promise
               deferred.resolve(saveArticle(imageString, article));
@@ -52,15 +49,12 @@ angular
                 category: article.category,
                 body:     article.content,
                 image:    imageString,
-                comments: "",
                 $priority: priority
       	    })
             .then(function(article) {
-                console.log('Article and image have been uploaded successfully.');
                 return $q.resolve();
             })
             .catch(function(error) {
-              console.log('Error with uploading article.', error);
               return $q.reject(error);
             });
           }
@@ -78,17 +72,8 @@ angular
               article.body = $filter('renderHtml')(article.body);
 
               //format dates
-              article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
-
-              //if there are comments, format comment dates as well
-              if(article.comments) {
-                //loop through object of comments objects
-                Object.keys(article.comments).map(function(id, index) {
-                  var comment = article.comments[id];
-                  //set comment id
-                  comment._id = id;
-                  comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
-                });
+              if(typeof article.date === "number") {
+                article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
               }
 
               return article;
@@ -118,7 +103,31 @@ angular
                   }
 
                   //format dates using moment
-                  article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+                  if(typeof article.date === "number") {
+                    article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+                  }
+                });
+
+                return articles;
+            });
+        },
+
+        readAllForAdmin: function() {
+          //get all articles + their comments
+          var articles = $firebaseArray(articlesRef);
+
+          return articles.$loaded()
+            .then(function(){
+                angular.forEach(articles, function(article) {
+                  //format dates using moment
+                  if(typeof article.date === "number") {
+                    article.date = moment(article.date).format('MMM DD, YYYY hh:mm a');
+                  }
+                  var comments = $firebaseArray(commentsRef.child(article.$id).orderByChild('approved').equalTo(false));
+                  comments.$loaded()
+                    .then(function() {
+                      article.commentCount = typeof comments === undefined ? 0 : comments.length;
+                    });
                 });
 
                 return articles;
@@ -154,10 +163,8 @@ angular
 
             return oldArticle.update(article, function(error) {
               if(error) {
-                console.log('Error with updating article.', error);
                 return $q.reject(error);
               } else {
-                console.log('Article has been edited and updated successfully.');
                 return $q.resolve();
               }
             });
@@ -187,17 +194,13 @@ angular
               if(commentsExist) {
                 commentsRef.$remove()
                   .then(function(ref) {
-                    console.log('Article and comments deleted successfully.');
                   })
                   .catch(function(error) {
-                    console.log("Article was deleted but error deleting comments:", error);
                     return $q.reject(error);
                   });
               }
 
-              console.log('Article has been deleted successfully.');
             }, function(error) {
-              console.log("Error deleting article:", error);
               return $q.reject(error);
           });
         }, //end delete
@@ -212,15 +215,6 @@ angular
           //create reference to comments object and article comments by id
           var comments = commentsRef.child(articleId);
           var newCommentRef = comments.push();
-          var userCommentsRef = ref.child('articles/' + articleId + '/comments/' + newCommentRef.key());
-
-
-          //creates id reference in article document to comment by id
-          var newUserCommentRef = userCommentsRef.set({
-            commentRefId: newCommentRef.key(),
-            approved: false,
-            date: timestamp,
-          });
 
           //set with priority lets us prioritize comments based on date
           return newCommentRef.setWithPriority({
@@ -237,10 +231,8 @@ angular
           priority,
           function(error) {
             if(error) {
-              console.log('Error saving new comment:', error);
               return $q.reject(error);
             } else {
-              console.log('Comment saved successfully!');
               return $q.resolve();
             }
           });
@@ -254,13 +246,14 @@ angular
             .then(function(){
                 angular.forEach(comments, function(comment) {
                   //format dates using moment
-                  comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
+                  if(typeof comment.date === "number") {
+                    comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
+                  }
                 });
 
                 return comments;
             })
             .catch(function(error) {
-              console.log('There was an error getting comments.');
               return $q.reject(error);
             });
         },
@@ -272,14 +265,13 @@ angular
             .then(function(){
                 angular.forEach(comments, function(comment) {
                   //format dates using moment
-                  comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
+                  if(typeof comment.date === "number") {
+                    comment.date = moment(comment.date).format('MMM DD, YYYY hh:mm a');
+                  }
                 });
-                console.log('here are the comments');
-                console.log(comments);
                 return comments;
             })
             .catch(function(error) {
-              console.log('There was an error getting comments.');
               return $q.reject(error);
             });
         },
@@ -291,10 +283,8 @@ angular
             approved: true
           }, function(error) {
             if(error) {
-              console.log('Error with approving comment on article ref:', error);
               return $q.reject(error);
             } else {
-              console.log('Comment approved on article ref successfully.');
               return $q.resolve();
             }
           });
@@ -305,10 +295,8 @@ angular
 
           return articleCommentRef.remove(function(error) {
             if (error) {
-              console.log('Error with deleting comment:', error);
               return $q.reject(error);
             } else {
-              console.log('Removed second comment ref under article successfully.');
               return $q.resolve();
             }
           });

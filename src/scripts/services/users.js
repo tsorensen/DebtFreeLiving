@@ -3,11 +3,10 @@ angular
   'blogApp'
 ])
 .factory('users', [
-  '$http',
   'firebaseHost',
   '$q',
   '$firebaseAuth',
-  function($http, host, $q, $firebaseAuth) {
+  function(host, $q, $firebaseAuth) {
     var ref = new Firebase(host);
     var fireAuth = $firebaseAuth(ref);
 
@@ -17,10 +16,9 @@ angular
           email: email
         })
         .then(function() {
-          console.log("Password reset email sent successfully!");
+          //
         })
         .catch(function(error) {
-          console.error("Error: ", error);
           return $q.reject(error);
         });
       },
@@ -36,10 +34,9 @@ angular
             "lastName": lastName
         }, function(error) {
           if (error) {
-            console.log("Error changing account name:", error.code);
             return $q.reject(error);
           } else {
-            console.log('Successfully changed account name');
+            //
           }
         }); //end update
       },
@@ -55,21 +52,18 @@ angular
           oldEmail: oldEmail,
           newEmail: newEmail
         }).then(function() {
-          console.log("Email changed successfully!");
           //now update email in the DB
           return ref.child('users/' + uid).update({
               "email": newEmail
           }, function(error) {
             if (error) {
-              console.log("Error changing account email:", error.code);
               return $q.reject(error);
             } else {
-              console.log('Successfully changed account email');
+              //
             }
           }); //end update
 
         }).catch(function(error) {
-          console.error("Error changing email: ", error);
           return $q.reject(error);
         });
       },
@@ -80,9 +74,8 @@ angular
           oldPassword: oldPassword,
           newPassword: newPassword
         }).then(function() {
-          console.log("Password changed successfully!");
+          //
         }).catch(function(error) {
-          console.error("Error changing password: ", error);
           return $q.reject(error);
         });
       },
@@ -97,11 +90,9 @@ angular
           email: email,
           password: password
         }).then(function() {
-          console.log("User removed successfully!");
           //removes the users data from the DB
           ref.child('users/' + uid).remove();
         }).catch(function(error) {
-          console.error("Error removing user: ", error);
           return $q.reject(error);
         });
       },

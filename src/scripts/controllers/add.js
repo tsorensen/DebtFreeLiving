@@ -39,10 +39,6 @@ angular
 
         var image = $scope.myFile || '';
         data.category = data.category ? data.category.toLowerCase() : '';
-        console.log('here is the image: ');
-        console.log(image);
-        console.log('article data: ');
-        console.log(data);
 
         var article = {
           title: data.title,

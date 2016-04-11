@@ -11,7 +11,11 @@
  *   7. Calculator
  *   8. Login/Forgot Password
  *   9. Admin
+<<<<<<< HEAD
  *  10. Dashboard
+=======
+ *   10. Dashboard
+>>>>>>> upstream/master
  *  11. Account
  *  12. Footer
  *  13. Media Queries
@@ -43,8 +47,8 @@ img.rounded {
 .navbar-brand {
   padding: 0;
   width: 250px;
-  margin-right: 50px;
   height:74px;
+  margin-right:15px;
 }
 
 .navbar-brand img {
@@ -89,12 +93,46 @@ img.rounded {
 .carousel-caption {
   text-shadow:none;
 }
+
 .carousel-caption .faded {
   background: rgba(0,0,0,.5);
   padding: 15px;
   border-radius: 8px;
   display: inline-block;
   min-width:420px;
+  margin-bottom: 50px;
+}
+
+.carousel.fade {
+  opacity: 1;
+}
+
+.carousel.fade .item {
+  -moz-transition: opacity ease-in-out .7s;
+  -o-transition: opacity ease-in-out .7s;
+  -webkit-transition: opacity ease-in-out .7s;
+  transition: opacity ease-in-out .7s;
+  left: 0 !important;
+  opacity: 0;
+  top:0;
+  position:absolute;
+  width: 100%;
+  display:block !important;
+  z-index:1;
+}
+
+.carousel.fade .item:first-child {
+  top:auto;
+  position:relative;
+}
+
+.carousel.fade .item.active {
+  opacity: 1;
+  -moz-transition: opacity ease-in-out .7s;
+  -o-transition: opacity ease-in-out .7s;
+  -webkit-transition: opacity ease-in-out .7s;
+  transition: opacity ease-in-out .7s;
+  z-index:2;
 }
 
 .slider-images {
@@ -122,6 +160,10 @@ img.rounded {
   padding-right: 15px;
 }
 
+#featurette p {
+  font-size:16px;
+}
+
 #featurette .col-sm-4 {
   text-align: center;
   margin-bottom: 20px;
@@ -129,11 +171,25 @@ img.rounded {
 
 #featurette h3 {
   font-weight: normal;
+  margin-top:10px;
 }
 
 #featurette .col-sm-4 p {
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.feature-icons {
+  color: #5cb85c;
+}
+
+.feature-blurb {
+  min-height:68px;
+}
+
+.feature-btn {
+  margin-top:10px;
+  margin-bottom:20px;
 }
 
 /* Testimonials */
@@ -177,6 +233,10 @@ img.rounded {
 
 #testimonials .carousel-indicators {
   display:none;
+}
+
+#bio p {
+  font-size:16px;
 }
 
 #bio a.btn {
@@ -225,6 +285,13 @@ img.rounded {
   background:#ccc;
 }
 
+#comment-form .form-group {
+  position:relative;
+}
+
+.back-blog a {
+  margin: 30px 0;
+}
 
 /***********************************/
 /************* ABOUT *************/
@@ -249,6 +316,22 @@ img.rounded {
   margin: 30px 0;
 }
 
+#contact a.facebook:hover, #contact a.facebook:focus {
+  color: #3b5998;
+}
+
+#contact a.twitter:hover, #contact a.twitter:focus {
+  color: #55acee;
+}
+
+#contact a.pinterest:hover, #contact a.pinterest:focus {
+  color: #bd081c;
+}
+
+#contact a.envelope:hover, #contact a.envelope:focus {
+  color: #C5A528;
+}
+
 #contact .captcha,
 #login .captcha {
   display:inline-block;
@@ -268,19 +351,32 @@ img.rounded {
   margin-left: 15px;
 }
 
-#outputTable {
-  width: 100%;
-  margin-left: 0px;
-  margin-right: 0px;
-}
+/**********************************/
+/*********** CALCULATOR **********/
+/********************************/
 
-.strip1{
-  background-color: #F8F8F8;
-}
+.center {
+   margin-left: auto;
+   margin-right: auto;
+ }
 
-.strip2{
-	background-color: #E8E8E8
-}
+ .debtLabel {
+   margin-left: 15px;
+ }
+
+ #outputTable {
+   width: 100%;
+   margin-left: 0px;
+   margin-right: 0px;
+ }
+
+ .strip1{
+   background-color: #F8F8F8;
+ }
+
+ .strip2{
+ 	background-color: #E8E8E8
+ }
 
 /************************************/
 /***** LOGIN/FORGOT PASSWORD ******/
@@ -319,6 +415,7 @@ img.rounded {
 #forgot-form input,
 #contact-form input,
 #contact-form textarea,
+#comment-form textarea,
 #loan-form input {
   padding-left:30px;
 }
@@ -327,6 +424,7 @@ img.rounded {
 #register-form .icons,
 #forgot-form .icons,
 #contact-form .icons,
+#comment-form .icons,
 #loan-form .icons {
   left:0;
 }
@@ -395,6 +493,7 @@ img.rounded {
   margin-bottom: 20px;
   border-color: #ddd;
   color: #333;
+  background:none;
 }
 
 .panel-flat>.panel-heading {
@@ -447,6 +546,18 @@ footer {
   color: #444;
 }
 
+footer a.facebook:hover, footer a.facebook:focus {
+  color: #3b5998;
+}
+
+footer a.twitter:hover, footer a.twitter:focus {
+  color: #55acee;
+}
+
+footer a.pinterest:hover, footer a.pinterest:focus {
+  color: #bd081c;
+}
+
 .footer-nav {
   float:none;
 }
@@ -466,19 +577,50 @@ footer {
 /********* MEDIA QUERIES *********/
 /*******************************/
 
+@media (max-width: 1200px) {
+  .slide-title {
+    font-size:36px;
+  }
+
+  .slide-caption {
+    font-size:22px;
+  }
+
+  .slide-button {
+    font-size:14px;
+    padding: 10px;
+  }
+
+  .carousel-caption .faded {
+    margin-bottom: 20px;
+  }
+}
+
 @media (min-width: 1008px) {
   .blog-spinner {
     margin-top:150px;
   }
 }
 
-@media (min-width: 991px) {
+@media (min-width: 992px) {
   #about .founder-photo {
     float:right;
+  }
+
+  .navbar-brand {
+    margin-right: 50px;
+  }
+}
+
+@media (max-width: 992px) and (min-width: 768px) {
+  #login .captcha {
+    transform:scale(0.8);
+    transform-origin:0 0;
   }
 }
 
 @media (max-width: 991px) {
+
   #testimonials {
     padding: 10px;
   }
@@ -502,23 +644,14 @@ footer {
   .carousel-caption .faded {
     min-width:420px;
   }
-
-  .slide-title {
-    font-size:36px;
-  }
-
-  .slide-caption {
-    font-size:22px;
-  }
-
-  .slide-button {
-    font-size:14px;
-    padding: 10px;
-  }
 }
 
 
 @media (max-width: 767px) {
+
+  .navbar-brand img {
+    margin-left:10px;
+  }
 
   .login-side .border-right {
     display:none;
@@ -548,7 +681,8 @@ footer {
   }
 
   #hero .off-center {
-    margin-left:-200px;
+    width:100%;
+    margin-left:-220px;
   }
 
   .slide-title {
@@ -568,4 +702,18 @@ footer {
     background: #FBFBFB;
   }
 
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 380px) {
+  .captcha {
+    transform:scale(.8);
+    transform-origin:0 0;
+  }
+  .navbar-brand {
+     width: 220px;
+   }
+   .navbar-brand img {
+     margin-top: 9px;
+   }
 }

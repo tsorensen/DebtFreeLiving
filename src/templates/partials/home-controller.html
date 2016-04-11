@@ -1,7 +1,7 @@
 <section id="hero">
   <!-- Carousel - don't wrap within a container
   ================================================== -->
-  <uib-carousel id="home-carousel" interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
+  <uib-carousel id="home-carousel" class="fade" interval="myInterval" no-wrap="noWrapSlides" no-transition="true">
       <uib-slide ng-repeat="slide in homeSlides" active="slide.active" index="slide.id">
         <!-- ng-swipe-x for mobile -->
         <img ng-src="{{slide.image}}" class="slider-images {{ slide.class }}" ng-swipe-right="showPrev('home')" ng-swipe-left="showNext('home')">
@@ -26,22 +26,31 @@
     <!-- Three columns of text below the carousel -->
     <div class="row">
       <div class="col-sm-4 text-center">
-        <img class="img-circle" src="http://placehold.it/140x140">
-        <h3>Feature 1</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p><a class="btn btn-success" href="#">View details »</a></p>
+        <span class="fa-stack fa-5x">
+          <i class="feature-icons fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-calculator fa-stack-1x fa-inverse"></i>
+        </span>
+        <h3>Get Started</h3>
+        <p class="feature-blurb">Sign up today for your free account and create a custom plan in just minutes using our debt elimination calculator.</p>
+        <a class="btn btn-success feature-btn" href="/#/login">Sign Up »</a>
       </div>
       <div class="col-sm-4 text-center">
-        <img class="img-circle" src="http://placehold.it/140x140">
-        <h3>Feature 2</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p><a class="btn btn-success" href="#">View details »</a></p>
+        <span class="fa-stack fa-5x">
+          <i class="feature-icons fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-calendar fa-stack-1x fa-inverse"></i>
+        </span>
+        <h3>Follow Your Plan</h3>
+        <p class="feature-blurb">Our calculator allocates and prioritizes your payments to target high-interest debts first.  Stick with your plan and get out of debt.</p>
+        <a class="btn btn-success feature-btn" href="/#/my_plan">View Plan »</a>
       </div>
       <div class="col-sm-4 text-center">
-        <img class="img-circle" src="http://placehold.it/140x140">
-        <h3>Feature 3</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p><a class="btn btn-success" href="#">View details »</a></p>
+        <span class="fa-stack fa-5x">
+          <i class="feature-icons fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-balance-scale fa-stack-1x fa-inverse"></i>
+        </span>
+        <h3>Live Debt Free</h3>
+        <p class="feature-blurb">Maintain a debt-free lifestyle by following our blog.  We offer free education, resources, and tips.  Come join the conversation!</p>
+        <a class="btn btn-success feature-btn" href="/#/blog">Visit Blog »</a>
       </div>
     </div><!-- /.row -->
   </div><!-- /.container -->
@@ -49,7 +58,7 @@
 
 <section id="testimonials">
   <div class="container">
-      <uib-carousel id="testimonials-carousel" interval="myInterval" no-wrap="noWrapSlides" no-transition="false">
+      <uib-carousel id="testimonials-carousel" interval="testimonialsInterval" no-wrap="noWrapSlides" no-transition="false">
           <uib-slide ng-repeat="testimonial in testimonialsSlides" active="testimonial.active" index="testimonial.id">
             <!-- ng-swipe-x for mobile -->
             <img ng-src="">
@@ -76,9 +85,9 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8">
-        <h4>A Word from Our Founder</h4>
+        <h3>A Word from Our Founder</h3>
         <p>
-          Are You Ready to Get Comfortable with Your Debt Free Side?
+          Are you ready to get comfortable with your Debt Free Side?
         </p>
         <p>
           The mechanics of becoming debt free are simple and easy to understand.  We are committed to giving you
@@ -89,7 +98,7 @@
           rewarding journeys of your life.  Are you ready to be Debt Free?
         </p>
 
-        <a href="/#/about" class="btn btn-primary">Read More &gt;&gt;</a>
+        <a href="/#/about" class="btn btn-primary">Read More »</a>
       </div>
       <div class="col-md-4 text-center founder-photo">
         <img src="/images/Einar_Schow.JPG" class="img-circle img-responsive" alt="Photo of Einar Schow"/>

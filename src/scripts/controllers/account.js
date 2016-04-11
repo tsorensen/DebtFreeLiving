@@ -54,7 +54,6 @@ angular
             auth.isLoggedIn()
               .then(function(user) {
                 self.user.uid = user.uid;
-                console.log(self.user.uid);
               });
           }
         });
@@ -73,7 +72,6 @@ angular
         }
 
         if(self.user.firstName === name.firstName && self.user.lastName === name.lastName) {
-          console.log('Name not updating');
           self.updatingName = false;
           self.updateNameError = "Name is not different.  No changes to make.";
           return;
@@ -112,7 +110,6 @@ angular
         }
 
         if(self.user.email === newEmail) {
-          console.log('Email not updating');
           self.updatingEmail = false;
           self.updateEmailError = "Email is not different.  No changes to make.";
           return;
@@ -186,7 +183,6 @@ angular
         self.deleteSuccess = null;
 
         if(!password) {
-          console.log("Password is required to delete account");
           self.deleting = false;
           self.deleteError = "Entering your password is required to delete your account.";
           return;
