@@ -1,6 +1,7 @@
 angular
   .module('DebtCalcController', [
-    'blogApp.auth'
+    'blogApp.auth',
+    'chart.js',
   ])
   .controller('DebtCalcController', [
     '$scope',
