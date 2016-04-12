@@ -203,9 +203,9 @@ angular
 ​
           while(totalBalance > 0){
 ​
-            if(totalBalance == lastMonthsTotalBalance){
+            /*if(totalBalance == lastMonthsTotalBalance){
               totalBalance = 0;
-            }
+            }*/
 ​
             $scope.finalOutput.push(
               [moment($scope.loanList[0].date, "MMMM YYYY").add(monthsToAdd, 'months').format("YYYY MMM")]
@@ -304,14 +304,18 @@ angular
               "$" + numeral(newMonthlyTotal).format('0,0.00')
             )
 ​
+
+            var isCompleted = true;
+
             for (i=0; i < placeholderArray.length; i++){
 ​
-              var isCompleted = true;
+
 ​
               if(placeholderArray[i] != "$0.00"){
                 isCompleted = false;
               }
             }
+
             if(isCompleted){
               totalBalance = 0;
             }
@@ -344,6 +348,7 @@ angular
         );
       }
     };
+
 
 
     //graph options - temp donut data
