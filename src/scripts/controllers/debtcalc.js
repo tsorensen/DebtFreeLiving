@@ -131,7 +131,7 @@ angular
           $scope.loanList.sort(sortInt);
           function sortInt(a, b) {
           return b.calcIntRate-a.calcIntRate;
-          };
+          }
         }
 ​
         termCalc($scope.loanList);
@@ -209,7 +209,7 @@ angular
 ​
             $scope.finalOutput.push(
               [moment($scope.loanList[0].date, "MMMM YYYY").add(monthsToAdd, 'months').format("YYYY MMM")]
-            )
+            );
 ​
             monthsToAdd++;
 ​
@@ -302,7 +302,7 @@ angular
 
             $scope.finalOutput[$scope.finalOutput.length - 1].push(
               "$" + numeral(newMonthlyTotal).format('0,0.00')
-            )
+            );
 ​
 
             var isCompleted = true;
