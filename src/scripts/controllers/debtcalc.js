@@ -203,9 +203,9 @@ angular
 ​
           while(totalBalance > 0){
 ​
-            if(totalBalance == lastMonthsTotalBalance){
+            /*if(totalBalance == lastMonthsTotalBalance){
               totalBalance = 0;
-            }
+            }*/
 ​
             $scope.finalOutput.push(
               [moment($scope.loanList[0].date, "MMMM YYYY").add(monthsToAdd, 'months').format("YYYY MMM")]
@@ -255,11 +255,12 @@ angular
             };
 ​
             var placeholderArray = [];
-​            var newMonthlyTotal = 0;
-
+            var newMonthlyTotal = 0;
+​
             for(i=0; i < loanList.length; i++){
               //Make a payment
-​              newMonthlyTotal += $scope.loanList[i].calcPayment;
+​
+              newMonthlyTotal += $scope.loanList[i].calcPayment;
               lastMonthsTotalBalance = totalBalance;
 ​
               var monthInt = loanList[i].calcIntRate / 1200;
@@ -276,11 +277,11 @@ angular
 ​
               $scope.finalOutput[$scope.finalOutput.length - 1].push(
                 "$" + loanList[i].calcPayment.toFixed(2)
-              );
+              )
 ​
               placeholderArray.push(
                 "$" + loanList[i].calcPayment.toFixed(2)
-              );
+              )
 ​
               if(loanList[i].calcBalance > loanList[i].calcPayment){
                 loanList[i].calcBalance -= principal.toFixed(2);
@@ -301,16 +302,20 @@ angular
 
             $scope.finalOutput[$scope.finalOutput.length - 1].push(
               "$" + numeral(newMonthlyTotal).format('0,0.00')
-            );
+            )
 ​
+
+            var isCompleted = true;
+
             for (i=0; i < placeholderArray.length; i++){
 ​
-              var isCompleted = true;
+
 ​
               if(placeholderArray[i] != "$0.00"){
                 isCompleted = false;
               }
             }
+
             if(isCompleted){
               totalBalance = 0;
             }
@@ -345,11 +350,8 @@ angular
     };
 
 
-    //graph options
-    $scope.graphOptions = {
-      tooltipTemplate: "<%=label%>: <%= '$' + value %>",
-      multiTooltipTemplate: "<%=label%>: <%= '$' + value %>",
-    };
+
+    //graph options - temp donut data
     $scope.barColors = [
       { //1
         "fillColor": "#97BBCD",
