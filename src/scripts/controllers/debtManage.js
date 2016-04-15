@@ -13,6 +13,7 @@ angular
 ​
       $scope.initList = [{},{}];
 ​      var initCopy = [];
+      $scope.submitted = false;
 
       auth.isLoggedIn()
         .then(function(user) {
@@ -145,7 +146,7 @@ angular
 
 ​
       $scope.calcLoans = function(){
-
+        $scope.submitted = true;
         $scope.isError = false;
         $scope.errorMessage = [];
 ​
@@ -153,6 +154,10 @@ angular
         $scope.loanList = [];
         $scope.finalOutput = [];
         $scope.columns = [];
+
+        if($scope.loanForm.$invalid) {
+          return;
+        }
 ​
         for(j=0; j < $scope.initList.length; j++){
           $scope.loanList.push(
