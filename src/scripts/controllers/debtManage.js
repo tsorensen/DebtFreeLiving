@@ -135,7 +135,6 @@ angular
 
       $scope.erasePlan = function(){
         for(i=$scope.userData.length; i > -1 ; i--){
-          console.log($scope.userData.length + " and " + i);
           $scope.userData.$remove(i);
         }
 
@@ -346,7 +345,6 @@ angular
           $scope.columns.push(
             { title: "TOTAL" }
           );
-          console.log($scope.columns);
         }
       };
     };
